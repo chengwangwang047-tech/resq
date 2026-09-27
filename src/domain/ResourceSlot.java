@@ -1,11 +1,15 @@
 package domain;
 
+import java.time.LocalDate;
+
 public class ResourceSlot {
 
     private String id;
     private ComputeResource resource;
     private String startTime;
     private String endTime;
+    private LocalDate date;
+    private String status;
 
     public ResourceSlot(
             String id,
@@ -17,6 +21,22 @@ public class ResourceSlot {
         this.resource = resource;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    public ResourceSlot(
+            String id,
+            ComputeResource resource,
+            String startTime,
+            String endTime,
+            LocalDate date,
+            String status) {
+
+        this.id = id;
+        this.resource = resource;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.date = date;
+        this.status = status;
     }
 
     public String getId() {
@@ -35,6 +55,14 @@ public class ResourceSlot {
         return endTime;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -49,5 +77,13 @@ public class ResourceSlot {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
