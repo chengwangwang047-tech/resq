@@ -1,0 +1,94 @@
+{
+  "verified_at": "2026-10-04T18:03:19+0800",
+  "mysql_account": "resq_app@localhost",
+  "grants": [
+    "GRANT USAGE ON *.* TO `resq_app`@`localhost`",
+    "GRANT SELECT ON `resq`.`compute_resource` TO `resq_app`@`localhost`"
+  ],
+  "database_rows": [
+    {
+      "id": 1,
+      "name": "GPU-A100-01",
+      "type": "GPU",
+      "status": "BUSY",
+      "createdAt": "2026-09-29T21:35:13"
+    },
+    {
+      "id": 2,
+      "name": "GPU-A100-02",
+      "type": "GPU",
+      "status": "AVAILABLE",
+      "createdAt": "2026-09-29T21:35:13"
+    },
+    {
+      "id": 3,
+      "name": "GPU-4090-01",
+      "type": "GPU",
+      "status": "BUSY",
+      "createdAt": "2026-09-29T21:35:13"
+    },
+    {
+      "id": 4,
+      "name": "CPU-01",
+      "type": "CPU",
+      "status": "AVAILABLE",
+      "createdAt": "2026-09-29T21:35:13"
+    }
+  ],
+  "requests": {
+    "/api/resources": {
+      "status": 200,
+      "body": [
+        {
+          "id": 1,
+          "name": "GPU-A100-01",
+          "type": "GPU",
+          "status": "BUSY",
+          "createdAt": "2026-09-29T21:35:13"
+        },
+        {
+          "id": 2,
+          "name": "GPU-A100-02",
+          "type": "GPU",
+          "status": "AVAILABLE",
+          "createdAt": "2026-09-29T21:35:13"
+        },
+        {
+          "id": 3,
+          "name": "GPU-4090-01",
+          "type": "GPU",
+          "status": "BUSY",
+          "createdAt": "2026-09-29T21:35:13"
+        },
+        {
+          "id": 4,
+          "name": "CPU-01",
+          "type": "CPU",
+          "status": "AVAILABLE",
+          "createdAt": "2026-09-29T21:35:13"
+        }
+      ]
+    },
+    "/api/resources/1": {
+      "status": 200,
+      "body": {
+        "id": 1,
+        "name": "GPU-A100-01",
+        "type": "GPU",
+        "status": "BUSY",
+        "createdAt": "2026-09-29T21:35:13"
+      }
+    },
+    "/api/resources/999999": {
+      "status": 404,
+      "body": {
+        "timestamp": "2026-10-04T10:03:19.935+00:00",
+        "status": 404,
+        "error": "Not Found",
+        "path": "/api/resources/999999"
+      }
+    }
+  },
+  "json_matches_live_sql": true,
+  "historical_files_unchanged": 28
+}

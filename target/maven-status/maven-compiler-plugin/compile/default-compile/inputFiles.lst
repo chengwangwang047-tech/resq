@@ -1,0 +1,10 @@
+/home/colaminos/resq/src/main/java/com/resq/ResqApplication.java
+/home/colaminos/resq/src/main/java/com/resq/config/package-info.java
+/home/colaminos/resq/src/main/java/com/resq/controller/ResourceController.java
+/home/colaminos/resq/src/main/java/com/resq/domain/ComputeResource.java
+/home/colaminos/resq/src/main/java/com/resq/dto/package-info.java
+/home/colaminos/resq/src/main/java/com/resq/exception/ResourceNotFoundException.java
+/home/colaminos/resq/src/main/java/com/resq/mapper/JdbcResourceMapper.java
+/home/colaminos/resq/src/main/java/com/resq/mapper/ResourceMapper.java
+/home/colaminos/resq/src/main/java/com/resq/service/ResourceService.java
+/home/colaminos/resq/src/main/java/com/resq/vo/package-info.java
