@@ -9,4 +9,5 @@ public interface ResourceMapper {
 
     /** 查不到返回 null，由 Service 决定 HTTP 404。数据库故障则继续抛出异常。 */
     ComputeResource findById(Long id);
+    void insert(ComputeResource resource);
 }

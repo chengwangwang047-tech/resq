@@ -1,1 +1,5 @@
+com/resq/domain/ResourceSlot.class
+com/resq/mapper/ResourceSlotMapper.class
 com/resq/ResqApplication.class
+com/resq/vo/SlotVO.class
+com/resq/mapper/JdbcResourceSlotMapper.class

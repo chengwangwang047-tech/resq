@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+
+import java.sql.Statement;
 
 /** SQL 和结果映射放在 Mapper；Controller/Service 无需处理数据库连接。 */
 @Repository
@@ -43,4 +47,35 @@ public class JdbcResourceMapper implements ResourceMapper {
                 SELECT_COLUMNS + " WHERE id = ?", RESOURCE_ROW_MAPPER, id);
         return resources.isEmpty() ? null : resources.get(0);
     }
+    @Override
+public void insert(ComputeResource resource) {
+
+    String sql = """
+            INSERT INTO compute_resource
+            (name, type, status, created_at)
+            VALUES (?, ?, ?, ?)
+            """;
+
+    KeyHolder keyHolder = new GeneratedKeyHolder();
+
+    jdbcTemplate.update(connection -> {
+        var ps = connection.prepareStatement(
+                sql,
+                Statement.RETURN_GENERATED_KEYS
+        );
+
+        ps.setString(1, resource.getName());
+        ps.setString(2, resource.getType());
+        ps.setString(3, resource.getStatus());
+        ps.setObject(4, resource.getCreatedAt());
+
+        return ps;
+    }, keyHolder);
+
+    Number generatedId = keyHolder.getKey();
+
+    if (generatedId != null) {
+        resource.setId(generatedId.longValue());
+    }
+}
 }
