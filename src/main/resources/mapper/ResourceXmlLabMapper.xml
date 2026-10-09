@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resq.mapper.ResourceXmlLabMapper">
+     <!-- TODO(D13-XML-1): 自己写 resultMap，对应 ComputeResource 的五个字段，
+         尤其 created_at 和 createdAt；不要依赖尚未启用的驼峰映射。 -->
+     <resultMap id="resourceMap" type="com.resq.domain.ComputeResource">
+          <id column="id" property="id" />
+          <result column="name" property="name" />
+          <result column="type" property="type" />
+          <result column="status" property="status" />
+          <result column="created_at" property="createdAt" />
+     </resultMap>
+     <!-- TODO(D13-XML-2): findAll / findById 的 select，使用上面的 resultMap。
+         statement id 必须与 Java 方法名相同；参数用 MyBatis 绑定，不拼接输入。 -->
+     <!-- 查询全部资源 -->
+     <select id="findAll" resultMap="resourceMap"> SELECT id, name, type, status, created_at FROM
+          compute_resource ORDER BY id </select>
+
+     <!-- 根据 ID 查询资源 -->
+     <select id="findById" resultMap="resourceMap"> SELECT id, name, type, status, created_at FROM
+          compute_resource WHERE id = #{id} </select>
+
+     <!-- 插入资源，并回填自增主键 -->
+     <insert id="insert"
+          useGeneratedKeys="true"
+          keyProperty="id"> INSERT INTO compute_resource (name, type, status, created_at) VALUES
+          (#{name}, #{type}, #{status}, #{createdAt}) </insert>
+</mapper>

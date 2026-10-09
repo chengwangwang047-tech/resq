@@ -1,1 +1,6 @@
 /home/colaminos/resq/src/test/java/com/resq/controller/ResourceSlotsTest.java
+/home/colaminos/resq/src/test/java/com/resq/mapper/Day13MapperWiringTest.java
+/home/colaminos/resq/src/test/java/com/resq/mapper/ReservationMapperTest.java
+/home/colaminos/resq/src/test/java/com/resq/mapper/ResourceLabMapperTest.java
+/home/colaminos/resq/src/test/java/com/resq/mapper/ResourceXmlLabMapperTest.java
+/home/colaminos/resq/src/test/java/com/resq/service/ReservationServiceTest.java
