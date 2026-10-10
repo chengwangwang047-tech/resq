@@ -1,3 +1,4 @@
+
 package com.resq.exception;
 
 import com.resq.vo.ErrorResponse;
@@ -8,9 +9,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.NoSuchElementException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // 原有：资源不存在 -> 404
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFound(
             ResourceNotFoundException e) {
@@ -23,6 +27,7 @@ public class GlobalExceptionHandler {
                 .body(body);
     }
 
+    // 原有：参数校验失败 -> 400
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(
             MethodArgumentNotValidException e) {
@@ -37,6 +42,32 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(body);
+    }
+
+    // Day14 新增：预约不存在 -> 404
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(
+            NoSuchElementException e) {
+
+        ErrorResponse body =
+                new ErrorResponse(false, "预约不存在");
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(body);
+    }
+
+    // Day14 新增：无权访问其他用户预约 -> 403
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<ErrorResponse> handleForbidden(
+            SecurityException e) {
+
+        ErrorResponse body =
+                new ErrorResponse(false, "无权访问该预约");
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
                 .body(body);
     }
 }

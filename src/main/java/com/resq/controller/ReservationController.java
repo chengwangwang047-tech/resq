@@ -6,12 +6,10 @@ import com.resq.dto.ReservationCreateDTO;
 import com.resq.service.ReservationService;
 
 import jakarta.validation.Valid;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -28,19 +26,25 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.CREATED)
     public Reservation create(
             @Valid @RequestBody ReservationCreateDTO dto,
-            Principal principal) {
+            @RequestAttribute("currentUserId") Long userId) {
 
-        Long userId = currentUserId(principal);
         return reservationService.create(userId, dto);
+    }
+
+    // GET /api/reservations/me
+    @GetMapping("/me")
+    public List<Reservation> findMine(
+            @RequestAttribute("currentUserId") Long userId) {
+
+        return reservationService.findByUserId(userId);
     }
 
     // GET /api/reservations/{id}
     @GetMapping("/{id}")
     public Reservation findById(
             @PathVariable Long id,
-            Principal principal) {
+            @RequestAttribute("currentUserId") Long userId) {
 
-        Long userId = currentUserId(principal);
         return reservationService.findById(userId, id);
     }
 
@@ -48,31 +52,8 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     public Reservation cancel(
             @PathVariable Long id,
-            Principal principal) {
+            @RequestAttribute("currentUserId") Long userId) {
 
-        Long userId = currentUserId(principal);
         return reservationService.cancel(userId, id);
-    }
-
-    // Day14: 接入真正的身份认证后，适配用户 ID 提取逻辑
-    private Long currentUserId(Principal principal) {
-        if (principal == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "请先登录");
-        }
-
-        try {
-            Long userId = Long.valueOf(principal.getName());
-
-            if (userId <= 0) {
-                throw new NumberFormatException();
-            }
-
-            return userId;
-
-        } catch (NumberFormatException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "无效的用户身份");
-        }
     }
 }
