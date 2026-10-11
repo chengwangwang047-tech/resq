@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.resq.controller.Day15CacheHttpTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.458 s -- in com.resq.controller.Day15CacheHttpTest

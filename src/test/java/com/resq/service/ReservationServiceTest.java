@@ -1,6 +1,7 @@
 package com.resq.service;
 
 import com.resq.domain.Reservation;
+import com.resq.cache.ResourceSlotCacheInvalidator;
 import com.resq.dto.ReservationCreateDTO;
 import com.resq.mapper.ReservationMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +21,13 @@ class ReservationServiceTest {
 
     private ReservationMapper mapper;
     private ReservationService service;
+    private ResourceSlotCacheInvalidator invalidator;
 
     @BeforeEach
     void setUp() {
         mapper = mock(ReservationMapper.class);
-        service = new ReservationService(mapper);
+        invalidator = mock(ResourceSlotCacheInvalidator.class);
+        service = new ReservationService(mapper, invalidator);
     }
 
     @Test
@@ -86,6 +89,7 @@ void creatingReservationRejectsBusySlotWithoutInsert() {
 
     // 抢占失败后不能执行 INSERT
     verify(mapper, never()).insert(any());
+    verifyNoInteractions(invalidator);
 }
 
 @Test
@@ -109,6 +113,8 @@ void cancellingChecksOwnershipStatusAndAffectedRows() {
 
     assertEquals("CANCELLED", result.getStatus());
     verify(mapper).releaseReservedSlot(10L);
+    verify(invalidator).evictAfterCommit(10L);
+    reset(invalidator);
 
     // 模拟数据库中预约已经取消
     reset(mapper);
@@ -123,6 +129,7 @@ void cancellingChecksOwnershipStatusAndAffectedRows() {
 
     // 重复取消绝对不能再次释放时隙
     verify(mapper, never()).releaseReservedSlot(anyLong());
+    verifyNoInteractions(invalidator);
 
     // 其他用户也不能取消
     reset(mapper);
@@ -132,8 +139,47 @@ void cancellingChecksOwnershipStatusAndAffectedRows() {
             () -> service.cancel(8L, 100L));
 
     verify(mapper, never()).releaseReservedSlot(anyLong());
+    verifyNoInteractions(invalidator);
 }
 
+
+    @Test
+    void successfulCreationSchedulesSlotCacheEviction() {
+        var dto = new ReservationCreateDTO(10L, "D15-create");
+        when(mapper.reserveSlotIfAvailable(10L)).thenReturn(1);
+        when(mapper.insert(any())).thenAnswer(invocation -> {
+            Reservation row = invocation.getArgument(0);
+            row.setId(100L);
+            return 1;
+        });
+        assertEquals(100L, service.create(7L, dto).getId());
+        var order = inOrder(mapper, invalidator);
+        order.verify(mapper).reserveSlotIfAvailable(10L);
+        order.verify(mapper).insert(any());
+        order.verify(invalidator).evictAfterCommit(10L);
+    }
+
+    @Test
+    void insertFailureDoesNotScheduleEviction() {
+        when(mapper.reserveSlotIfAvailable(10L)).thenReturn(1);
+        when(mapper.insert(any())).thenReturn(0);
+        assertThrows(IllegalStateException.class,
+                () -> service.create(7L, new ReservationCreateDTO(10L, "D15-failed")));
+        verifyNoInteractions(invalidator);
+    }
+
+    @Test
+    void releaseFailureDoesNotScheduleEviction() {
+        var reservation = new Reservation();
+        reservation.setId(100L);
+        reservation.setUserId(7L);
+        reservation.setSlotId(10L);
+        when(mapper.findById(100L)).thenReturn(reservation);
+        when(mapper.updateStatusIfCurrent(100L, 7L, "PENDING", "CANCELLED")).thenReturn(1);
+        when(mapper.releaseReservedSlot(10L)).thenReturn(0);
+        assertThrows(IllegalStateException.class, () -> service.cancel(7L, 100L));
+        verifyNoInteractions(invalidator);
+    }
 
     // TODO(TEST-TX): 另写 Spring 事务集成测试：抢占成功但 INSERT 失败后时隙回滚；
     // 取消后释放失败时预约状态也回滚。这里的 Mockito 测试不能证明事务生效。

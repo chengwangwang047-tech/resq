@@ -8,8 +8,10 @@ import com.resq.vo.SlotVO;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -38,8 +40,11 @@ public class ResourceController {
     }
 
     @GetMapping("/{id}/slots")
-    public List<SlotVO> findSlotsByResourceId(@PathVariable Long id) {
-        return resourceService.findSlotsByResourceId(id)
+    public List<SlotVO> findSlotsByResourceId(
+            @PathVariable Long id,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return resourceService.findSlotsByResourceId(id, date)
                 .stream()
                 .map(SlotVO::from)
                 .toList();

@@ -1,6 +1,7 @@
 package com.resq.service;
 
 import com.resq.domain.Reservation;
+import com.resq.cache.ResourceSlotCacheInvalidator;
 import com.resq.dto.ReservationCreateDTO;
 import com.resq.mapper.ReservationMapper;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,12 @@ public class ReservationService {
 
     private final ReservationMapper reservationMapper;
 
-    public ReservationService(ReservationMapper reservationMapper) {
+    private final ResourceSlotCacheInvalidator slotCacheInvalidator;
+
+    public ReservationService(ReservationMapper reservationMapper,
+                              ResourceSlotCacheInvalidator slotCacheInvalidator) {
         this.reservationMapper = reservationMapper;
+        this.slotCacheInvalidator = slotCacheInvalidator;
     }
 
     /** authenticatedUserId 由受信任的服务端身份上下文提供，不能来自客户端自报。 */
@@ -95,6 +100,7 @@ public class ReservationService {
             throw new IllegalStateException("预约记录创建失败");
         }
 
+        slotCacheInvalidator.evictAfterCommit(dto.getSlotId());
         return reservation;
     }
 
@@ -139,6 +145,7 @@ public class ReservationService {
         if (released != 1) {
             throw new IllegalStateException("释放时隙失败");
         }
+        slotCacheInvalidator.evictAfterCommit(result.getSlotId());
         result.setStatus("CANCELLED");
         return result;
     }
