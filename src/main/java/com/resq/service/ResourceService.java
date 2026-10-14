@@ -49,34 +49,44 @@ public class ResourceService {
     }
 
     // Day15：Cache Aside 资源详情缓存
-    public ComputeResource findById(Long id) {
+// Day16：Cache Aside + 空值缓存，防止缓存穿透
+public ComputeResource findById(Long id) {
 
-        // 1. 优先查询 Redis
-        ComputeResource cached = resourceCache.get(id);
+    // 1. 优先查询 Redis
+    ResourceCache.CacheResult cached = resourceCache.get(id);
 
-        // 2. 缓存命中，直接返回
-        if (cached != null) {
-            return cached;
-        }
-
-        // 3. 缓存未命中，查询 MySQL
-        log.debug("[DB QUERY] resourceId={}", id);
-
-        ComputeResource resource = resourceMapper.findById(id);
-
-        // 4. 数据库中也不存在，保持原有 404 逻辑
-        if (resource == null) {
-            throw new ResourceNotFoundException(
-                    "Resource not found: " + id
-            );
-        }
-
-        // 5. 将数据库结果写入 Redis
-        resourceCache.put(id, resource);
-
-        // 6. 返回资源对象
-        return resource;
+    // 2. 命中正常资源缓存，直接返回
+    if (cached.status() == ResourceCache.CacheStatus.FOUND) {
+        return cached.resource();
     }
+
+    // 3. 命中空值缓存，直接返回 404，不访问 MySQL
+    if (cached.status() == ResourceCache.CacheStatus.NOT_FOUND) {
+        throw new ResourceNotFoundException(
+                "Resource not found: " + id
+        );
+    }
+
+    // 4. MISS：查询 MySQL
+    log.debug("[DB QUERY] resourceId={}", id);
+
+    ComputeResource resource = resourceMapper.findById(id);
+
+    // 5. MySQL 中也不存在，写入短 TTL 空值缓存
+    if (resource == null) {
+        resourceCache.putNotFound(id);
+
+        throw new ResourceNotFoundException(
+                "Resource not found: " + id
+        );
+    }
+
+    // 6. MySQL 中存在，写入正常资源缓存
+    resourceCache.put(id, resource);
+
+    // 7. 返回资源对象
+    return resource;
+}
 
     public List<ResourceSlot> findSlotsByResourceId(Long resourceId) {
         // 先确认资源存在

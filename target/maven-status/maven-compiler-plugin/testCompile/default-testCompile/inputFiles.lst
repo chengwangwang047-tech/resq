@@ -1,4 +1,5 @@
 /home/colaminos/resq/src/test/java/com/resq/cache/ResourceSlotCacheInvalidatorTest.java
+/home/colaminos/resq/src/test/java/com/resq/cache/ResourceSlotCacheRetryTest.java
 /home/colaminos/resq/src/test/java/com/resq/cache/ResourceSlotCacheTest.java
 /home/colaminos/resq/src/test/java/com/resq/controller/Day15CacheHttpTest.java
 /home/colaminos/resq/src/test/java/com/resq/controller/ResourceSlotsRedisFailureHttpTest.java

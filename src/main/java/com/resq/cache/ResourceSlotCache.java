@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-
+import java.util.concurrent.ThreadLocalRandom;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
@@ -58,8 +58,11 @@ public class ResourceSlotCache {
 
     public void put(Long resourceId, LocalDate date, List<ResourceSlot> slots) {
         try {
+            long randomSeconds =
+        ThreadLocalRandom.current().nextLong(0, 61);
+        Duration actualTtl = TTL.plusSeconds(randomSeconds);
             String json = objectMapper.writeValueAsString(slots);
-            redisTemplate.opsForValue().set(key(resourceId, date), json, TTL);
+            redisTemplate.opsForValue().set(key(resourceId, date), json, actualTtl);
             log.debug("[SLOTS CACHE PUT] resourceId={} date={}", resourceId, date);
         } catch (JsonProcessingException e) {
             log.warn("[SLOTS CACHE JSON ERROR] resourceId={} date={}", resourceId, date);
@@ -69,12 +72,25 @@ public class ResourceSlotCache {
     }
 
     /** 精确删除单日缓存；失败交给 TTL 兜底，不改变已经提交的预约结果。 */
-    public void evict(Long resourceId, LocalDate date) {
-        try {
-            redisTemplate.delete(key(resourceId, date));
-            log.debug("[SLOTS CACHE EVICT] resourceId={} date={}", resourceId, date);
-        } catch (DataAccessException e) {
-            log.warn("[SLOTS CACHE ERROR] EVICT resourceId={} date={}", resourceId, date);
+ public boolean evict(Long resourceId, LocalDate date) {
+    try {
+        Boolean deleted =
+                redisTemplate.delete(key(resourceId, date));
+
+        if (deleted == null) {
+            log.warn("[SLOTS CACHE EVICT UNKNOWN] resourceId={} date={}",
+                    resourceId, date);
+            return false;
         }
+
+        log.debug("[SLOTS CACHE EVICT] resourceId={} date={}",
+                resourceId, date);
+        return true;
+
+    } catch (DataAccessException e) {
+        log.warn("[SLOTS CACHE ERROR] EVICT resourceId={} date={}",
+                resourceId, date);
+        return false;
     }
+}
 }

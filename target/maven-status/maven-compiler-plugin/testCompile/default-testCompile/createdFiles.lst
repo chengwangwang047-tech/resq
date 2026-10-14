@@ -3,7 +3,6 @@ com/resq/mapper/ResourceLabMapperTest.class
 com/resq/cache/ResourceSlotCacheInvalidatorTest.class
 com/resq/mapper/JdbcResourceSlotMapperTest.class
 com/resq/cache/ResourceSlotCacheInvalidatorTest$1.class
-com/resq/controller/ResourceSlotsTest.class
 com/resq/controller/Day15CacheHttpTest.class
 com/resq/cache/ResourceSlotCacheTest.class
 com/resq/service/ReservationServiceTest.class

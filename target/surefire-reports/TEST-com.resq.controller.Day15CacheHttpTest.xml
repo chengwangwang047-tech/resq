@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.resq.controller.Day15CacheHttpTest" time="4.458" tests="3" errors="0" skipped="0" failures="0" flakes="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.resq.controller.Day15CacheHttpTest" time="4.201" tests="3" errors="0" skipped="0" failures="1" flakes="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -15,7 +15,7 @@
     <property name="APPLICATION_NAME" value="resq"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-21-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/colaminos/resq/target/surefire/surefirebooter-20261011212506272_3.jar /home/colaminos/resq/target/surefire 2026-10-11T21-25-06_232-jvmRun1 surefire-20261011212506272_1tmp surefire_0-20261011212506272_2tmp"/>
+    <property name="sun.java.command" value="/home/colaminos/resq/target/surefire/surefirebooter-20261013160613524_3.jar /home/colaminos/resq/target/surefire 2026-10-13T16-06-13_455-jvmRun1 surefire-20261013160613524_1tmp surefire_0-20261013160613524_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/colaminos/resq/target/test-classes:/home/colaminos/resq/target/classes:/home/colaminos/.m2/repository/io/jsonwebtoken/jjwt-api/0.13.0/jjwt-api-0.13.0.jar:/home/colaminos/.m2/repository/io/jsonwebtoken/jjwt-impl/0.13.0/jjwt-impl-0.13.0.jar:/home/colaminos/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.13.0/jjwt-jackson-0.13.0.jar:/home/colaminos/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.21.4/jackson-databind-2.21.4.jar:/home/colaminos/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.21/jackson-annotations-2.21.jar:/home/colaminos/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.21.4/jackson-core-2.21.4.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.16/spring-boot-starter-web-3.5.16.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.16/spring-boot-starter-3.5.16.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot/3.5.16/spring-boot-3.5.16.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.16/spring-boot-autoconfigure-3.5.16.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.16/spring-boot-starter-logging-3.5.16.jar:/home/colaminos/.m2/repository/ch/qos/logback/logback-classic/1.5.34/logback-classic-1.5.34.jar:/home/colaminos/.m2/repository/ch/qos/logback/logback-core/1.5.34/logback-core-1.5.34.jar:/home/colaminos/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/home/colaminos/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/home/colaminos/.m2/repository/org/slf4j/jul-to-slf4j/2.0.18/jul-to-slf4j-2.0.18.jar:/home/colaminos/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/colaminos/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.16/spring-boot-starter-json-3.5.16.jar:/home/colaminos/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.21.4/jackson-datatype-jdk8-2.21.4.jar:/home/colaminos/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.21.4/jackson-datatype-jsr310-2.21.4.jar:/home/colaminos/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.21.4/jackson-module-parameter-names-2.21.4.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.16/spring-boot-starter-tomcat-3.5.16.jar:/home/colaminos/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.55/tomcat-embed-core-10.1.55.jar:/home/colaminos/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.55/tomcat-embed-websocket-10.1.55.jar:/home/colaminos/.m2/repository/org/springframework/spring-web/6.2.19/spring-web-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/spring-beans/6.2.19/spring-beans-6.2.19.jar:/home/colaminos/.m2/repository/io/micrometer/micrometer-observation/1.15.12/micrometer-observation-1.15.12.jar:/home/colaminos/.m2/repository/io/micrometer/micrometer-commons/1.15.12/micrometer-commons-1.15.12.jar:/home/colaminos/.m2/repository/org/springframework/spring-webmvc/6.2.19/spring-webmvc-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/spring-aop/6.2.19/spring-aop-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/spring-context/6.2.19/spring-context-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/spring-expression/6.2.19/spring-expression-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.16/spring-boot-starter-jdbc-3.5.16.jar:/home/colaminos/.m2/repository/com/zaxxer/HikariCP/6.3.3/HikariCP-6.3.3.jar:/home/colaminos/.m2/repository/org/slf4j/slf4j-api/2.0.18/slf4j-api-2.0.18.jar:/home/colaminos/.m2/repository/org/springframework/spring-jdbc/6.2.19/spring-jdbc-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/spring-tx/6.2.19/spring-tx-6.2.19.jar:/home/colaminos/.m2/repository/com/mysql/mysql-connector-j/9.7.0/mysql-connector-j-9.7.0.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.5.16/spring-boot-starter-test-3.5.16.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-test/3.5.16/spring-boot-test-3.5.16.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.5.16/spring-boot-test-autoconfigure-3.5.16.jar:/home/colaminos/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/colaminos/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.5/jakarta.xml.bind-api-4.0.5.jar:/home/colaminos/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.4/jakarta.activation-api-2.1.4.jar:/home/colaminos/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/home/colaminos/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/home/colaminos/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/home/colaminos/.m2/repository/org/assertj/assertj-core/3.27.7/assertj-core-3.27.7.jar:/home/colaminos/.m2/repository/net/bytebuddy/byte-buddy/1.17.8/byte-buddy-1.17.8.jar:/home/colaminos/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/home/colaminos/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/home/colaminos/.m2/repository/org/junit/jupiter/junit-jupiter/5.12.2/junit-jupiter-5.12.2.jar:/home/colaminos/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar:/home/colaminos/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/colaminos/.m2/repository/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar:/home/colaminos/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/colaminos/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar:/home/colaminos/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar:/home/colaminos/.m2/repository/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar:/home/colaminos/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/home/colaminos/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar:/home/colaminos/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/colaminos/.m2/repository/org/mockito/mockito-junit-jupiter/5.17.0/mockito-junit-jupiter-5.17.0.jar:/home/colaminos/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/home/colaminos/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/colaminos/.m2/repository/org/springframework/spring-core/6.2.19/spring-core-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/spring-jcl/6.2.19/spring-jcl-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/spring-test/6.2.19/spring-test-6.2.19.jar:/home/colaminos/.m2/repository/org/xmlunit/xmlunit-core/2.10.4/xmlunit-core-2.10.4.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.5.16/spring-boot-starter-validation-3.5.16.jar:/home/colaminos/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.55/tomcat-embed-el-10.1.55.jar:/home/colaminos/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.3.Final/hibernate-validator-8.0.3.Final.jar:/home/colaminos/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/colaminos/.m2/repository/org/jboss/logging/jboss-logging/3.6.3.Final/jboss-logging-3.6.3.Final.jar:/home/colaminos/.m2/repository/com/fasterxml/classmate/1.7.3/classmate-1.7.3.jar:/home/colaminos/.m2/repository/org/mybatis/spring/boot/mybatis-spring-boot-starter/3.0.5/mybatis-spring-boot-starter-3.0.5.jar:/home/colaminos/.m2/repository/org/mybatis/spring/boot/mybatis-spring-boot-autoconfigure/3.0.5/mybatis-spring-boot-autoconfigure-3.0.5.jar:/home/colaminos/.m2/repository/org/mybatis/mybatis/3.5.19/mybatis-3.5.19.jar:/home/colaminos/.m2/repository/org/mybatis/mybatis-spring/3.0.5/mybatis-spring-3.0.5.jar:/home/colaminos/.m2/repository/org/springframework/security/spring-security-crypto/6.5.11/spring-security-crypto-6.5.11.jar:/home/colaminos/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.5.16/spring-boot-starter-data-redis-3.5.16.jar:/home/colaminos/.m2/repository/io/lettuce/lettuce-core/6.6.0.RELEASE/lettuce-core-6.6.0.RELEASE.jar:/home/colaminos/.m2/repository/redis/clients/authentication/redis-authx-core/0.1.1-beta2/redis-authx-core-0.1.1-beta2.jar:/home/colaminos/.m2/repository/io/netty/netty-common/4.1.135.Final/netty-common-4.1.135.Final.jar:/home/colaminos/.m2/repository/io/netty/netty-handler/4.1.135.Final/netty-handler-4.1.135.Final.jar:/home/colaminos/.m2/repository/io/netty/netty-resolver/4.1.135.Final/netty-resolver-4.1.135.Final.jar:/home/colaminos/.m2/repository/io/netty/netty-buffer/4.1.135.Final/netty-buffer-4.1.135.Final.jar:/home/colaminos/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.135.Final/netty-transport-native-unix-common-4.1.135.Final.jar:/home/colaminos/.m2/repository/io/netty/netty-codec/4.1.135.Final/netty-codec-4.1.135.Final.jar:/home/colaminos/.m2/repository/io/netty/netty-transport/4.1.135.Final/netty-transport-4.1.135.Final.jar:/home/colaminos/.m2/repository/io/projectreactor/reactor-core/3.7.19/reactor-core-3.7.19.jar:/home/colaminos/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/colaminos/.m2/repository/org/springframework/data/spring-data-redis/3.5.13/spring-data-redis-3.5.13.jar:/home/colaminos/.m2/repository/org/springframework/data/spring-data-keyvalue/3.5.13/spring-data-keyvalue-3.5.13.jar:/home/colaminos/.m2/repository/org/springframework/data/spring-data-commons/3.5.13/spring-data-commons-3.5.13.jar:/home/colaminos/.m2/repository/org/springframework/spring-oxm/6.2.19/spring-oxm-6.2.19.jar:/home/colaminos/.m2/repository/org/springframework/spring-context-support/6.2.19/spring-context-support-6.2.19.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -32,7 +32,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="/home/colaminos/resq/target/surefire/surefirebooter-20261011212506272_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/colaminos/resq/target/surefire/surefirebooter-20261013160613524_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.12.1+1-1-24.04.4-Ubuntu"/>
     <property name="user.name" value="colaminos"/>
@@ -45,15 +45,15 @@
     <property name="localRepository" value="/home/colaminos/.m2/repository"/>
     <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-21"/>
     <property name="java.io.tmpdir" value="/tmp"/>
-    <property name="catalina.home" value="/tmp/tomcat.0.2970703178673565471"/>
+    <property name="catalina.home" value="/tmp/tomcat.0.9997293087595012494"/>
     <property name="com.zaxxer.hikari.pool_number" value="1"/>
     <property name="java.version" value="21.0.12.1"/>
     <property name="user.dir" value="/home/colaminos/resq"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="36071"/>
+    <property name="PID" value="24468"/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
-    <property name="catalina.base" value="/tmp/tomcat.0.2970703178673565471"/>
+    <property name="catalina.base" value="/tmp/tomcat.0.9997293087595012494"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
     <property name="stderr.encoding" value="UTF-8"/>
@@ -64,9 +64,9 @@
     <property name="java.class.version" value="65.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[resq] "/>
   </properties>
-  <testcase name="actualJwtReservationAndCancelEvictOnlyAffectedDayAndKeepDetailCache" classname="com.resq.controller.Day15CacheHttpTest" time="1.202">
-    <system-out><![CDATA[21:25:06.737 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.resq.controller.Day15CacheHttpTest]: Day15CacheHttpTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-21:25:06.807 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.resq.ResqApplication for test class com.resq.controller.Day15CacheHttpTest
+  <testcase name="actualJwtReservationAndCancelEvictOnlyAffectedDayAndKeepDetailCache" classname="com.resq.controller.Day15CacheHttpTest" time="1.385">
+    <system-out><![CDATA[16:06:14.149 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.resq.controller.Day15CacheHttpTest]: Day15CacheHttpTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:06:14.272 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.resq.ResqApplication for test class com.resq.controller.Day15CacheHttpTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -77,44 +77,44 @@
 
  :: Spring Boot ::               (v3.5.16)
 
-2026-10-11T21:25:07.046+08:00  INFO 36071 --- [resq] [           main] com.resq.controller.Day15CacheHttpTest   : Starting Day15CacheHttpTest using Java 21.0.12.1 with PID 36071 (started by colaminos in /home/colaminos/resq)
-2026-10-11T21:25:07.047+08:00  INFO 36071 --- [resq] [           main] com.resq.controller.Day15CacheHttpTest   : No active profile set, falling back to 1 default profile: "default"
-2026-10-11T21:25:07.430+08:00  INFO 36071 --- [resq] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2026-10-11T21:25:07.432+08:00  INFO 36071 --- [resq] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2026-10-11T21:25:07.452+08:00  INFO 36071 --- [resq] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
-2026-10-11T21:25:07.789+08:00  INFO 36071 --- [resq] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
-2026-10-11T21:25:07.800+08:00  INFO 36071 --- [resq] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-10-11T21:25:07.801+08:00  INFO 36071 --- [resq] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.55]
-2026-10-11T21:25:07.832+08:00  INFO 36071 --- [resq] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-10-11T21:25:07.833+08:00  INFO 36071 --- [resq] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 776 ms
-2026-10-11T21:25:08.668+08:00  INFO 36071 --- [resq] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 46589 (http) with context path '/'
-2026-10-11T21:25:08.675+08:00  INFO 36071 --- [resq] [           main] com.resq.controller.Day15CacheHttpTest   : Started Day15CacheHttpTest in 1.798 seconds (process running for 2.364)
-2026-10-11T21:25:09.054+08:00  INFO 36071 --- [resq] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-10-11T21:25:09.222+08:00  INFO 36071 --- [resq] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3ce2c5f6
-2026-10-11T21:25:09.222+08:00  INFO 36071 --- [resq] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-10-11T21:25:09.396+08:00  INFO 36071 --- [resq] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-10-11T21:25:09.397+08:00  INFO 36071 --- [resq] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-10-11T21:25:09.398+08:00  INFO 36071 --- [resq] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2026-10-11T21:25:09.624+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceCache             : [CACHE MISS] resourceId=32
-2026-10-11T21:25:09.624+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-1] com.resq.service.ResourceService         : [DB QUERY] resourceId=32
-2026-10-11T21:25:09.650+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceCache             : [CACHE PUT] resourceId=32
-2026-10-11T21:25:09.651+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.651+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-1] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.658+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.700+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=32
-2026-10-11T21:25:09.700+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=32 date=2026-10-07
-2026-10-11T21:25:09.701+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-2] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=32 date=2026-10-07
-2026-10-11T21:25:09.704+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=32 date=2026-10-07
-2026-10-11T21:25:09.815+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-4] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE EVICT] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.826+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-5] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=32
-2026-10-11T21:25:09.827+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-5] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.827+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-5] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.830+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-5] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.849+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-6] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE EVICT] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.855+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=32
-2026-10-11T21:25:09.855+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.856+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=32 date=2026-10-06
-2026-10-11T21:25:09.858+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=32 date=2026-10-06
+2026-10-13T16:06:14.602+08:00  INFO 24468 --- [resq] [           main] com.resq.controller.Day15CacheHttpTest   : Starting Day15CacheHttpTest using Java 21.0.12.1 with PID 24468 (started by colaminos in /home/colaminos/resq)
+2026-10-13T16:06:14.603+08:00  INFO 24468 --- [resq] [           main] com.resq.controller.Day15CacheHttpTest   : No active profile set, falling back to 1 default profile: "default"
+2026-10-13T16:06:15.143+08:00  INFO 24468 --- [resq] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-13T16:06:15.145+08:00  INFO 24468 --- [resq] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-10-13T16:06:15.173+08:00  INFO 24468 --- [resq] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+2026-10-13T16:06:15.616+08:00  INFO 24468 --- [resq] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2026-10-13T16:06:15.628+08:00  INFO 24468 --- [resq] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-13T16:06:15.629+08:00  INFO 24468 --- [resq] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-10-13T16:06:15.661+08:00  INFO 24468 --- [resq] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-13T16:06:15.663+08:00  INFO 24468 --- [resq] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1050 ms
+2026-10-13T16:06:16.672+08:00  INFO 24468 --- [resq] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 44989 (http) with context path '/'
+2026-10-13T16:06:16.680+08:00  INFO 24468 --- [resq] [           main] com.resq.controller.Day15CacheHttpTest   : Started Day15CacheHttpTest in 2.288 seconds (process running for 3.114)
+2026-10-13T16:06:17.151+08:00  INFO 24468 --- [resq] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-13T16:06:17.332+08:00  INFO 24468 --- [resq] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@49bc1f6c
+2026-10-13T16:06:17.333+08:00  INFO 24468 --- [resq] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-13T16:06:17.535+08:00  INFO 24468 --- [resq] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-13T16:06:17.536+08:00  INFO 24468 --- [resq] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-13T16:06:17.537+08:00  INFO 24468 --- [resq] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-13T16:06:17.796+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceCache             : [CACHE MISS] resourceId=76
+2026-10-13T16:06:17.797+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-1] com.resq.service.ResourceService         : [DB QUERY] resourceId=76
+2026-10-13T16:06:17.825+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceCache             : [CACHE PUT] resourceId=76
+2026-10-13T16:06:17.826+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=76 date=2026-10-06
+2026-10-13T16:06:17.826+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-1] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=76 date=2026-10-06
+2026-10-13T16:06:17.834+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=76 date=2026-10-06
+2026-10-13T16:06:17.877+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=76
+2026-10-13T16:06:17.878+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=76 date=2026-10-07
+2026-10-13T16:06:17.878+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-2] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=76 date=2026-10-07
+2026-10-13T16:06:17.880+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=76 date=2026-10-07
+2026-10-13T16:06:18.005+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-4] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE EVICT] resourceId=76 date=2026-10-06
+2026-10-13T16:06:18.015+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-5] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=76
+2026-10-13T16:06:18.016+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-5] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=76 date=2026-10-06
+2026-10-13T16:06:18.017+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-5] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=76 date=2026-10-06
+2026-10-13T16:06:18.020+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-5] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=76 date=2026-10-06
+2026-10-13T16:06:18.038+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-6] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE EVICT] resourceId=76 date=2026-10-06
+2026-10-13T16:06:18.044+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=76
+2026-10-13T16:06:18.045+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=76 date=2026-10-06
+2026-10-13T16:06:18.045+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-7] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=76 date=2026-10-06
+2026-10-13T16:06:18.048+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=76 date=2026-10-06
 DAY15 REAL HTTP/REDIS PASS: JWT 401, authenticated create/cancel, exact day invalidation, detail/other day preserved
 ]]></system-out>
     <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
@@ -124,43 +124,33 @@ WARNING: If a serviceability tool is not in use, please run with -Djdk.instrumen
 WARNING: Dynamic loading of agents will be disallowed by default in a future release
 ]]></system-err>
   </testcase>
-  <testcase name="actualHttpAndRedisSupportMissHitEmptyListExpiryAndCorruptJsonFallback" classname="com.resq.controller.Day15CacheHttpTest" time="1.143">
-    <system-out><![CDATA[2026-10-11T21:25:09.901+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-8] com.resq.cache.ResourceCache             : [CACHE MISS] resourceId=33
-2026-10-11T21:25:09.901+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-8] com.resq.service.ResourceService         : [DB QUERY] resourceId=33
-2026-10-11T21:25:09.904+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-8] com.resq.cache.ResourceCache             : [CACHE PUT] resourceId=33
-2026-10-11T21:25:09.905+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-8] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=33 date=2026-10-06
-2026-10-11T21:25:09.905+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-8] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=33 date=2026-10-06
-2026-10-11T21:25:09.908+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-8] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=33 date=2026-10-06
-2026-10-11T21:25:09.915+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-9] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=33
-2026-10-11T21:25:09.917+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-9] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE HIT] resourceId=33 date=2026-10-06
-2026-10-11T21:25:09.922+08:00 DEBUG 36071 --- [resq] [-auto-1-exec-10] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=33
-2026-10-11T21:25:09.923+08:00 DEBUG 36071 --- [resq] [-auto-1-exec-10] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=33 date=2026-10-08
-2026-10-11T21:25:09.923+08:00 DEBUG 36071 --- [resq] [-auto-1-exec-10] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=33 date=2026-10-08
-2026-10-11T21:25:09.925+08:00 DEBUG 36071 --- [resq] [-auto-1-exec-10] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=33 date=2026-10-08
-2026-10-11T21:25:09.930+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=33
-2026-10-11T21:25:09.930+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-1] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE HIT] resourceId=33 date=2026-10-08
-2026-10-11T21:25:10.972+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=33
-2026-10-11T21:25:10.972+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=33 date=2026-10-06
-2026-10-11T21:25:10.972+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-2] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=33 date=2026-10-06
-2026-10-11T21:25:10.975+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-2] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=33 date=2026-10-06
-2026-10-11T21:25:10.980+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-3] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=33
-2026-10-11T21:25:10.982+08:00  WARN 36071 --- [resq] [o-auto-1-exec-3] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE JSON ERROR] resourceId=33 date=2026-10-06
-2026-10-11T21:25:10.982+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-3] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=33 date=2026-10-06
-2026-10-11T21:25:10.983+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-3] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=33 date=2026-10-06
-2026-10-11T21:25:10.990+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-4] com.resq.cache.ResourceCache             : [CACHE HIT] resourceId=33
-2026-10-11T21:25:11.000+08:00  WARN 36071 --- [resq] [o-auto-1-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'date': Failed to convert value of type 'java.lang.String' to required type 'java.time.LocalDate'; Failed to convert from type [java.lang.String] to type [@org.springframework.web.bind.annotation.RequestParam @org.springframework.format.annotation.DateTimeFormat java.time.LocalDate] for value [2026-02-30]]
-2026-10-11T21:25:11.006+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-6] com.resq.cache.ResourceCache             : [CACHE MISS] resourceId=9223372036854775807
-2026-10-11T21:25:11.006+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-6] com.resq.service.ResourceService         : [DB QUERY] resourceId=9223372036854775807
-DAY15 REAL HTTP/REDIS PASS: MISS/HIT, ISO LocalDateTime, TTL, [], expiry, JSON fallback, legacy, 400, 404
+  <testcase name="actualHttpAndRedisSupportMissHitEmptyListExpiryAndCorruptJsonFallback" classname="com.resq.controller.Day15CacheHttpTest" time="0.043">
+    <failure message="新缓存 TTL 应为 5 分钟 ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 新缓存 TTL 应为 5 分钟 ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at com.resq.controller.Day15CacheHttpTest.actualHttpAndRedisSupportMissHitEmptyListExpiryAndCorruptJsonFallback(Day15CacheHttpTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+    <system-out><![CDATA[2026-10-13T16:06:18.091+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-8] com.resq.cache.ResourceCache             : [CACHE MISS] resourceId=77
+2026-10-13T16:06:18.091+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-8] com.resq.service.ResourceService         : [DB QUERY] resourceId=77
+2026-10-13T16:06:18.093+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-8] com.resq.cache.ResourceCache             : [CACHE PUT] resourceId=77
+2026-10-13T16:06:18.094+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-8] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=77 date=2026-10-06
+2026-10-13T16:06:18.094+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-8] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=77 date=2026-10-06
+2026-10-13T16:06:18.097+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-8] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=77 date=2026-10-06
 ]]></system-out>
   </testcase>
-  <testcase name="actualDatabaseRollbackKeepsCacheAndRevertsReservationAndSlot" classname="com.resq.controller.Day15CacheHttpTest" time="0.091">
-    <system-out><![CDATA[2026-10-11T21:25:11.090+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceCache             : [CACHE MISS] resourceId=34
-2026-10-11T21:25:11.090+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.service.ResourceService         : [DB QUERY] resourceId=34
-2026-10-11T21:25:11.092+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceCache             : [CACHE PUT] resourceId=34
-2026-10-11T21:25:11.092+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=34 date=2026-10-06
-2026-10-11T21:25:11.092+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=34 date=2026-10-06
-2026-10-11T21:25:11.094+08:00 DEBUG 36071 --- [resq] [o-auto-1-exec-7] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=34 date=2026-10-06
+  <testcase name="actualDatabaseRollbackKeepsCacheAndRevertsReservationAndSlot" classname="com.resq.controller.Day15CacheHttpTest" time="0.11">
+    <system-out><![CDATA[2026-10-13T16:06:18.193+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-9] com.resq.cache.ResourceCache             : [CACHE MISS] resourceId=78
+2026-10-13T16:06:18.193+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-9] com.resq.service.ResourceService         : [DB QUERY] resourceId=78
+2026-10-13T16:06:18.195+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-9] com.resq.cache.ResourceCache             : [CACHE PUT] resourceId=78
+2026-10-13T16:06:18.196+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-9] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE MISS] resourceId=78 date=2026-10-06
+2026-10-13T16:06:18.196+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-9] com.resq.service.ResourceService         : [SLOTS DB QUERY] resourceId=78 date=2026-10-06
+2026-10-13T16:06:18.198+08:00 DEBUG 24468 --- [resq] [o-auto-1-exec-9] com.resq.cache.ResourceSlotCache         : [SLOTS CACHE PUT] resourceId=78 date=2026-10-06
 DAY15 REAL MYSQL/REDIS PASS: rollback reverts reservation and slot, no cache eviction
 ]]></system-out>
   </testcase>

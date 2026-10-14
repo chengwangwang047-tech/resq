@@ -1,4 +1,52 @@
 -------------------------------------------------------------------------------
 Test set: com.resq.cache.ResourceSlotCacheTest
 -------------------------------------------------------------------------------
-Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.466 s -- in com.resq.cache.ResourceSlotCacheTest
+Tests run: 9, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.655 s <<< FAILURE! -- in com.resq.cache.ResourceSlotCacheTest
+com.resq.cache.ResourceSlotCacheTest.resourceSlotListRoundTripsLocalDateTimeWithFiveMinuteTtl -- Time elapsed: 0.334 s <<< FAILURE!
+Argument(s) are different! Wanted:
+valueOperations.set(
+    "resource:1:slots:2026-10-06",
+    <Capturing argument: String>,
+    PT5M
+);
+-> at org.springframework.data.redis.core.ValueOperations.set(ValueOperations.java:100)
+Actual invocations have different arguments at position [2]:
+valueOperations.set(
+    "resource:1:slots:2026-10-06",
+    "[{"id":10,"resourceId":1,"slotStart":"2026-10-06T09:00:01","slotEnd":"2026-10-06T10:00:00","status":"AVAILABLE"}]",
+    PT5M46S
+);
+-> at com.resq.cache.ResourceSlotCache.put(ResourceSlotCache.java:65)
+
+	at org.springframework.data.redis.core.ValueOperations.set(ValueOperations.java:100)
+	at com.resq.cache.ResourceSlotCacheTest.resourceSlotListRoundTripsLocalDateTimeWithFiveMinuteTtl(ResourceSlotCacheTest.java:48)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.resq.cache.ResourceSlotCacheTest.emptyListIsStoredAndDistinctFromMiss -- Time elapsed: 0.006 s <<< FAILURE!
+Argument(s) are different! Wanted:
+valueOperations.set(
+    "resource:1:slots:2026-10-06",
+    "[]",
+    PT5M
+);
+-> at org.springframework.data.redis.core.ValueOperations.set(ValueOperations.java:100)
+Actual invocations have different arguments at position [2]:
+valueOperations.get(
+    "resource:1:slots:2026-10-06"
+);
+-> at com.resq.cache.ResourceSlotCache.get(ResourceSlotCache.java:39)
+valueOperations.set(
+    "resource:1:slots:2026-10-06",
+    "[]",
+    PT5M26S
+);
+-> at com.resq.cache.ResourceSlotCache.put(ResourceSlotCache.java:65)
+
+	at org.springframework.data.redis.core.ValueOperations.set(ValueOperations.java:100)
+	at com.resq.cache.ResourceSlotCacheTest.emptyListIsStoredAndDistinctFromMiss(ResourceSlotCacheTest.java:65)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
