@@ -3,6 +3,7 @@ package com.resq.controller;
 
 import com.resq.domain.Reservation;
 import com.resq.dto.ReservationCreateDTO;
+import com.resq.service.ReservationLockService;
 import com.resq.service.ReservationService;
 
 import jakarta.validation.Valid;
@@ -16,9 +17,14 @@ import org.springframework.web.bind.annotation.*;
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final ReservationLockService reservationLockService;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(
+            ReservationService reservationService,
+            ReservationLockService reservationLockService) {
+
         this.reservationService = reservationService;
+        this.reservationLockService = reservationLockService;
     }
 
     // POST /api/reservations
@@ -28,7 +34,7 @@ public class ReservationController {
             @Valid @RequestBody ReservationCreateDTO dto,
             @RequestAttribute("currentUserId") Long userId) {
 
-        return reservationService.create(userId, dto);
+        return reservationLockService.create(userId, dto);
     }
 
     // GET /api/reservations/me

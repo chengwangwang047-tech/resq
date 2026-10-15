@@ -40,12 +40,15 @@ class ResourceSlotCacheTest {
     }
 
     @Test
-    void resourceSlotListRoundTripsLocalDateTimeWithFiveMinuteTtl() {
+    void resourceSlotListRoundTripsLocalDateTimeWithFiveMinuteBaseAndJitterTtl() {
         var slot = new ResourceSlot(10L, 1L, DATE.atTime(9, 0, 1),
                 DATE.atTime(10, 0), "AVAILABLE");
         cache.put(1L, DATE, List.of(slot));
         var json = ArgumentCaptor.forClass(String.class);
-        verify(values).set(eq(KEY), json.capture(), eq(Duration.ofMinutes(5)));
+        var ttl = ArgumentCaptor.forClass(Duration.class);
+        verify(values).set(eq(KEY), json.capture(), ttl.capture());
+        assertTrue(ttl.getValue().compareTo(Duration.ofSeconds(300)) >= 0);
+        assertTrue(ttl.getValue().compareTo(Duration.ofSeconds(360)) <= 0);
         assertTrue(json.getValue().contains("2026-10-06T09:00:01"));
         when(values.get(KEY)).thenReturn(json.getValue());
         var result = cache.get(1L, DATE);
@@ -62,7 +65,10 @@ class ResourceSlotCacheTest {
     void emptyListIsStoredAndDistinctFromMiss() {
         assertNull(cache.get(1L, DATE));
         cache.put(1L, DATE, List.of());
-        verify(values).set(KEY, "[]", Duration.ofMinutes(5));
+        var ttl = ArgumentCaptor.forClass(Duration.class);
+        verify(values).set(eq(KEY), eq("[]"), ttl.capture());
+        assertTrue(ttl.getValue().compareTo(Duration.ofSeconds(300)) >= 0);
+        assertTrue(ttl.getValue().compareTo(Duration.ofSeconds(360)) <= 0);
         when(values.get(KEY)).thenReturn("[]");
         assertNotNull(cache.get(1L, DATE));
         assertTrue(cache.get(1L, DATE).isEmpty());

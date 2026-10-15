@@ -1,0 +1,7 @@
+{
+  "mysqlStopped": true,
+  "redisStopped": true,
+  "privateDataRemoved": true,
+  "mavenStopped": true,
+  "mainAndPomUnchangedDuringRun": true
+}

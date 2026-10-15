@@ -3,6 +3,7 @@
 /home/colaminos/resq/src/main/java/com/resq/cache/ResourceSlotCache.java
 /home/colaminos/resq/src/main/java/com/resq/cache/ResourceSlotCacheInvalidator.java
 /home/colaminos/resq/src/main/java/com/resq/config/JwtAuthInterceptor.java
+/home/colaminos/resq/src/main/java/com/resq/config/RedissonConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/WebMvcConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/package-info.java
 /home/colaminos/resq/src/main/java/com/resq/controller/AuthController.java
@@ -18,6 +19,8 @@
 /home/colaminos/resq/src/main/java/com/resq/dto/UserLoginDTO.java
 /home/colaminos/resq/src/main/java/com/resq/dto/UserRegisterDTO.java
 /home/colaminos/resq/src/main/java/com/resq/exception/GlobalExceptionHandler.java
+/home/colaminos/resq/src/main/java/com/resq/exception/ReservationBusyException.java
+/home/colaminos/resq/src/main/java/com/resq/exception/ReservationConflictException.java
 /home/colaminos/resq/src/main/java/com/resq/exception/ResourceNotFoundException.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/JdbcResourceMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/JdbcResourceSlotMapper.java
@@ -29,6 +32,7 @@
 /home/colaminos/resq/src/main/java/com/resq/mapper/UserMapper.java
 /home/colaminos/resq/src/main/java/com/resq/service/AuthService.java
 /home/colaminos/resq/src/main/java/com/resq/service/JwtService.java
+/home/colaminos/resq/src/main/java/com/resq/service/ReservationLockService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ReservationService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ResourceService.java
 /home/colaminos/resq/src/main/java/com/resq/service/UserService.java

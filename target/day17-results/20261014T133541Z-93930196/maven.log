@@ -1,0 +1,406 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------------< com.resq:resq >----------------------------
+[INFO] Building resq 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:resources (default-resources) @ resq ---
+[INFO] Copying 4 resources from ../../home/colaminos/resq/src/main/resources to build/classes
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.1:compile (default-compile) @ resq ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 43 source files with javac [debug parameters release 21] to build/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:testResources (default-testResources) @ resq ---
+[INFO] Copying 1 resource from ../../home/colaminos/resq/src/test/resources to build/test-classes
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.1:testCompile (default-testCompile) @ resq ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 17 source files with javac [debug parameters release 21] to build/test-classes
+[INFO] /home/colaminos/resq/src/test/java/com/resq/day17/Day17TestDatabase.java: /home/colaminos/resq/src/test/java/com/resq/day17/Day17TestDatabase.java uses or overrides a deprecated API.
+[INFO] /home/colaminos/resq/src/test/java/com/resq/day17/Day17TestDatabase.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.5.6:test (default-test) @ resq ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.resq.controller.Day17ReservationHttpContractTest
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/home/colaminos/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+21:35:50.502 [main] INFO org.hibernate.validator.internal.util.Version -- HV000001: Hibernate Validator 8.0.3.Final
+21:35:50.910 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:50.910 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:50.912 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 1 ms
+21:35:51.060 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.060 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.060 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+21:35:51.085 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.085 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.086 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 1 ms
+21:35:51.125 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.125 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.125 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+21:35:51.150 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.151 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.151 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+21:35:51.166 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.166 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.166 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+21:35:51.182 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.183 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.183 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+21:35:51.197 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.197 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.198 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 1 ms
+21:35:51.212 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.212 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.212 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+21:35:51.226 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+21:35:51.226 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+21:35:51.226 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.586 s -- in com.resq.controller.Day17ReservationHttpContractTest
+[INFO] Running com.resq.service.ReservationServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.117 s -- in com.resq.service.ReservationServiceTest
+[INFO] Running com.resq.service.ReservationLockServiceTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.281 s -- in com.resq.service.ReservationLockServiceTest
+[INFO] Running com.resq.day17.Day17LockTransactionTest
+21:35:51.648 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Starting...
+21:35:51.908 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Start completed.
+21:35:51.964 [main] INFO org.redisson.Version -- Redisson 4.8.0
+21:35:52.148 [redisson-netty-1-1] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:52.150 [redisson-netty-1-4] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:52.601 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown initiated...
+21:35:52.603 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown completed.
+21:35:52.608 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Starting...
+21:35:52.625 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Start completed.
+21:35:52.646 [main] INFO org.redisson.Version -- Redisson 4.8.0
+21:35:52.651 [redisson-netty-5-1] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:52.652 [redisson-netty-5-4] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+DAY17 PATH injected_database_failure_rollback elapsed_ms=55 final_slot=AVAILABLE reservation_count=0
+21:35:52.744 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown initiated...
+21:35:52.745 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown completed.
+21:35:52.746 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Starting...
+21:35:52.761 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Start completed.
+21:35:52.783 [main] INFO org.redisson.Version -- Redisson 4.8.0
+21:35:52.790 [redisson-netty-8-1] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:52.800 [redisson-netty-8-4] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:52.845 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown initiated...
+21:35:52.846 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown completed.
+21:35:52.847 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Starting...
+21:35:52.859 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Start completed.
+21:35:52.874 [main] INFO org.redisson.Version -- Redisson 4.8.0
+21:35:52.880 [redisson-netty-11-1] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:52.891 [redisson-netty-11-4] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:52.931 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown initiated...
+21:35:52.932 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown completed.
+21:35:52.933 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Starting...
+21:35:52.944 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Start completed.
+21:35:52.959 [main] INFO org.redisson.Version -- Redisson 4.8.0
+21:35:52.965 [redisson-netty-14-1] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:52.975 [redisson-netty-14-4] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:53.034 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown initiated...
+21:35:53.035 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown completed.
+21:35:53.037 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Starting...
+21:35:53.049 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Start completed.
+21:35:53.063 [main] INFO org.redisson.Version -- Redisson 4.8.0
+21:35:53.068 [redisson-netty-17-1] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:53.079 [redisson-netty-17-4] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:53.108 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown initiated...
+21:35:53.109 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown completed.
+21:35:53.111 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Starting...
+21:35:53.119 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Start completed.
+21:35:53.131 [main] INFO org.redisson.Version -- Redisson 4.8.0
+21:35:53.138 [redisson-netty-20-1] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:53.149 [redisson-netty-20-4] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+DAY17 PATH actual_lock_timeout elapsed_ms=2005 owner_preserved=true reservation_count=0
+21:35:55.198 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown initiated...
+21:35:55.199 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown completed.
+[ERROR] Tests run: 7, Failures: 2, Errors: 3, Skipped: 0, Time elapsed: 3.559 s <<< FAILURE! -- in com.resq.day17.Day17LockTransactionTest
+[ERROR] com.resq.day17.Day17LockTransactionTest.successCommitsBeforeRealUnlockAndAnotherThreadCanAcquire -- Time elapsed: 0.965 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <RESERVED> but was: <AVAILABLE>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.resq.day17.Day17LockTransactionTest.lambda$successCommitsBeforeRealUnlockAndAnotherThreadCanAcquire$0(Day17LockTransactionTest.java:55)
+	at org.mockito.internal.stubbing.StubbedInvocationMatcher.answer(StubbedInvocationMatcher.java:42)
+	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:103)
+	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)
+	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:84)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.handle(MockMethodAdvice.java:136)
+	at org.redisson.RedissonBaseLock.unlock(RedissonBaseLock.java:187)
+	at com.resq.service.ReservationLockService.create(ReservationLockService.java:63)
+	at com.resq.day17.Day17LockTransactionTest.successCommitsBeforeRealUnlockAndAnotherThreadCanAcquire(Day17LockTransactionTest.java:65)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.resq.day17.Day17LockTransactionTest.actualBusinessConflictPreservesExistingReservationAndReleasesLock -- Time elapsed: 0.100 s <<< ERROR!
+java.lang.ClassCastException: class java.lang.Long cannot be cast to class [Ljava.lang.Object; (java.lang.Long and [Ljava.lang.Object; are in module java.base of loader 'bootstrap')
+	at com.resq.day17.Day17TestDatabase.lambda$new$1(Day17TestDatabase.java:87)
+	at org.mockito.internal.stubbing.StubbedInvocationMatcher.answer(StubbedInvocationMatcher.java:42)
+	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:103)
+	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)
+	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:84)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:58)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptAbstract(MockMethodInterceptor.java:163)
+	at com.resq.mapper.ResourceSlotMapper$MockitoMock$MzrghQ2q.findById(Unknown Source)
+	at com.resq.cache.ResourceSlotCacheInvalidator.evictAfterCommit(ResourceSlotCacheInvalidator.java:64)
+	at com.resq.service.ReservationService.create(ReservationService.java:103)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:360)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:728)
+	at com.resq.service.ReservationService$$SpringCGLIB$$0.create(<generated>)
+	at com.resq.service.ReservationLockService.create(ReservationLockService.java:51)
+	at com.resq.day17.Day17LockTransactionTest.actualBusinessConflictPreservesExistingReservationAndReleasesLock(Day17LockTransactionTest.java:89)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.resq.day17.Day17LockTransactionTest.cacheEvictionFailureAfterCommitKeepsReservationAndRetriesAfterLockRelease -- Time elapsed: 0.085 s <<< ERROR!
+java.lang.ClassCastException: class java.lang.Long cannot be cast to class [Ljava.lang.Object; (java.lang.Long and [Ljava.lang.Object; are in module java.base of loader 'bootstrap')
+	at com.resq.day17.Day17TestDatabase.lambda$new$1(Day17TestDatabase.java:87)
+	at org.mockito.internal.stubbing.StubbedInvocationMatcher.answer(StubbedInvocationMatcher.java:42)
+	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:103)
+	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)
+	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:84)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:58)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptAbstract(MockMethodInterceptor.java:163)
+	at com.resq.mapper.ResourceSlotMapper$MockitoMock$MzrghQ2q.findById(Unknown Source)
+	at com.resq.cache.ResourceSlotCacheInvalidator.evictAfterCommit(ResourceSlotCacheInvalidator.java:64)
+	at com.resq.service.ReservationService.create(ReservationService.java:103)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:360)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:728)
+	at com.resq.service.ReservationService$$SpringCGLIB$$0.create(<generated>)
+	at com.resq.service.ReservationLockService.create(ReservationLockService.java:51)
+	at com.resq.day17.Day17LockTransactionTest.cacheEvictionFailureAfterCommitKeepsReservationAndRetriesAfterLockRelease(Day17LockTransactionTest.java:276)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.resq.day17.Day17LockTransactionTest.realDuplicateRequestInsertRollsBackSlotUpdateAndReleasesLock -- Time elapsed: 0.103 s <<< ERROR!
+java.lang.ClassCastException: class java.lang.Long cannot be cast to class [Ljava.lang.Object; (java.lang.Long and [Ljava.lang.Object; are in module java.base of loader 'bootstrap')
+	at com.resq.day17.Day17TestDatabase.lambda$new$1(Day17TestDatabase.java:87)
+	at org.mockito.internal.stubbing.StubbedInvocationMatcher.answer(StubbedInvocationMatcher.java:42)
+	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:103)
+	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)
+	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:84)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:58)
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptAbstract(MockMethodInterceptor.java:163)
+	at com.resq.mapper.ResourceSlotMapper$MockitoMock$MzrghQ2q.findById(Unknown Source)
+	at com.resq.cache.ResourceSlotCacheInvalidator.evictAfterCommit(ResourceSlotCacheInvalidator.java:64)
+	at com.resq.service.ReservationService.create(ReservationService.java:103)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:360)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:728)
+	at com.resq.service.ReservationService$$SpringCGLIB$$0.create(<generated>)
+	at com.resq.service.ReservationLockService.create(ReservationLockService.java:51)
+	at com.resq.day17.Day17LockTransactionTest.realDuplicateRequestInsertRollsBackSlotUpdateAndReleasesLock(Day17LockTransactionTest.java:116)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.resq.day17.Day17LockTransactionTest.realWaitingThreadInterruptionRestoresFlagWithoutReleasingOwnersLock -- Time elapsed: 0.073 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected type, expected: <com.resq.exception.ReservationBusyException> but was: <org.redisson.client.RedisException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertInstanceOf.assertInstanceOf(AssertInstanceOf.java:49)
+	at org.junit.jupiter.api.AssertInstanceOf.assertInstanceOf(AssertInstanceOf.java:31)
+	at org.junit.jupiter.api.Assertions.assertInstanceOf(Assertions.java:3614)
+	at com.resq.day17.Day17LockTransactionTest.realWaitingThreadInterruptionRestoresFlagWithoutReleasingOwnersLock(Day17LockTransactionTest.java:246)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[INFO] Running com.resq.day17.Day17ConcurrencyComparisonTest
+21:35:55.202 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Starting...
+21:35:55.212 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Start completed.
+21:35:55.223 [main] INFO org.redisson.Version -- Redisson 4.8.0
+21:35:55.229 [redisson-netty-23-1] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+21:35:55.239 [redisson-netty-23-4] INFO org.redisson.connection.ConnectionsHolder -- 1 connections initialized for 127.0.0.1/127.0.0.1:16317
+DAY17 UNSAFE_SIMULATION clients=100 success=100 conflict=0 other=0 elapsedMs=138.064
+DAY17 MYSQL_ONLY clients=100 success=0 conflict=0 other=100 elapsedMs=207.345
+21:35:55.689 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown initiated...
+21:35:55.691 [main] INFO com.zaxxer.hikari.HikariDataSource -- day17-isolated - Shutdown completed.
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.491 s <<< FAILURE! -- in com.resq.day17.Day17ConcurrencyComparisonTest
+[ERROR] com.resq.day17.Day17ConcurrencyComparisonTest.compareThreeStrategiesAtOneHundredAndFiveHundredClients -- Time elapsed: 0.491 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1> but was: <0>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.resq.day17.Day17ConcurrencyComparisonTest.safe(Day17ConcurrencyComparisonTest.java:107)
+	at com.resq.day17.Day17ConcurrencyComparisonTest.compareThreeStrategiesAtOneHundredAndFiveHundredClients(Day17ConcurrencyComparisonTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[INFO] Running com.resq.cache.ResourceSlotCacheTest
+21:35:55.836 [main] WARN com.resq.cache.ResourceSlotCache -- [SLOTS CACHE ERROR] GET resourceId=1 date=2026-10-06
+21:35:55.838 [main] WARN com.resq.cache.ResourceSlotCache -- [SLOTS CACHE ERROR] PUT resourceId=1 date=2026-10-06
+21:35:55.839 [main] WARN com.resq.cache.ResourceSlotCache -- [SLOTS CACHE ERROR] EVICT resourceId=1 date=2026-10-06
+21:35:55.952 [main] WARN com.resq.cache.ResourceSlotCache -- [SLOTS CACHE JSON ERROR] resourceId=1 date=2026-10-06
+21:35:55.972 [main] WARN com.resq.cache.ResourceSlotCache -- [SLOTS CACHE JSON ERROR] resourceId=1 date=2026-10-06
+21:35:55.976 [main] WARN com.resq.cache.ResourceSlotCache -- [SLOTS CACHE JSON ERROR] resourceId=1 date=2026-10-06
+21:35:55.981 [main] WARN com.resq.cache.ResourceSlotCache -- [SLOTS CACHE JSON ERROR] resourceId=1 date=2026-10-06
+21:35:55.986 [main] WARN com.resq.cache.ResourceSlotCache -- [SLOTS CACHE JSON ERROR] resourceId=1 date=2026-10-06
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.293 s -- in com.resq.cache.ResourceSlotCacheTest
+[INFO] Running com.resq.cache.ResourceSlotCacheInvalidatorTest
+21:35:55.991 [main] WARN com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE INVALIDATION SKIPPED] slotId=10
+21:35:55.992 [main] WARN com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE INVALIDATION ERROR] slotId=10
+org.springframework.dao.DataAccessResourceFailureException: db unavailable
+	at com.resq.cache.ResourceSlotCacheInvalidator.evictAfterCommit(ResourceSlotCacheInvalidator.java:64)
+	at com.resq.cache.ResourceSlotCacheInvalidatorTest.lambda$missingSlotOrLookupFailureDoesNotFailBusinessOrDeleteUnrelatedKeys$5(ResourceSlotCacheInvalidatorTest.java:72)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:49)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:36)
+	at org.junit.jupiter.api.Assertions.assertDoesNotThrow(Assertions.java:3199)
+	at com.resq.cache.ResourceSlotCacheInvalidatorTest.missingSlotOrLookupFailureDoesNotFailBusinessOrDeleteUnrelatedKeys(ResourceSlotCacheInvalidatorTest.java:72)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:775)
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:479)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:161)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:152)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:91)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:112)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:94)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:87)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:216)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:212)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:137)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:201)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:170)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:94)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:59)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:142)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$1(InterceptingLauncher.java:39)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:38)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithoutCancellationToken(LauncherAdapter.java:60)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:52)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+21:35:55.997 [main] WARN com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE RETRY QUEUED] resourceId=1 date=2026-10-06
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.resq.cache.ResourceSlotCacheInvalidatorTest
+[INFO] Running com.resq.cache.ResourceSlotCacheRetryTest
+21:35:56.002 [main] WARN com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE RETRY QUEUED] resourceId=1 date=2026-10-13
+21:35:56.003 [main] INFO com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE RETRY SUCCESS] resourceId=1 date=2026-10-13
+21:35:56.004 [main] WARN com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE RETRY QUEUED] resourceId=1 date=2026-10-13
+21:35:56.004 [main] WARN com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE RETRY FAILED] resourceId=1 date=2026-10-13 attempt=1
+21:35:56.004 [main] WARN com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE RETRY FAILED] resourceId=1 date=2026-10-13 attempt=2
+21:35:56.004 [main] ERROR com.resq.cache.ResourceSlotCacheInvalidator -- [SLOTS CACHE RETRY EXHAUSTED] resourceId=1 date=2026-10-13
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.resq.cache.ResourceSlotCacheRetryTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   Day17ConcurrencyComparisonTest.compareThreeStrategiesAtOneHundredAndFiveHundredClients:35->safe:107 expected: <1> but was: <0>
+[ERROR]   Day17LockTransactionTest.realWaitingThreadInterruptionRestoresFlagWithoutReleasingOwnersLock:246 Unexpected type, expected: <com.resq.exception.ReservationBusyException> but was: <org.redisson.client.RedisException>
+[ERROR]   Day17LockTransactionTest.successCommitsBeforeRealUnlockAndAnotherThreadCanAcquire:65->lambda$successCommitsBeforeRealUnlockAndAnotherThreadCanAcquire$0:55 expected: <RESERVED> but was: <AVAILABLE>
+[ERROR] Errors: 
+[ERROR]   Day17LockTransactionTest.actualBusinessConflictPreservesExistingReservationAndReleasesLock:89 » ClassCast class java.lang.Long cannot be cast to class [Ljava.lang.Object; (java.lang.Long and [Ljava.lang.Object; are in module java.base of loader 'bootstrap')
+[ERROR]   Day17LockTransactionTest.cacheEvictionFailureAfterCommitKeepsReservationAndRetriesAfterLockRelease:276 » ClassCast class java.lang.Long cannot be cast to class [Ljava.lang.Object; (java.lang.Long and [Ljava.lang.Object; are in module java.base of loader 'bootstrap')
+[ERROR]   Day17LockTransactionTest.realDuplicateRequestInsertRollsBackSlotUpdateAndReleasesLock:116 » ClassCast class java.lang.Long cannot be cast to class [Ljava.lang.Object; (java.lang.Long and [Ljava.lang.Object; are in module java.base of loader 'bootstrap')
+[INFO] 
+[ERROR] Tests run: 56, Failures: 3, Errors: 3, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.881 s
+[INFO] Finished at: 2026-10-14T21:35:56+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.6:test (default-test) on project resq: There are test failures.
+[ERROR] 
+[ERROR] See /tmp/resq-day17-bba_re5c/build/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

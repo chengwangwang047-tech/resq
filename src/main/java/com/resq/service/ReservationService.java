@@ -6,7 +6,7 @@ import com.resq.dto.ReservationCreateDTO;
 import com.resq.mapper.ReservationMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.resq.exception.ReservationConflictException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,7 +19,7 @@ public class ReservationService {
     private final ResourceSlotCacheInvalidator slotCacheInvalidator;
 
     public ReservationService(ReservationMapper reservationMapper,
-                              ResourceSlotCacheInvalidator slotCacheInvalidator) {
+            ResourceSlotCacheInvalidator slotCacheInvalidator) {
         this.reservationMapper = reservationMapper;
         this.slotCacheInvalidator = slotCacheInvalidator;
     }
@@ -83,7 +83,7 @@ public class ReservationService {
         int rows = reservationMapper.reserveSlotIfAvailable(dto.getSlotId());
 
         if (rows != 1) {
-            throw new IllegalStateException("时隙不可用，预约失败");
+            throw new ReservationConflictException("时隙不可用，预约失败");
         }
 
         Reservation reservation = new Reservation(

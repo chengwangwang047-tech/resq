@@ -1,0 +1,44 @@
+-------------------------------------------------------------------------------
+Test set: com.resq.day17.Day17ConcurrencyComparisonTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.055 s <<< FAILURE! -- in com.resq.day17.Day17ConcurrencyComparisonTest
+com.resq.day17.Day17ConcurrencyComparisonTest.compareThreeStrategiesAtOneHundredAndFiveHundredClients -- Time elapsed: 0.054 s <<< ERROR!
+org.redisson.client.RedisException: Unexpected exception while processing command
+	at org.redisson.command.CommandAsyncService.convertException(CommandAsyncService.java:393)
+	at org.redisson.command.CommandAsyncService.get(CommandAsyncService.java:194)
+	at org.redisson.RedissonObject.get(RedissonObject.java:159)
+	at org.redisson.RedissonBucket.get(RedissonBucket.java:142)
+	at com.resq.day17.Day17TestDatabase.<init>(Day17TestDatabase.java:75)
+	at com.resq.day17.Day17ConcurrencyComparisonTest.compareThreeStrategiesAtOneHundredAndFiveHundredClients(Day17ConcurrencyComparisonTest.java:27)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: com.esotericsoftware.kryo.KryoException: Encountered unregistered class ID: 53
+	at com.esotericsoftware.kryo.util.DefaultClassResolver.readClass(DefaultClassResolver.java:159)
+	at com.esotericsoftware.kryo.Kryo.readClass(Kryo.java:758)
+	at com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:869)
+	at org.redisson.codec.Kryo5Codec$4.decode(Kryo5Codec.java:202)
+	at org.redisson.client.handler.CommandDecoder.decode(CommandDecoder.java:469)
+	at org.redisson.client.handler.CommandDecoder.decodeCommand(CommandDecoder.java:222)
+	at org.redisson.client.handler.CommandDecoder.decode(CommandDecoder.java:148)
+	at org.redisson.client.handler.CommandDecoder.decode(CommandDecoder.java:124)
+	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:545)
+	at io.netty.handler.codec.ReplayingDecoder.callDecode(ReplayingDecoder.java:366)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:296)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1357)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:440)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:868)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:171)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:796)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:732)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:658)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:998)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+

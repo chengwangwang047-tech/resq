@@ -3,6 +3,7 @@ package com.resq.service;
 import com.resq.domain.Reservation;
 import com.resq.cache.ResourceSlotCacheInvalidator;
 import com.resq.dto.ReservationCreateDTO;
+import com.resq.exception.ReservationConflictException;
 import com.resq.mapper.ReservationMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -84,7 +85,7 @@ void creatingReservationRejectsBusySlotWithoutInsert() {
     when(mapper.reserveSlotIfAvailable(10L)).thenReturn(0);
 
     // 创建预约应该失败
-    assertThrows(IllegalStateException.class,
+    assertThrows(ReservationConflictException.class,
             () -> service.create(7L, dto));
 
     // 抢占失败后不能执行 INSERT
