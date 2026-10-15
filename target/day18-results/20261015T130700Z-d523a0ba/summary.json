@@ -1,0 +1,58 @@
+[
+  {
+    "stage": "contracts-and-units",
+    "selector": "ResourceSlotsTest,Day17ReservationHttpContractTest,ReservationLockServiceTest,ReservationServiceTest,ResourceSlotCacheInvalidatorTest,ResourceSlotCacheRetryTest,ResourceSlotCacheTest",
+    "integration": false,
+    "workingDirectory": "/home/colaminos/resq",
+    "usesProjectPom": true,
+    "applicationConfiguration": "temporary owned private configuration",
+    "exitCode": 0,
+    "elapsedSeconds": 6.54,
+    "tests": 76,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "stage": "cache-http",
+    "selector": "Day15CacheHttpTest,ResourceSlotsRedisFailureHttpTest",
+    "integration": false,
+    "workingDirectory": "/home/colaminos/resq",
+    "usesProjectPom": true,
+    "applicationConfiguration": "temporary owned private configuration",
+    "exitCode": 0,
+    "elapsedSeconds": 12.61,
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "stage": "day17-integration",
+    "selector": "Day17LockTransactionTest,Day17ConcurrencyComparisonTest",
+    "integration": true,
+    "workingDirectory": "/home/colaminos/resq",
+    "usesProjectPom": true,
+    "applicationConfiguration": "temporary owned private configuration",
+    "exitCode": 0,
+    "elapsedSeconds": 16.32,
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "stage": "full-suite",
+    "selector": null,
+    "integration": false,
+    "workingDirectory": "/home/colaminos/resq",
+    "usesProjectPom": true,
+    "applicationConfiguration": "temporary owned private configuration",
+    "exitCode": 0,
+    "elapsedSeconds": 16.07,
+    "tests": 104,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 10
+  }
+]

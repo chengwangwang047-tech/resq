@@ -12,13 +12,11 @@ public class ReservationCreateDTO {
     @Positive(message = "slotId must be positive")
     private Long slotId;
 
-    @NotBlank(message = "requestId must not be blank")
-    @Size(max = 100, message = "requestId must be at most 100 characters")
     private String requestId;
 
     public ReservationCreateDTO() {
     }
-
+    
     public ReservationCreateDTO(Long slotId, String requestId) {
         this.slotId = slotId;
         this.requestId = requestId;

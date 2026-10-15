@@ -7,10 +7,13 @@ import com.resq.service.ReservationLockService;
 import com.resq.service.ReservationService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -32,9 +35,19 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.CREATED)
     public Reservation create(
             @Valid @RequestBody ReservationCreateDTO dto,
-            @RequestAttribute("currentUserId") Long userId) {
+            @RequestAttribute("currentUserId") Long userId,
+            @RequestHeader("X-Request-Id") @NotBlank(message = "requestId must not be blank") @Size(max = 100, message = "requestId must not exceed 100 characters") String requestId) {
 
+        if (requestId == null ||
+                !requestId.matches("[A-Za-z0-9_-]{1,100}")) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "X-Request-Id 格式不合法");
+        }
+
+        dto.setRequestId(requestId);
         return reservationLockService.create(userId, dto);
+
     }
 
     // GET /api/reservations/me

@@ -1,4 +1,5 @@
 /home/colaminos/resq/src/main/java/com/resq/ResqApplication.java
+/home/colaminos/resq/src/main/java/com/resq/cache/ReservationRequestStateStore.java
 /home/colaminos/resq/src/main/java/com/resq/cache/ResourceCache.java
 /home/colaminos/resq/src/main/java/com/resq/cache/ResourceSlotCache.java
 /home/colaminos/resq/src/main/java/com/resq/cache/ResourceSlotCacheInvalidator.java

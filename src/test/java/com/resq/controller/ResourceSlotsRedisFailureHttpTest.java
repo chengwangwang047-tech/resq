@@ -4,11 +4,15 @@ import com.resq.domain.ComputeResource;
 import com.resq.domain.ResourceSlot;
 import com.resq.mapper.ResourceMapper;
 import org.junit.jupiter.api.AfterEach;
+import org.redisson.api.RedissonClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.data.redis.RedisConnectionFailureException;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -20,6 +24,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 /** 给此测试应用配置一个无服务的 Redis 端口，不停止用户 Redis。 */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -29,6 +34,9 @@ class ResourceSlotsRedisFailureHttpTest {
     @Autowired private TestRestTemplate http;
     @Autowired private ResourceMapper resources;
     @Autowired private JdbcTemplate jdbc;
+    @Autowired private StringRedisTemplate redis;
+    // 仅隔离无关的预约锁客户端启动；资源缓存仍通过真实 Lettuce 连接故障端口。
+    @MockitoBean private RedissonClient redissonClient;
     private Long resourceId;
 
     @DynamicPropertySource
@@ -50,6 +58,8 @@ class ResourceSlotsRedisFailureHttpTest {
 
     @Test
     void realRedisConnectionFailureStillReturnsMysqlSlotsAndEmptyListOverHttp() {
+        assertThrows(RedisConnectionFailureException.class,
+                () -> redis.hasKey("D15-fallback-probe:" + UUID.randomUUID()));
         LocalDate day = LocalDate.of(2026, 10, 6);
         var resource = new ComputeResource(null, "D15-fallback-" + UUID.randomUUID(),
                 "GPU", "AVAILABLE", day.atStartOfDay());
@@ -68,6 +78,7 @@ class ResourceSlotsRedisFailureHttpTest {
                 ResourceSlot[].class);
         assertEquals(HttpStatus.OK, empty.getStatusCode());
         assertEquals(0, empty.getBody().length);
+        verifyNoInteractions(redissonClient);
         System.out.println("DAY15 REAL HTTP PASS: unavailable Redis GET/PUT still returns MySQL rows/[] with 200");
     }
 }

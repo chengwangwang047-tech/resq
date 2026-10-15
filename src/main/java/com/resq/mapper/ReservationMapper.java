@@ -21,13 +21,16 @@ public interface ReservationMapper {
 
     /** TODO(D13-RES-4): 条件转换状态；影响行数为 0 时由 Service 判定失败。 */
     int updateStatusIfCurrent(@Param("id") Long id,
-                              @Param("userId") Long userId,
-                              @Param("expectedStatus") String expectedStatus,
-                              @Param("newStatus") String newStatus);
+            @Param("userId") Long userId,
+            @Param("expectedStatus") String expectedStatus,
+            @Param("newStatus") String newStatus);
 
     /** TODO(D13-CONFLICT): 原子抢占 AVAILABLE 时隙，返回影响行数；沿用 RESERVED 状态。 */
     int reserveSlotIfAvailable(@Param("slotId") Long slotId);
 
     /** TODO(D13-CANCEL): 仅在本次取消成功且归属已校验后，在同一事务里释放 RESERVED 时隙。 */
     int releaseReservedSlot(@Param("slotId") Long slotId);
+
+    Reservation findByRequestId(
+            @Param("requestId") String requestId);
 }

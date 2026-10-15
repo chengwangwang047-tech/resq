@@ -1,0 +1,10 @@
+{
+  "mysqlStopped": true,
+  "redisStopped": true,
+  "privateDataRemoved": true,
+  "maven-contracts-and-unitsStopped": true,
+  "maven-cache-httpStopped": true,
+  "maven-day17-integrationStopped": true,
+  "maven-full-suiteStopped": true,
+  "mainAndPomUnchangedDuringRun": true
+}

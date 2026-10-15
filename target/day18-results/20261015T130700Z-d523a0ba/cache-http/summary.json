@@ -1,0 +1,14 @@
+{
+  "stage": "cache-http",
+  "selector": "Day15CacheHttpTest,ResourceSlotsRedisFailureHttpTest",
+  "integration": false,
+  "workingDirectory": "/home/colaminos/resq",
+  "usesProjectPom": true,
+  "applicationConfiguration": "temporary owned private configuration",
+  "exitCode": 0,
+  "elapsedSeconds": 12.61,
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0
+}

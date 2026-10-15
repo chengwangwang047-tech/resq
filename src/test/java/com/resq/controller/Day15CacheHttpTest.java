@@ -113,6 +113,7 @@ class Day15CacheHttpTest {
         String dayKey = key(resourceId, DAY);
         assertFalse(Boolean.TRUE.equals(redis.hasKey(dayKey)));
 
+        long fillStarted = System.nanoTime();
         var first = getSlots(resourceId, DAY);
         assertEquals(1, first.length);
         assertEquals(slotId, first[0].getId());
@@ -122,7 +123,9 @@ class Day15CacheHttpTest {
         assertTrue(cached.contains("2026-10-06T09:00:00"));
         Long ttl = redis.getExpire(dayKey, TimeUnit.SECONDS);
         assertNotNull(ttl);
-        assertTrue(ttl > 0 && ttl <= 300, "新缓存 TTL 应为 5 分钟");
+        long elapsedSeconds = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - fillStarted) + 1;
+        assertTrue(ttl > 0 && ttl >= 300 - elapsedSeconds && ttl <= 360,
+                "新缓存 TTL 应为 300–360 秒，扣除本次请求已经耗用的时间；实际 TTL=" + ttl);
         assertEquals(slotId, getSlots(resourceId, DAY)[0].getId());
         assertEquals(cached, redis.opsForValue().get(dayKey));
 
@@ -169,8 +172,11 @@ class Day15CacheHttpTest {
                 http.getForEntity("/api/reservations/me", String.class).getStatusCode());
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwt.generateToken(userId)); // JWT 仅在内存中使用，不输出或保存。
+        String requestId = "D15-" + UUID.randomUUID();
+        headers.set("X-Request-Id", requestId);
+        keys.add("request:" + requestId); // Day18 请求状态也只清理本次夹具自己的键。
         var created = http.exchange("/api/reservations", HttpMethod.POST,
-                new HttpEntity<>(new ReservationCreateDTO(slotId, "D15-" + UUID.randomUUID()), headers),
+                new HttpEntity<>(new ReservationCreateDTO(slotId, requestId), headers),
                 Reservation.class);
         assertEquals(HttpStatus.CREATED, created.getStatusCode());
         assertNotNull(created.getBody());

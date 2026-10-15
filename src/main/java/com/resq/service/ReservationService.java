@@ -61,31 +61,77 @@ public class ReservationService {
         return reservationMapper.findByUserId(userId);
     }
 
-    @Transactional
-    public Reservation create(Long authenticatedUserId, ReservationCreateDTO dto) {
+    /**
+     * Day18：查询历史预约并判断是否为合法重试。
+     *
+     * 返回 null：该 requestId 尚无历史预约。
+     * 返回 Reservation：同一次业务操作已经成功。
+     * 抛出冲突异常：requestId 被用于其他业务操作。
+     */
+    public Reservation findExistingForRetry(
+            Long authenticatedUserId,
+            ReservationCreateDTO dto) {
 
-        // 1. 参数检查
+        Reservation existing = reservationMapper.findByRequestId(dto.getRequestId());
+
+        if (existing == null) {
+            return null;
+        }
+
+        if (!authenticatedUserId.equals(existing.getUserId())
+                || !dto.getSlotId().equals(existing.getSlotId())) {
+
+            throw new ReservationConflictException(
+                    "requestId 已用于其他预约操作");
+        }
+
+        return existing;
+    }
+
+    @Transactional
+    public Reservation create(
+            Long authenticatedUserId,
+            ReservationCreateDTO dto) {
+
+        // 1. 校验用户 ID
         if (authenticatedUserId == null || authenticatedUserId <= 0) {
             throw new IllegalArgumentException("用户 ID 不合法");
         }
 
+        // 2. 校验时隙 ID
         if (dto == null || dto.getSlotId() == null || dto.getSlotId() <= 0) {
             throw new IllegalArgumentException("时隙 ID 不合法");
         }
 
+        // 3. 校验 requestId
         String requestId = dto.getRequestId();
 
-        if (requestId == null || requestId.isBlank() || requestId.length() > 100) {
+        if (requestId == null || requestId.isBlank()
+                || requestId.length() > 100) {
             throw new IllegalArgumentException("requestId 不合法");
         }
 
-        // 2. 原子抢占时隙
-        int rows = reservationMapper.reserveSlotIfAvailable(dto.getSlotId());
+        // ===== Day18 新增：幂等检查 =====
 
-        if (rows != 1) {
-            throw new ReservationConflictException("时隙不可用，预约失败");
+        // 4. 根据 requestId 查询历史预约
+        Reservation existing = findExistingForRetry(authenticatedUserId, dto);
+
+        if (existing != null) {
+            return existing;
         }
 
+        // ===== 以下保留原来的创建流程 =====
+
+        // 7. 原子抢占时隙
+        int rows = reservationMapper
+                .reserveSlotIfAvailable(dto.getSlotId());
+
+        if (rows != 1) {
+            throw new ReservationConflictException(
+                    "时隙不可用，预约失败");
+        }
+
+        // 8. 创建预约对象
         Reservation reservation = new Reservation(
                 null,
                 authenticatedUserId,
@@ -94,13 +140,16 @@ public class ReservationService {
                 requestId,
                 LocalDateTime.now());
 
+        // 9. 插入数据库
         int inserted = reservationMapper.insert(reservation);
 
         if (inserted != 1 || reservation.getId() == null) {
             throw new IllegalStateException("预约记录创建失败");
         }
 
+        // 10. 事务提交后失效时隙缓存
         slotCacheInvalidator.evictAfterCommit(dto.getSlotId());
+
         return reservation;
     }
 

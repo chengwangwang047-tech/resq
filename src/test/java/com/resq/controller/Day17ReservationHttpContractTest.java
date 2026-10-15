@@ -15,8 +15,10 @@ import org.redisson.client.RedisException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.MissingRequestHeaderException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,6 +40,7 @@ class Day17ReservationHttpContractTest {
 
     private static final Long USER_ID = 900_017L;
     private static final Long SLOT_ID = 900_018L;
+    private static final String REQUEST_ID = "day17-http-contract";
     private static final String VALID_BODY =
             "{\"slotId\":900018,\"requestId\":\"day17-http-contract\"}";
 
@@ -63,6 +66,7 @@ class Day17ReservationHttpContractTest {
 
         mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY))
                 .andExpect(status().isCreated());
@@ -71,7 +75,47 @@ class Day17ReservationHttpContractTest {
                 ArgumentCaptor.forClass(ReservationCreateDTO.class);
         verify(reservationLockService).create(eq(USER_ID), request.capture());
         assertEquals(SLOT_ID, request.getValue().getSlotId());
-        assertEquals("day17-http-contract", request.getValue().getRequestId());
+        assertEquals(REQUEST_ID, request.getValue().getRequestId());
+        verifyNoInteractions(reservationService);
+    }
+
+    @Test
+    void requestHeaderSuppliesRequestIdWhenBodyOmitsIt() throws Exception {
+        when(reservationLockService.create(eq(USER_ID), any(ReservationCreateDTO.class)))
+                .thenReturn(new Reservation());
+
+        mvc.perform(post("/api/reservations")
+                        .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"slotId\":900018}"))
+                .andExpect(status().isCreated());
+
+        ArgumentCaptor<ReservationCreateDTO> request =
+                ArgumentCaptor.forClass(ReservationCreateDTO.class);
+        verify(reservationLockService).create(eq(USER_ID), request.capture());
+        assertEquals(SLOT_ID, request.getValue().getSlotId());
+        assertEquals(REQUEST_ID, request.getValue().getRequestId());
+        verifyNoInteractions(reservationService);
+    }
+
+    @Test
+    void requestHeaderOverridesDifferentRequestIdInBody() throws Exception {
+        when(reservationLockService.create(eq(USER_ID), any(ReservationCreateDTO.class)))
+                .thenReturn(new Reservation());
+
+        mvc.perform(post("/api/reservations")
+                        .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"slotId\":900018,\"requestId\":\"ignored-body-request-id\"}"))
+                .andExpect(status().isCreated());
+
+        ArgumentCaptor<ReservationCreateDTO> request =
+                ArgumentCaptor.forClass(ReservationCreateDTO.class);
+        verify(reservationLockService).create(eq(USER_ID), request.capture());
+        assertEquals(SLOT_ID, request.getValue().getSlotId());
+        assertEquals(REQUEST_ID, request.getValue().getRequestId());
         verifyNoInteractions(reservationService);
     }
 
@@ -82,6 +126,7 @@ class Day17ReservationHttpContractTest {
 
         mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY))
                 .andExpect(status().isConflict());
@@ -98,6 +143,7 @@ class Day17ReservationHttpContractTest {
 
         mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY))
                 .andExpect(status().isServiceUnavailable());
@@ -115,6 +161,7 @@ class Day17ReservationHttpContractTest {
 
         mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY))
                 .andExpect(status().isServiceUnavailable());
@@ -133,6 +180,7 @@ class Day17ReservationHttpContractTest {
         ServletException actual = assertThrows(ServletException.class, () ->
                 mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY)));
 
@@ -152,6 +200,7 @@ class Day17ReservationHttpContractTest {
         ServletException actual = assertThrows(ServletException.class, () ->
                 mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY)));
 
@@ -160,9 +209,23 @@ class Day17ReservationHttpContractTest {
     }
 
     @Test
+    void missingRequestHeaderIsRejectedBeforeCallingServices() throws Exception {
+        mvc.perform(post("/api/reservations")
+                        .requestAttr("currentUserId", USER_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(VALID_BODY))
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertInstanceOf(
+                        MissingRequestHeaderException.class, result.getResolvedException()));
+
+        verifyNoInteractions(reservationLockService, reservationService);
+    }
+
+    @Test
     void missingSlotIdIsRejectedBeforeCallingServices() throws Exception {
         mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"requestId\":\"day17-invalid\"}"))
                 .andExpect(status().isBadRequest());
@@ -174,6 +237,7 @@ class Day17ReservationHttpContractTest {
     void nonpositiveSlotIdIsRejectedBeforeCallingServices() throws Exception {
         mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"slotId\":0,\"requestId\":\"day17-invalid\"}"))
                 .andExpect(status().isBadRequest());
@@ -185,6 +249,7 @@ class Day17ReservationHttpContractTest {
     void blankRequestIdIsRejectedBeforeCallingServices() throws Exception {
         mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", " ")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"slotId\":900018,\"requestId\":\" \"}"))
                 .andExpect(status().isBadRequest());
@@ -194,9 +259,11 @@ class Day17ReservationHttpContractTest {
 
     @Test
     void overlongRequestIdIsRejectedBeforeCallingServices() throws Exception {
-        String body = "{\"slotId\":900018,\"requestId\":\"" + "x".repeat(101) + "\"}";
+        String requestId = "x".repeat(101);
+        String body = "{\"slotId\":900018,\"requestId\":\"" + requestId + "\"}";
         mvc.perform(post("/api/reservations")
                         .requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", requestId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isBadRequest());

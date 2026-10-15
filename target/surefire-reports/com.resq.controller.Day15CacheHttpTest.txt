@@ -1,16 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.resq.controller.Day15CacheHttpTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 4.201 s <<< FAILURE! -- in com.resq.controller.Day15CacheHttpTest
-com.resq.controller.Day15CacheHttpTest.actualHttpAndRedisSupportMissHitEmptyListExpiryAndCorruptJsonFallback -- Time elapsed: 0.043 s <<< FAILURE!
-org.opentest4j.AssertionFailedError: 新缓存 TTL 应为 5 分钟 ==> expected: <true> but was: <false>
-	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
-	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
-	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
-	at com.resq.controller.Day15CacheHttpTest.actualHttpAndRedisSupportMissHitEmptyListExpiryAndCorruptJsonFallback(Day15CacheHttpTest.java:125)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.689 s -- in com.resq.controller.Day15CacheHttpTest
