@@ -10,6 +10,8 @@ import com.resq.exception.ReservationConflictException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
+import com.resq.event.ReservationCreatedEvent;
+import org.springframework.context.ApplicationEventPublisher;
 
 @Service
 public class ReservationService {
@@ -17,11 +19,16 @@ public class ReservationService {
     private final ReservationMapper reservationMapper;
 
     private final ResourceSlotCacheInvalidator slotCacheInvalidator;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public ReservationService(ReservationMapper reservationMapper,
-            ResourceSlotCacheInvalidator slotCacheInvalidator) {
+    public ReservationService(
+            ReservationMapper reservationMapper,
+            ResourceSlotCacheInvalidator slotCacheInvalidator,
+            ApplicationEventPublisher eventPublisher) {
+
         this.reservationMapper = reservationMapper;
         this.slotCacheInvalidator = slotCacheInvalidator;
+        this.eventPublisher = eventPublisher;
     }
 
     /** authenticatedUserId 由受信任的服务端身份上下文提供，不能来自客户端自报。 */
@@ -148,7 +155,17 @@ public class ReservationService {
         }
 
         // 10. 事务提交后失效时隙缓存
+        // 10. 事务提交后失效时隙缓存
         slotCacheInvalidator.evictAfterCommit(dto.getSlotId());
+
+        // 11. 发布预约创建事件
+        eventPublisher.publishEvent(
+                new ReservationCreatedEvent(
+                        reservation.getId(),
+                        reservation.getUserId(),
+                        reservation.getSlotId(),
+                        reservation.getRequestId(),
+                        reservation.getStatus()));
 
         return reservation;
     }

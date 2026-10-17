@@ -92,6 +92,11 @@
             <artifactId>redisson</artifactId>
             <version>4.8.0</version>
         </dependency>
+        <!-- Day19：RabbitMQ 消息队列 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

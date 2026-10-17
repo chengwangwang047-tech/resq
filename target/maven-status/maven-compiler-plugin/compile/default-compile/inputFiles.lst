@@ -4,6 +4,7 @@
 /home/colaminos/resq/src/main/java/com/resq/cache/ResourceSlotCache.java
 /home/colaminos/resq/src/main/java/com/resq/cache/ResourceSlotCacheInvalidator.java
 /home/colaminos/resq/src/main/java/com/resq/config/JwtAuthInterceptor.java
+/home/colaminos/resq/src/main/java/com/resq/config/RabbitMQConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/RedissonConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/WebMvcConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/package-info.java
@@ -19,6 +20,7 @@
 /home/colaminos/resq/src/main/java/com/resq/dto/ResourceCreateDTO.java
 /home/colaminos/resq/src/main/java/com/resq/dto/UserLoginDTO.java
 /home/colaminos/resq/src/main/java/com/resq/dto/UserRegisterDTO.java
+/home/colaminos/resq/src/main/java/com/resq/event/ReservationCreatedEvent.java
 /home/colaminos/resq/src/main/java/com/resq/exception/GlobalExceptionHandler.java
 /home/colaminos/resq/src/main/java/com/resq/exception/ReservationBusyException.java
 /home/colaminos/resq/src/main/java/com/resq/exception/ReservationConflictException.java
@@ -31,6 +33,8 @@
 /home/colaminos/resq/src/main/java/com/resq/mapper/ResourceSlotMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/ResourceXmlLabMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/UserMapper.java
+/home/colaminos/resq/src/main/java/com/resq/mq/NotificationConsumer.java
+/home/colaminos/resq/src/main/java/com/resq/mq/ReservationEventPublisher.java
 /home/colaminos/resq/src/main/java/com/resq/service/AuthService.java
 /home/colaminos/resq/src/main/java/com/resq/service/JwtService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ReservationLockService.java
