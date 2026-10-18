@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import com.resq.event.ReservationCreatedEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.beans.factory.annotation.Value;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class ReservationService {
@@ -20,6 +22,8 @@ public class ReservationService {
 
     private final ResourceSlotCacheInvalidator slotCacheInvalidator;
     private final ApplicationEventPublisher eventPublisher;
+    @Value("${resq.reservation.confirm-timeout-seconds:600}")
+    private long confirmTimeoutSeconds;
 
     public ReservationService(
             ReservationMapper reservationMapper,
@@ -139,13 +143,25 @@ public class ReservationService {
         }
 
         // 8. 创建预约对象
+
+        // 统一使用同一个时间基准
+        LocalDateTime now = LocalDateTime.now()
+                .truncatedTo(ChronoUnit.SECONDS);
+
+        // 计算确认截止时间
+        LocalDateTime expireAt = now.plusSeconds(confirmTimeoutSeconds);
+
+        // 创建预约对象
         Reservation reservation = new Reservation(
                 null,
                 authenticatedUserId,
                 dto.getSlotId(),
                 "PENDING",
                 requestId,
-                LocalDateTime.now());
+                now);
+
+        // 设置确认截止时间
+        reservation.setExpireAt(expireAt);
 
         // 9. 插入数据库
         int inserted = reservationMapper.insert(reservation);
@@ -214,5 +230,98 @@ public class ReservationService {
         slotCacheInvalidator.evictAfterCommit(result.getSlotId());
         result.setStatus("CANCELLED");
         return result;
+    }
+
+    /**
+     * Day20：确认预约。
+     *
+     * 只有预约所属用户才允许操作。
+     * 只有未超过截止时间的 PENDING 预约可以确认。
+     */
+    @Transactional
+    public Reservation confirm(
+            Long authenticatedUserId,
+            Long reservationId) {
+
+        // 1. 查询预约并校验用户归属
+        Reservation existing = findById(
+                authenticatedUserId,
+                reservationId);
+
+        // 2. 已经确认的预约，直接返回
+        if ("CONFIRMED".equals(existing.getStatus())) {
+            return existing;
+        }
+
+        // 3. MySQL 条件更新，尝试确认预约
+        int updated = reservationMapper
+                .confirmIfPendingAndNotExpired(
+                        reservationId,
+                        authenticatedUserId);
+
+        // 4. 更新失败，重新检查状态
+        if (updated != 1) {
+
+            Reservation latest = findById(
+                    authenticatedUserId,
+                    reservationId);
+
+            // 可能是另一个并发确认请求已经成功
+            if ("CONFIRMED".equals(latest.getStatus())) {
+                return latest;
+            }
+
+            throw new ReservationConflictException(
+                    "预约已取消、已过期或超过确认期限，无法确认");
+        }
+
+        // 5. 返回更新后的预约
+        return findById(authenticatedUserId, reservationId);
+    }
+
+    /**
+     * Day20：系统自动过期预约。
+     *
+     * @return true 本次成功过期并释放时隙
+     *         false 本次没有发生过期状态转换
+     */
+    @Transactional
+    public boolean expireIfPendingAndDue(Long reservationId) {
+
+        // 1. 校验预约 ID
+        if (reservationId == null || reservationId <= 0) {
+            throw new IllegalArgumentException("预约 ID 不合法");
+        }
+
+        // 2. 查找预约，获取它占用的时隙
+        Reservation reservation = reservationMapper.findById(reservationId);
+
+        if (reservation == null) {
+            return false;
+        }
+
+        // 3. 只有到期且仍为 PENDING，才转换为 EXPIRED
+        int updated = reservationMapper
+                .expireIfPendingAndDue(reservationId);
+
+        // 4. 未发生状态转换，不能释放时隙
+        if (updated == 0) {
+            return false;
+        }
+
+        // 5. 释放这条预约对应的时隙
+        int released = reservationMapper
+                .releaseReservedSlot(reservation.getSlotId());
+
+        if (released != 1) {
+            throw new IllegalStateException(
+                    "预约过期后释放时隙失败");
+        }
+
+        // 6. 事务提交后失效相关时隙缓存
+        slotCacheInvalidator.evictAfterCommit(
+                reservation.getSlotId());
+
+        return true;
     }
 }

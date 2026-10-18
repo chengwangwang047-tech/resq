@@ -12,7 +12,7 @@ public class Reservation {
     private String status;
     private String requestId;
     private LocalDateTime createdAt;
-
+ private LocalDateTime expireAt;
     public Reservation() {
     }
 
@@ -38,4 +38,11 @@ public class Reservation {
     public void setRequestId(String requestId) { this.requestId = requestId; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public LocalDateTime getExpireAt() {
+    return expireAt;
+}
+
+public void setExpireAt(LocalDateTime expireAt) {
+    this.expireAt = expireAt;
+}
 }

@@ -75,4 +75,15 @@ public class ReservationController {
 
         return reservationService.cancel(userId, id);
     }
+
+    /**
+     * Day20：用户确认预约。
+     */
+    @PostMapping("/{id}/confirm")
+    public Reservation confirm(
+            @PathVariable Long id,
+            @RequestAttribute("currentUserId") Long userId) {
+
+        return reservationService.confirm(userId, id);
+    }
 }

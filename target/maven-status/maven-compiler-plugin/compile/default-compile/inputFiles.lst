@@ -6,6 +6,7 @@
 /home/colaminos/resq/src/main/java/com/resq/config/JwtAuthInterceptor.java
 /home/colaminos/resq/src/main/java/com/resq/config/RabbitMQConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/RedissonConfig.java
+/home/colaminos/resq/src/main/java/com/resq/config/ReservationTimeoutMqConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/WebMvcConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/package-info.java
 /home/colaminos/resq/src/main/java/com/resq/controller/AuthController.java
@@ -33,8 +34,12 @@
 /home/colaminos/resq/src/main/java/com/resq/mapper/ResourceSlotMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/ResourceXmlLabMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/UserMapper.java
+/home/colaminos/resq/src/main/java/com/resq/mq/DelayProbePublisher.java
 /home/colaminos/resq/src/main/java/com/resq/mq/NotificationConsumer.java
 /home/colaminos/resq/src/main/java/com/resq/mq/ReservationEventPublisher.java
+/home/colaminos/resq/src/main/java/com/resq/mq/ReservationTimeoutConsumer.java
+/home/colaminos/resq/src/main/java/com/resq/mq/ReservationTimeoutPublisher.java
+/home/colaminos/resq/src/main/java/com/resq/scheduler/ReservationExpirationScheduler.java
 /home/colaminos/resq/src/main/java/com/resq/service/AuthService.java
 /home/colaminos/resq/src/main/java/com/resq/service/JwtService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ReservationLockService.java
