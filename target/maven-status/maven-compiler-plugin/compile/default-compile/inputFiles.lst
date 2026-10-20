@@ -7,6 +7,7 @@
 /home/colaminos/resq/src/main/java/com/resq/config/RabbitMQConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/RedissonConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/ReservationTimeoutMqConfig.java
+/home/colaminos/resq/src/main/java/com/resq/config/ReservationTimeoutRetryConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/WebMvcConfig.java
 /home/colaminos/resq/src/main/java/com/resq/config/package-info.java
 /home/colaminos/resq/src/main/java/com/resq/controller/AuthController.java
@@ -28,6 +29,7 @@
 /home/colaminos/resq/src/main/java/com/resq/exception/ResourceNotFoundException.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/JdbcResourceMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/JdbcResourceSlotMapper.java
+/home/colaminos/resq/src/main/java/com/resq/mapper/MqConsumeRecordMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/ReservationMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/ResourceLabMapper.java
 /home/colaminos/resq/src/main/java/com/resq/mapper/ResourceMapper.java
@@ -38,12 +40,14 @@
 /home/colaminos/resq/src/main/java/com/resq/mq/NotificationConsumer.java
 /home/colaminos/resq/src/main/java/com/resq/mq/ReservationEventPublisher.java
 /home/colaminos/resq/src/main/java/com/resq/mq/ReservationTimeoutConsumer.java
+/home/colaminos/resq/src/main/java/com/resq/mq/ReservationTimeoutEvent.java
 /home/colaminos/resq/src/main/java/com/resq/mq/ReservationTimeoutPublisher.java
 /home/colaminos/resq/src/main/java/com/resq/scheduler/ReservationExpirationScheduler.java
 /home/colaminos/resq/src/main/java/com/resq/service/AuthService.java
 /home/colaminos/resq/src/main/java/com/resq/service/JwtService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ReservationLockService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ReservationService.java
+/home/colaminos/resq/src/main/java/com/resq/service/ReservationTimeoutConsumeService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ResourceService.java
 /home/colaminos/resq/src/main/java/com/resq/service/UserService.java
 /home/colaminos/resq/src/main/java/com/resq/vo/ErrorResponse.java

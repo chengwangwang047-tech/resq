@@ -3,6 +3,7 @@ package com.resq.mapper;
 import com.resq.domain.Reservation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -55,4 +56,13 @@ public interface ReservationMapper {
          */
         List<Long> findDuePendingReservationIds(
                         @Param("limit") int limit);
+
+        @Select("""
+                        SELECT COUNT(*)
+                        FROM reservation
+                        WHERE id = #{id}
+                          AND status = 'PENDING'
+                          AND expire_at > NOW(3)
+                        """)
+        int countPendingNotDue(@Param("id") Long id);
 }
