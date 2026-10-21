@@ -14,6 +14,7 @@
 /home/colaminos/resq/src/main/java/com/resq/controller/ReservationController.java
 /home/colaminos/resq/src/main/java/com/resq/controller/ResourceController.java
 /home/colaminos/resq/src/main/java/com/resq/controller/UserController.java
+/home/colaminos/resq/src/main/java/com/resq/controller/WaitlistController.java
 /home/colaminos/resq/src/main/java/com/resq/domain/ComputeResource.java
 /home/colaminos/resq/src/main/java/com/resq/domain/Reservation.java
 /home/colaminos/resq/src/main/java/com/resq/domain/ResourceSlot.java
@@ -24,6 +25,7 @@
 /home/colaminos/resq/src/main/java/com/resq/dto/UserRegisterDTO.java
 /home/colaminos/resq/src/main/java/com/resq/event/ReservationCreatedEvent.java
 /home/colaminos/resq/src/main/java/com/resq/exception/GlobalExceptionHandler.java
+/home/colaminos/resq/src/main/java/com/resq/exception/RateLimitExceededException.java
 /home/colaminos/resq/src/main/java/com/resq/exception/ReservationBusyException.java
 /home/colaminos/resq/src/main/java/com/resq/exception/ReservationConflictException.java
 /home/colaminos/resq/src/main/java/com/resq/exception/ResourceNotFoundException.java
@@ -46,12 +48,15 @@
 /home/colaminos/resq/src/main/java/com/resq/service/AuthService.java
 /home/colaminos/resq/src/main/java/com/resq/service/JwtService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ReservationLockService.java
+/home/colaminos/resq/src/main/java/com/resq/service/ReservationRateLimiter.java
 /home/colaminos/resq/src/main/java/com/resq/service/ReservationService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ReservationTimeoutConsumeService.java
 /home/colaminos/resq/src/main/java/com/resq/service/ResourceService.java
 /home/colaminos/resq/src/main/java/com/resq/service/UserService.java
+/home/colaminos/resq/src/main/java/com/resq/service/WaitlistService.java
 /home/colaminos/resq/src/main/java/com/resq/vo/ErrorResponse.java
 /home/colaminos/resq/src/main/java/com/resq/vo/ResourceVO.java
 /home/colaminos/resq/src/main/java/com/resq/vo/SlotVO.java
 /home/colaminos/resq/src/main/java/com/resq/vo/UserProfileVO.java
+/home/colaminos/resq/src/main/java/com/resq/vo/WaitlistVO.java
 /home/colaminos/resq/src/main/java/com/resq/vo/package-info.java

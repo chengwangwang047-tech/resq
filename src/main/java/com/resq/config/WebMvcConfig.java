@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/users",
                         "/api/users/**",
                         "/api/reservations",
-                        "/api/reservations/**"
-                );
+                        "/api/reservations/**",
+                        "/api/slots/**");
     }
 }

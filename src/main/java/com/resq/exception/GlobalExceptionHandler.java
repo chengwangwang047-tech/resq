@@ -90,4 +90,15 @@ public class GlobalExceptionHandler {
                                 .status(HttpStatus.SERVICE_UNAVAILABLE)
                                 .body(body);
         }
+
+        @ExceptionHandler(RateLimitExceededException.class)
+        public ResponseEntity<ErrorResponse> handleRateLimitExceeded(
+                        RateLimitExceededException e) {
+
+                ErrorResponse body = new ErrorResponse(false, e.getMessage());
+
+                return ResponseEntity
+                                .status(HttpStatus.TOO_MANY_REQUESTS)
+                                .body(body);
+        }
 }

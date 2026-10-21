@@ -26,21 +26,23 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class ReservationLockService {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(ReservationLockService.class);
+    private static final Logger log = LoggerFactory.getLogger(ReservationLockService.class);
 
     private final RedissonClient redissonClient;
     private final ReservationService reservationService;
     private final ReservationRequestStateStore requestStateStore;
+    private final ReservationRateLimiter reservationRateLimiter;
 
     public ReservationLockService(
             RedissonClient redissonClient,
             ReservationService reservationService,
-            ReservationRequestStateStore requestStateStore) {
+            ReservationRequestStateStore requestStateStore,
+            ReservationRateLimiter reservationRateLimiter) {
 
         this.redissonClient = redissonClient;
         this.reservationService = reservationService;
         this.requestStateStore = requestStateStore;
+        this.reservationRateLimiter = reservationRateLimiter;
     }
 
     /**
@@ -71,9 +73,8 @@ public class ReservationLockService {
             } catch (DuplicateKeyException e) {
 
                 // 此时事务代理已经完成回滚
-                Reservation existing =
-                        reservationService.findExistingForRetry(
-                                userId, dto);
+                Reservation existing = reservationService.findExistingForRetry(
+                        userId, dto);
 
                 if (existing != null) {
                     return existing;
@@ -111,9 +112,8 @@ public class ReservationLockService {
 
         } catch (DuplicateKeyException e) {
 
-            Reservation existing =
-                    reservationService.findExistingForRetry(
-                            userId, dto);
+            Reservation existing = reservationService.findExistingForRetry(
+                    userId, dto);
 
             if (existing != null) {
                 return existing;
@@ -125,9 +125,8 @@ public class ReservationLockService {
 
             // 结果不确定时，重新查询 MySQL
             try {
-                Reservation recovered =
-                        reservationService.findExistingForRetry(
-                                userId, dto);
+                Reservation recovered = reservationService.findExistingForRetry(
+                        userId, dto);
 
                 if (recovered != null) {
                     return recovered;
@@ -168,10 +167,10 @@ public class ReservationLockService {
      * Day18：对外提供的创建预约入口。
      *
      * MySQL 历史查询
-     *   -> Redis 请求状态
-     *   -> Redisson 时隙锁
-     *   -> MySQL 事务
-     *   -> Redis SUCCESS
+     * -> Redis 请求状态
+     * -> Redisson 时隙锁
+     * -> MySQL 事务
+     * -> Redis SUCCESS
      */
     public Reservation create(
             Long userId, ReservationCreateDTO dto) {
@@ -194,12 +193,14 @@ public class ReservationLockService {
         }
 
         // 2. 优先查询 MySQL，处理已经完成的请求
-        Reservation existing =
-                reservationService.findExistingForRetry(userId, dto);
+        Reservation existing = reservationService.findExistingForRetry(userId, dto);
 
         if (existing != null) {
             return existing;
         }
+
+        // Day22：新预约尝试执行用户级限流
+        reservationRateLimiter.check(userId);
 
         // 3. 生成本次处理的 ownerToken
         String ownerToken = UUID.randomUUID().toString();
@@ -239,8 +240,7 @@ public class ReservationLockService {
             }
 
             // 再查 MySQL，避免错过刚提交的预约
-            Reservation previous =
-                    reservationService.findExistingForRetry(userId, dto);
+            Reservation previous = reservationService.findExistingForRetry(userId, dto);
 
             if (previous != null) {
                 return previous;
@@ -256,13 +256,11 @@ public class ReservationLockService {
                 // SUCCESS|reservationId|userId|slotId
                 if (parts.length == 4
                         && ("PROCESSING".equals(parts[0])
-                            || "SUCCESS".equals(parts[0]))) {
+                                || "SUCCESS".equals(parts[0]))) {
 
-                    boolean sameUser =
-                            String.valueOf(userId).equals(parts[2]);
+                    boolean sameUser = String.valueOf(userId).equals(parts[2]);
 
-                    boolean sameSlot =
-                            String.valueOf(dto.getSlotId()).equals(parts[3]);
+                    boolean sameSlot = String.valueOf(dto.getSlotId()).equals(parts[3]);
 
                     if (!sameUser || !sameSlot) {
 
@@ -280,8 +278,7 @@ public class ReservationLockService {
         // 7. 获得 Redis 处理资格，执行预约
         try {
 
-            Reservation result =
-                    createWithSlotLockOrFallback(userId, dto);
+            Reservation result = createWithSlotLockOrFallback(userId, dto);
 
             // MySQL 事务已经正常完成
             // 尝试把 PROCESSING 改成 SUCCESS
@@ -330,8 +327,7 @@ public class ReservationLockService {
             Reservation recovered;
 
             try {
-                recovered =
-                        reservationService.findExistingForRetry(userId, dto);
+                recovered = reservationService.findExistingForRetry(userId, dto);
 
             } catch (ReservationConflictException conflict) {
 
