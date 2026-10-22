@@ -1,0 +1,11 @@
+{
+  "observed_at_utc": "2026-10-22T10:28:53.941638+00:00",
+  "minute_numbers": [
+    29877748
+  ],
+  "rate_key_counts": {
+    "rate:reservation:user:28:29877748": 0
+  },
+  "requests": [],
+  "slot_lock_exists": 0
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resq.mapper.ReservationMapper">
+     <!-- TODO(D13-RES-MAP): 自己写 Reservation resultMap：
+         id, user_id, slot_id, status, request_id, created_at。
+         对应 Long / Long / Long / String / String / LocalDateTime。 -->
+     <resultMap id="reservation"
+          type="com.resq.domain.Reservation">
+          <id column="id" property="id" />
+          <result column="user_id" property="userId" />
+          <result column="slot_id" property="slotId" />
+          <result column="status" property="status" />
+          <result column="request_id" property="requestId" />
+          <result column="created_at" property="createdAt" />
+          <result column="expire_at" property="expireAt" />
+     </resultMap>
+
+     <!-- TODO(D13-RES-1): findById；不存在时返回 null。 -->
+     <select id="findById" resultMap="reservation"> SELECT id, user_id, slot_id, status, request_id,
+          created_at, expire_at FROM reservation WHERE id = #{id} </select>
+     <!-- Day18：根据 requestId 查询已经创建的预约 -->
+     <select id="findByRequestId" resultMap="reservation"> SELECT id, user_id, slot_id, status,
+          request_id, created_at, expire_at FROM reservation WHERE request_id = #{requestId} </select>
+     <!-- TODO(D13-RES-2): findByUserId；固定排序并绑定 userId，不省略用户条件。 -->
+     <select id="findByUserId" resultMap="reservation"> SELECT * FROM reservation WHERE user_id =
+          #{userId} ORDER BY created_at DESC, id DESC </select>
+     <!-- TODO(D13-RES-3): insert；自增主键回填 id，返回影响行数。 -->
+     <insert id="insert"
+          useGeneratedKeys="true"
+          keyProperty="id"> INSERT INTO reservation ( user_id, slot_id, status, request_id,
+          created_at, expire_at ) VALUES ( #{userId}, #{slotId}, #{status}, #{requestId},
+          #{createdAt}, #{expireAt} ) </insert>
+
+     <!-- TODO(D13-RES-4): updateStatusIfCurrent；校验 id、userId、expectedStatus。 -->
+     <update id="updateStatusIfCurrent"> UPDATE reservation SET status = #{newStatus} WHERE id =
+          #{id} AND user_id = #{userId} AND status = #{expectedStatus} </update>
+     <!-- TODO(D13-CONFLICT): reserveSlotIfAvailable，原子地 AVAILABLE -> RESERVED。 -->
+     <update id="reserveSlotIfAvailable"> UPDATE resource_slot SET status = 'RESERVED' WHERE id =
+          #{slotId} AND status = 'AVAILABLE' </update>
+     <!-- TODO(D13-CANCEL): releaseReservedSlot，RESERVED -> AVAILABLE；
+         Service 必须先成功取消所属预约，重复取消不得释放新预约的时隙。 -->
+     <update id="releaseReservedSlot"> UPDATE resource_slot SET status = 'AVAILABLE' WHERE id =
+          #{slotId} AND status = 'RESERVED' </update>
+     <!-- 不填空 select / 假 SQL / 空 resultMap；完成一个方法再启用对应测试。 -->
+     <!-- Day20：只有已到期的 PENDING 预约才能过期 -->
+     <update id="expireIfPendingAndDue"> UPDATE reservation SET status = 'EXPIRED' WHERE id = #{id}
+          AND status = 'PENDING' AND expire_at IS NOT NULL AND expire_at &lt;= NOW(3) </update>
+     <!-- Day20：只有本人且未过期的待确认预约才能确认 -->
+     <update id="confirmIfPendingAndNotExpired"> UPDATE reservation SET status = 'CONFIRMED' WHERE
+          id = #{id} AND user_id = #{userId} AND status = 'PENDING' AND expire_at IS NOT NULL AND
+          expire_at &gt; NOW(3) </update>
+     <!-- Day20：定时补偿，查询已经到期的 PENDING 预约 -->
+     <select id="findDuePendingReservationIds"
+          resultType="java.lang.Long"> SELECT id FROM reservation WHERE status = 'PENDING' AND
+          expire_at IS NOT NULL AND expire_at &lt;= NOW(3) ORDER BY expire_at ASC, id ASC LIMIT
+          #{limit} </select>
+     <!-- Day23：按创建时间与主键进行游标分页 -->
+     <select id="findPageByUserId" resultMap="reservation"> SELECT id, user_id, slot_id, status,
+          request_id, created_at, expire_at FROM reservation WHERE user_id = #{userId} <if
+               test="cursorCreatedAt != null and cursorId != null"> AND ( created_at &lt;
+          #{cursorCreatedAt} OR ( created_at = #{cursorCreatedAt} AND id &lt; #{cursorId} ) ) </if>
+          ORDER BY created_at DESC, id DESC LIMIT #{limit} </select>
+</mapper>

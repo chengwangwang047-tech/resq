@@ -1,0 +1,89 @@
+{
+  "observed_at_utc": "2026-10-22T10:28:53.951744+00:00",
+  "queues": [
+    {
+      "name": "lab.cancelled.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "lab.confirmed.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "lab.fanout.email.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "lab.fanout.sms.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "lab.topic.all.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "lab.topic.single.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "resq.notification.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 1
+    },
+    {
+      "name": "resq.reservation.timeout.dead.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 1
+    },
+    {
+      "name": "resq.reservation.timeout.delay.queue",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "resq.reservation.timeout.delay.queue.30s",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "resq.reservation.timeout.delay.queue.600s",
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    },
+    {
+      "name": "resq.reservation.timeout.failed.queue",
+      "messages": 2,
+      "messages_ready": 2,
+      "messages_unacknowledged": 0,
+      "consumers": 0
+    }
+  ]
+}

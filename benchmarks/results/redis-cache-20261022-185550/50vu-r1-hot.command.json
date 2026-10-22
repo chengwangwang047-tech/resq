@@ -1,0 +1,19 @@
+{
+  "command": [
+    "k6",
+    "run",
+    "--summary-mode=full",
+    "--summary-trend-stats=avg,min,med,max,p(90),p(95),p(99)",
+    "--summary-export=/home/colaminos/resq/benchmarks/results/d24cache_20261022_185550_9afb96/50vu-r1-hot.summary.json",
+    "--out",
+    "json=/home/colaminos/resq/benchmarks/results/d24cache_20261022_185550_9afb96/50vu-r1-hot.metrics.ndjson",
+    "/home/colaminos/resq/benchmarks/results/d24cache_20261022_185550_9afb96/cache_compare.js"
+  ],
+  "public_env": {
+    "MANIFEST": "/home/colaminos/resq/benchmarks/results/d24cache_20261022_185550_9afb96/50vu-r1-hot.manifest.json",
+    "VUS": "50",
+    "ITERATIONS": "30",
+    "RESOURCE_ID": "24000001",
+    "ARM": "hot"
+  }
+}

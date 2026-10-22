@@ -1,0 +1,89 @@
+events_statements_cpu	NO
+events_statements_current	YES
+events_statements_history	YES
+events_statements_history_long	NO
+statements_digest	YES
+201	150	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+202	151	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+203	152	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+204	153	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+205	154	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+206	155	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+207	156	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+208	157	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+209	158	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+210	159	d24c_70c92e57	d24cache_20261022_185550_9afb96	Sleep
+230	179	d24c_70c92e57	d24cache_20261022_185550_9afb96	Query
+201	statement/sql/select	450
+201	statement/sql/set_option	2
+201	statement/com/Ping	71
+202	statement/sql/select	413
+202	statement/sql/set_option	2
+202	statement/com/Ping	63
+203	statement/sql/select	321
+203	statement/sql/set_option	2
+203	statement/com/Ping	63
+204	statement/sql/select	311
+204	statement/sql/set_option	2
+204	statement/com/Ping	63
+205	statement/sql/select	302
+205	statement/sql/set_option	2
+205	statement/com/Ping	63
+206	statement/sql/select	297
+206	statement/sql/set_option	2
+206	statement/com/Ping	63
+207	statement/sql/select	262
+207	statement/sql/set_option	2
+207	statement/com/Ping	63
+208	statement/sql/select	256
+208	statement/sql/set_option	2
+208	statement/com/Ping	62
+209	statement/sql/select	261
+209	statement/sql/set_option	2
+209	statement/com/Ping	62
+210	statement/sql/select	269
+210	statement/sql/set_option	2
+210	statement/com/Ping	62
+230	statement/sql/select	3
+230	statement/sql/set_option	1
+230	statement/sql/begin	1
+ce04eda080d3f5605113e1d0d47c2f20e23b091e2487ba586f07b32cda423942	SELECT SCHEMA ( )	2	2	2
+bcaa18136cb5194630943b343a11fa6cdc3c335f2ac949924536694f290893a6	CREATE TABLE `compute_resource` ( `id` INT8 NOT NULL AUTO_INCREMENT , `name` VARCHARACTER (?) NOT NULL , `type` VARCHARACTER (?) NOT NULL , `status` VARCHARACTER (?) NOT NULL , `created_at` DATETIME NOT NULL , PRIMARY KEY ( `id` ) ) ENGINE = `InnoDB` AUTO_INCREMENT = ? DEFAULT CHARSET = `utf8mb4` COLLATE = `utf8mb4_0900_ai_ci`	1	0	0
+1067f18571c760878f3c21f61b2afad1808c22631c8b1157b02ab50dea0d7fae	CREATE TABLE `mq_consume_record` ( `id` INT8 NOT NULL AUTO_INCREMENT , `event_id` VARCHARACTER (?) NOT NULL , `consumed_at` DATETIME NOT NULL DEFAULT NOW , PRIMARY KEY ( `id` ) , UNIQUE KEY `uk_event_id` ( `event_id` ) ) ENGINE = `InnoDB` AUTO_INCREMENT = ? DEFAULT CHARSET = `utf8mb4` COLLATE = `utf8mb4_0900_ai_ci`	1	0	0
+7fb25bd024c3bba4084b90cff3061aaa5ffa0f9086a3d22215efbf1df3937182	CREATE TABLE `reservation` ( `id` INT8 NOT NULL AUTO_INCREMENT , `user_id` INT8 NOT NULL , `slot_id` INT8 NOT NULL , `status` VARCHARACTER (?) NOT NULL , `request_id` VARCHARACTER (?) DEFAULT ? , `created_at` DATETIME NOT NULL , `expire_at` DATETIME (?) DEFAULT ? COMMENT ? , PRIMARY KEY ( `id` ) , UNIQUE KEY `request_id` ( `request_id` ) , KEY `idx_user_status_created` ( `user_id` , `status` , `created_at` ) , KEY `idx_user_created_id` ( `user_id` , `created_at` DESC , `id` DESC ) ) ENGINE = `InnoDB` AUTO_INCREMENT = ? DEFAULT CHARSET = `utf8mb4` COLLATE = `utf8mb4_0900_ai_ci`	1	0	0
+5a7980ae3008bb13f9cdf4e81444bd42ef7e36b4a65587403f03ed7777efc5d4	CREATE TABLE `resource_slot` ( `id` INT8 NOT NULL AUTO_INCREMENT , `resource_id` INT8 NOT NULL , `slot_start` DATETIME NOT NULL , `slot_end` DATETIME NOT NULL , `status` VARCHARACTER (?) NOT NULL , PRIMARY KEY ( `id` ) , UNIQUE KEY `uk_resource_slot_start` ( `resource_id` , `slot_start` ) ) ENGINE = `InnoDB` AUTO_INCREMENT = ? DEFAULT CHARSET = `utf8mb4` COLLATE = `utf8mb4_0900_ai_ci`	1	0	0
+3bc4d6cd68b1fee4355486056b4bb8bda84c39086be9f67b7f46a3a26d27bc92	CREATE TABLE `resource_slot_test` ( `id` INT8 NOT NULL AUTO_INCREMENT , `resource_id` INT8 NOT NULL , `start_time` DATETIME NOT NULL , `end_time` DATETIME NOT NULL , `status` VARCHARACTER (?) NOT NULL , PRIMARY KEY ( `id` ) , KEY `idx_resource_id` ( `resource_id` ) , KEY `idx_resource_id_AND_start_time` ( `resource_id` , `start_time` ) , KEY `idx_r_i_s_t` ( `resource_id` , `start_time` ) ) ENGINE = `InnoDB` AUTO_INCREMENT = ? DEFAULT CHARSET = `utf8mb4` COLLATE = `utf8mb4_0900_ai_ci`	1	0	0
+8992fe318c82ac2e47e736a5f568fa332d854a470196ffdc6cbfac6864499e8d	CREATE TABLE `user` ( `id` INT8 NOT NULL AUTO_INCREMENT , `username` VARCHARACTER (?) NOT NULL , `password` VARCHARACTER (?) NOT NULL , `email` VARCHARACTER (?) DEFAULT ? , `created_at` DATETIME NOT NULL , PRIMARY KEY ( `id` ) , UNIQUE KEY `uk_user_username` ( `username` ) , UNIQUE KEY `email` ( `email` ) ) ENGINE = `InnoDB` AUTO_INCREMENT = ? DEFAULT CHARSET = `utf8mb4` COLLATE = `utf8mb4_0900_ai_ci`	1	0	0
+44e35cee979ba420eb49a8471f852bbe15b403c89742704817dfbaace0d99dbb	SELECT @@`version_comment` LIMIT ?	24	24	24
+9cf78ec1ee2746bb4c688b21593f69a1eba7026ba2277d7717cd8defb167449a	SET SESSION TRANSACTION READ ONLY	23	0	0
+b57cf422fbfb5629759554d7a60a31947a2333a6e1b55d7dce60a94aa1eed044	START TRANSACTION	24	0	0
+6bb68f3f7629ad9d4226054a186f5ff28e790287c169ed27a770003e392bc2ec	SELECT COUNT ( * ) FROM `compute_resource`	1	1	0
+f2b9be5f0f32ca7507e4ddf133cd2fad0993a1c26fde9caa6f067b1af2b7603c	COMMIT	23	0	0
+0bd7096daea9d00164a1671a37a75eab997f6ec128321cfed65eb9603dddd231	INSERT INTO `compute_resource` ( `id` , NAME , TYPE , STATUS , `created_at` ) VALUES ( ?, ... , NOW ( ) )	1	0	0
+2ab0105ef9ea3b05423ee3cf91f5961c6feae592cf3cc76e265264b1ecc92e83	INSERT INTO `resource_slot` ( `resource_id` , `slot_start` , `slot_end` , STATUS ) VALUES (...) /* , ... */	1	0	0
+e7395e03384df0e4ea02ab984bb91999a325a92f89bfd0ff89ccc16e333bd6bc	SELECT DATE ( `slot_start` ) , `id` FROM `resource_slot` ORDER BY `slot_start` , `id`	1	12240	24480
+390558c02c750f72b730296a047e552ea4212826c0745599d8e4c99ffc998c40	SELECT `id` , NAME , TYPE , STATUS FROM `compute_resource`	1	1	1
+4bff983a785bd1b22b69a24e6f401b4cccbe4c70f1d66e43902d1b6512194b17	SELECT `resource_id` , COUNT ( * ) , MIN ( `slot_start` ) , MAX ( `slot_start` ) FROM `resource_slot` GROUP BY `resource_id`	1	1	12240
+e6f8830190283ce254e43b492706194e7bb64866cdc91358797a1df542580f5c	SELECT COUNT ( * ) FROM `reservation`	1	1	0
+377e221a842890d6191443291375a75e488a65c86c82528507765dcb9285e6ec	SELECT COUNT ( * ) FROM SYSTEM_USER	1	1	0
+141235c13d72e1cf708c047f88d9acbf7f6dff7b30186267d1269837418ab8ae	EXPLAIN SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`	1	1	0
+c20fcea11911be36651b7ca7bd3712d4ed9ac1134cee9c6620039e1fb13b5eff	SELECT @@SESSION . `auto_increment_increment` AS `auto_increment_increment` , @@`character_set_client` AS `character_set_client` , @@`character_set_connection` AS `character_set_connection` , @@`character_set_results` AS `character_set_results` , @@`character_set_server` AS `character_set_server` , @@`collation_server` AS `collation_server` , @@`collation_connection` AS `collation_connection` , @@`init_connect` AS `init_connect` , @@`interactive_timeout` AS `interactive_timeout` , @@`license` AS `license` , @@`lower_case_table_names` AS `lower_case_table_names` , @@`max_allowed_packet` AS `max_allowed_packet` , @@`net_write_timeout` AS `net_write_timeout` , @@`performance_schema` AS `performance_schema` , @@`sql_mode` AS `sql_mode` , @@`system_time_zone` AS `system_time_zone` , @@`time_zone` AS `time_zone` , @@`transaction_isolation` AS `transaction_isolation` , @@`wait_timeout` AS `wait_timeout`	10	10	10
+ee697e4b4152b6204eb23d2a055339cc8262297cf42467b78c1e241ddfcfbce3	SET `character_set_results` = ?	10	0	0
+158bfe3d4b4b0a372a4acdb38affe2cb4f6b3cb21a9af0ea9fad9a9a083ac18a	SET `autocommit` = ?	10	0	0
+c16f24f908846019a741db580f6545a5933e9435a7cf1579c50794a6ca287739	SELECT @@SESSION . `transaction_read_only`	10	10	10
+a724a21545b602d4ae826ae58bbf526427a94f1e68ebec539ec3c53bfaa88281	SELECT @@SESSION . `transaction_isolation`	1	1	1
+c58da39c495dbd86427d2f16f64848cbfe3486ff3cb81f32b037f0d2d0605db2	SELECT `id` , NAME , TYPE , STATUS , `created_at` FROM `compute_resource` ORDER BY `id`	1	1	1
+226308acb95ff89c702a144b4fa20b6eddb62104d7ad51ee3b749685c59db957	SELECT `id` FROM `reservation` WHERE STATUS = ? AND `expire_at` IS NOT NULL AND `expire_at` <= NOW (?) ORDER BY `expire_at` ASC , `id` ASC LIMIT ?	5	0	0
+29fb41e9456bc340b28bb52047df05e35cebbd3eb9009bfaf0bcdb1fd837ae7b	SELECT NAME FROM `compute_resource` WHERE `id` = ?	7	7	7
+3cb63e34a9d494e61f41e17e9e68d5160c3edbdd53f0f150307672dea7ff35eb	SELECT `DIGEST` , `DIGEST_TEXT` , `COUNT_STAR` , `SUM_TIMER_WAIT` , `SUM_ROWS_SENT` , `SUM_ROWS_EXAMINED` FROM `performance_schema` . `events_statements_summary_by_digest` WHERE SCHEMA_NAME = ? AND `DIGEST_TEXT` LIKE ? AND `DIGEST_TEXT` LIKE ? AND `DIGEST_TEXT` LIKE ?	11	21	338
+2b54960131f13e7f1d47931c15159a0382772ad03b808da5316593b115310587	SELECT `id` , NAME , TYPE , STATUS , `created_at` FROM `compute_resource` WHERE `id` = ?	5	5	5
+19991c8a0b8df2151247be3a578979f470b28beaca0c41aa37a9d4c540662435	SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`	3108	6216	6210
+40a6be69239b76e0ebdf419104fea31bd4b3c1f9b733d6d18d888c7712e7b4ef	SELECT NAME , `enabled` FROM `performance_schema` . `setup_consumers` WHERE NAME LIKE ?	1	5	16
+83e908c85e9e155e4f4d99041b43b356884199df01e2d40fb1cceaf0d4822647	SELECT `THREAD_ID` , `PROCESSLIST_ID` , `PROCESSLIST_USER` , `PROCESSLIST_DB` , `PROCESSLIST_COMMAND` FROM `performance_schema` . `threads` WHERE `PROCESSLIST_DB` = ?	1	11	49
+bdac9278560e8ff6b0584d84c5160bb5b1cbd7f92343dfd8603f310ac58b71b1	SELECT `THREAD_ID` , `EVENT_NAME` , `COUNT_STAR` FROM `performance_schema` . `events_statements_summary_by_thread_by_event_name` WHERE `COUNT_STAR` > ? AND `EVENT_NAME` LIKE ? AND `THREAD_ID` IN ( SELECT `THREAD_ID` FROM `performance_schema` . `threads` WHERE `PROCESSLIST_DB` = ? )	1	33	2348
+TABLE	d24cache_20261022_185550_9afb96	compute_resource	15	332545122	14528927	22169427	55016969	14	277528153	14528927	19823174	46586400	1	55016969	55016969	55016969	55016969	14	277528153	14528927	19823174	46586400	1	55016969	55016969	55016969	55016969	0	0	0	0	0	0	0	0	0	0
+TABLE	d24cache_20261022_185550_9afb96	mq_consume_record	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+TABLE	d24cache_20261022_185550_9afb96	reservation	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+TABLE	d24cache_20261022_185550_9afb96	resource_slot	42940	202062234878	1346380	4705309	12034758463	30700	63859365493	5692379	2079868	1467705358	12240	138202869385	1346380	11291007	12034758463	30700	63859365493	5692379	2079868	1467705358	12240	138202869385	1346380	11291007	12034758463	0	0	0	0	0	0	0	0	0	0
+TABLE	d24cache_20261022_185550_9afb96	resource_slot_test	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+TABLE	d24cache_20261022_185550_9afb96	user	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0

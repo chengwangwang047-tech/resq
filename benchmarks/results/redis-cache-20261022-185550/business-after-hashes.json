@@ -1,0 +1,8 @@
+{
+  "compute_resource": "328dd4b499452b069cc9bf7eed8074c29561ab01ce07a48cf29a618b37dd1123",
+  "mq_consume_record": "1db1c8e2c69ebca27d21b3ea74efedc05006485edf7e4c0e8fd0043f41980da9",
+  "reservation": "e247f580e317a823964d93af607abfa780bee1439f2c7ad4edbc603ed0cc5de7",
+  "resource_slot": "a4dd7dbcd68c66dd2394d130a18e4bd9058d08d9114e1b56821d15478cfe036c",
+  "resource_slot_test": "a4bc62473834fc3dfdf3d2430ded7ca77b979160dd259ddd6d1d042db4afdc79",
+  "user": "1bec8417cf1fefb0aec7fba5836410d09ee87eac809b1b632a781b744749626f"
+}

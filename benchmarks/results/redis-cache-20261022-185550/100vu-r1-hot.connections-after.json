@@ -1,0 +1,79 @@
+{
+  "threads": {
+    "201": 1081,
+    "202": 929,
+    "203": 774,
+    "204": 668,
+    "205": 616,
+    "206": 534,
+    "207": 396,
+    "208": 373,
+    "209": 390,
+    "210": 388
+  },
+  "thread_details": {
+    "201": {
+      "connection_id": 150,
+      "rows_sent": 2134,
+      "rows_examined": 2134
+    },
+    "202": {
+      "connection_id": 151,
+      "rows_sent": 1855,
+      "rows_examined": 1855
+    },
+    "203": {
+      "connection_id": 152,
+      "rows_sent": 1546,
+      "rows_examined": 1546
+    },
+    "204": {
+      "connection_id": 153,
+      "rows_sent": 1333,
+      "rows_examined": 1333
+    },
+    "205": {
+      "connection_id": 154,
+      "rows_sent": 1230,
+      "rows_examined": 1230
+    },
+    "206": {
+      "connection_id": 155,
+      "rows_sent": 1066,
+      "rows_examined": 1066
+    },
+    "207": {
+      "connection_id": 156,
+      "rows_sent": 790,
+      "rows_examined": 790
+    },
+    "208": {
+      "connection_id": 157,
+      "rows_sent": 744,
+      "rows_examined": 744
+    },
+    "209": {
+      "connection_id": 158,
+      "rows_sent": 778,
+      "rows_examined": 778
+    },
+    "210": {
+      "connection_id": 159,
+      "rows_sent": 774,
+      "rows_examined": 774
+    }
+  },
+  "background_due_scan_count": 9,
+  "business_select_digests": {
+    "SELECT COUNT ( * ) FROM `compute_resource`": 1,
+    "SELECT DATE ( `slot_start` ) , `id` FROM `resource_slot` ORDER BY `slot_start` , `id`": 1,
+    "SELECT `id` , NAME , TYPE , STATUS FROM `compute_resource`": 1,
+    "SELECT `resource_id` , COUNT ( * ) , MIN ( `slot_start` ) , MAX ( `slot_start` ) FROM `resource_slot` GROUP BY `resource_id`": 1,
+    "SELECT COUNT ( * ) FROM `reservation`": 1,
+    "SELECT `id` , NAME , TYPE , STATUS , `created_at` FROM `compute_resource` ORDER BY `id`": 1,
+    "SELECT `id` FROM `reservation` WHERE STATUS = ? AND `expire_at` IS NOT NULL AND `expire_at` <= NOW (?) ORDER BY `expire_at` ASC , `id` ASC LIMIT ?": 9,
+    "SELECT NAME FROM `compute_resource` WHERE `id` = ?": 11,
+    "SELECT `id` , NAME , TYPE , STATUS , `created_at` FROM `compute_resource` WHERE `id` = ?": 8,
+    "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`": 6099
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "run_id": "d24cache_20261022_185550_9afb96",
+  "root": "/home/colaminos/resq",
+  "out": "/home/colaminos/resq/benchmarks/results/d24cache_20261022_185550_9afb96",
+  "schema": "d24cache_20261022_185550_9afb96",
+  "redis_db": 15,
+  "resource_id": 24000001,
+  "port": 8080
+}

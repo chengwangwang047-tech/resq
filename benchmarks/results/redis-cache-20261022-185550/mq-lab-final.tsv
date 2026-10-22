@@ -1,0 +1,5 @@
+name	messages_ready	messages_unacknowledged	consumers
+resq.reservation.timeout.delay.queue.600s	0	0	0
+resq.notification.queue	0	0	0
+resq.reservation.timeout.failed.queue	0	0	0
+resq.reservation.timeout.dead.queue	0	0	0

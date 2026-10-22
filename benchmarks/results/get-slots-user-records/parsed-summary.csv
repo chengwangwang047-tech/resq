@@ -1,0 +1,4 @@
+vus,configured_duration_seconds,sleep_seconds_current_script,requests,actual_rps,avg_ms,median_ms,p90_ms,p95_ms,p99_ms,min_ms,max_ms,http_failure_rate,checks,check_failures,interrupted_iterations,displayed_elapsed_seconds
+50,30,1,1500,47.534349,5.38,5.19,8.5,9.44,10.77,1.57,11.42,0,3000,0,0,31.6
+100,30,1,3000,94.950234,5.97,5.31,8.81,10.46,23.34,1.11,28.21,0,6000,0,0,31.6
+200,30,1,6000,189.551159,6.55,5.63,9.81,14.68,24.25,1.23,31.63,0,12000,0,0,31.7

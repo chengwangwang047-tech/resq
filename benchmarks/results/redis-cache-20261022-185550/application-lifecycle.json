@@ -1,0 +1,21 @@
+{
+  "pid": 233843,
+  "start": "2026-10-22T10:59:06.616535+00:00",
+  "jar": "/home/colaminos/resq/benchmarks/results/d24cache_20261022_185550_9afb96/build/target/resq-0.0.1-SNAPSHOT.jar",
+  "jvm_flags": [
+    "-Xms512m",
+    "-Xmx512m"
+  ],
+  "overrides": {
+    "RESQ_DB_URL": "jdbc:mysql://127.0.0.1:3306/d24cache_20261022_185550_9afb96?characterEncoding=UTF-8&connectionTimeZone=Asia/Shanghai",
+    "SPRING_RABBITMQ_VIRTUAL_HOST": "d24cache_20261022_185550_9afb96",
+    "SPRING_DATA_REDIS_DATABASE": "15",
+    "SPRING_APPLICATION_JSON": "{\"logging\": {\"level\": {\"root\": \"INFO\", \"com.resq.cache\": \"INFO\", \"com.resq.service.ResourceService\": \"INFO\"}}}"
+  },
+  "original_app_listening": false,
+  "service_dependencies_isolated": true,
+  "ready": "2026-10-22T10:59:11.959169+00:00",
+  "stop_requested": "2026-10-22T11:17:43.254415+00:00",
+  "stopped_observed": "2026-10-22T11:17:44.256101+00:00",
+  "port8080_listening": false
+}

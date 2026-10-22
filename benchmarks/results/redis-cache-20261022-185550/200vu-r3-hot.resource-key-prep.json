@@ -1,0 +1,6 @@
+{
+  "exact_owned_key": "resource:24000001",
+  "redis_db": 15,
+  "removed": 1,
+  "purpose": "normal API refill before both arms, outside timing"
+}

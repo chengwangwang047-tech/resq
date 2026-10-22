@@ -1,0 +1,16 @@
+{
+  "e7395e03384df0e4ea02ab984bb91999a325a92f89bfd0ff89ccc16e333bd6bc": {
+    "digest_text": "SELECT DATE ( `slot_start` ) , `id` FROM `resource_slot` ORDER BY `slot_start` , `id`",
+    "count": 1,
+    "sum_timer_ps": 2984640000,
+    "rows_sent": 12240,
+    "rows_examined": 24480
+  },
+  "19991c8a0b8df2151247be3a578979f470b28beaca0c41aa37a9d4c540662435": {
+    "digest_text": "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`",
+    "count": 3108,
+    "sum_timer_ps": 627752467000,
+    "rows_sent": 6216,
+    "rows_examined": 6210
+  }
+}

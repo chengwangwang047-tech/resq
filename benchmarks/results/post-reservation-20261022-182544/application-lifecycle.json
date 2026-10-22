@@ -1,0 +1,16 @@
+{
+  "maven_pid": 206891,
+  "started_at": "2026-10-22T10:24:13.457733+00:00",
+  "command": "mvn -q spring-boot:run",
+  "overrides": [],
+  "initial_http_service": "not listening",
+  "existing_due_pending": 0,
+  "notification_queue_ready": 0,
+  "timeout_dead_queue_ready": 0,
+  "timeout_failed_queue_ready": 2,
+  "stop_requested_at_utc": "2026-10-22T10:32:48.022824+00:00",
+  "stopped_observed_at_utc": "2026-10-22T10:32:48.775820+00:00",
+  "port_8080_listening_after_stop": false,
+  "signal": "SIGTERM to verified self-created process group",
+  "data_cleanup_performed": false
+}

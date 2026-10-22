@@ -1,0 +1,34 @@
+{
+  "label": "50vu-r2-cold",
+  "vus": 50,
+  "arm": "cold",
+  "repeat": 2,
+  "start": "2026-10-22T11:02:40.292819+00:00",
+  "end": "2026-10-22T11:03:12.113810+00:00",
+  "k6_exit": 0,
+  "iterations_per_vu": 30,
+  "prep": {
+    "cold_unique_keys": 1500
+  },
+  "keys_before": {
+    "target_keys": 1500,
+    "present": 0,
+    "min_pttl_ms": 999999999,
+    "max_pttl_ms": -3
+  },
+  "keys_after": {
+    "target_keys": 1500,
+    "present": 1500,
+    "min_pttl_ms": 269188,
+    "max_pttl_ms": 358413
+  },
+  "resource_pttl_before_ms": 349997,
+  "slot_select_delta": 1498,
+  "expected_slot_selects": 1500,
+  "redis_observed": {
+    "GET_resource": 1500,
+    "GET_slot": 1500,
+    "SET_slot": 1500,
+    "slot_unique_get_keys": 1500
+  }
+}

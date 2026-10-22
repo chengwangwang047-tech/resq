@@ -1,0 +1,5 @@
+observed_utc=2026-10-22T11:08:26.527131+00:00
+Variable_name	Value
+Performance_schema_digest_lost	0
+@@performance_schema_digests_size
+10000

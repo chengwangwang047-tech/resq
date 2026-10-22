@@ -1,0 +1,17 @@
+{
+  "redis_db": 15,
+  "count": 0,
+  "keys": [
+    "resource:24000001:slots:2096-06-05",
+    "resource:24000001:slots:2096-06-06",
+    "resource:24000001:slots:2096-06-07",
+    "resource:24000001:slots:2096-06-08",
+    "resource:24000001:slots:2096-06-09",
+    "resource:24000001:slots:2096-06-10",
+    "resource:24000001:slots:2096-06-11",
+    "resource:24000001:slots:2096-06-12",
+    "resource:24000001:slots:2096-06-13",
+    "resource:24000001:slots:2096-06-14"
+  ],
+  "scope": "only owned manifest slot keys; resource cache retained"
+}

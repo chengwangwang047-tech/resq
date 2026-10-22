@@ -1,0 +1,7 @@
+{
+  "finished": "2026-10-22T10:59:30.187695+00:00",
+  "requests": 2100,
+  "dates": 100,
+  "concurrency": 16,
+  "excluded_from_formal_results": true
+}

@@ -1,0 +1,16 @@
+{
+  "order": [
+    [
+      200,
+      "cold",
+      3
+    ],
+    [
+      200,
+      "hot",
+      3
+    ]
+  ],
+  "monitor_enabled": false,
+  "purpose": "check observer sensitivity on same JVM; kept separate from main results"
+}

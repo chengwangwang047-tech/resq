@@ -1,0 +1,22 @@
+[
+  {
+    "event": "reservation_race_plan",
+    "run_id": "d24_20261022_182544_3163fc_n100",
+    "slot_id": 118,
+    "vus": 100,
+    "attempts_per_vu": 1,
+    "executor": "per-vu-iterations",
+    "credential_mode": "independent_users",
+    "selected_users": 100,
+    "setup_at_ms": 1792664940193,
+    "target_start_at_ms": 1792664945193,
+    "target_start_at_utc": "2026-10-22T10:29:05.193Z",
+    "request_timeout": "5s",
+    "http_req_failed_expected_statuses": [
+      201,
+      409
+    ],
+    "technical_failure_definition": "status=0 or status>=500",
+    "unexpected_definition": "neither 201 nor exact inventory 409 nor 429; includes technical failures"
+  }
+]

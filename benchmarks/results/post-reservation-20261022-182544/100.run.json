@@ -1,0 +1,57 @@
+{
+  "vus": 100,
+  "slot_id": 118,
+  "run_id": "d24_20261022_182544_3163fc_n100",
+  "process_start_utc": "2026-10-22T10:29:00.134315+00:00",
+  "executor": {
+    "executor": "per-vu-iterations",
+    "startTime": null,
+    "gracefulStop": null,
+    "env": null,
+    "exec": null,
+    "tags": null,
+    "vus": 100,
+    "iterations": 1,
+    "maxDuration": "30s"
+  },
+  "preconditions": [
+    {
+      "id": 118,
+      "name": "DAY24_BENCH_ONLY_d24_20261022_182544_3163fc",
+      "total": 0,
+      "active": 0,
+      "status": "AVAILABLE"
+    }
+  ],
+  "command": [
+    "k6",
+    "run",
+    "--summary-mode=full",
+    "--summary-trend-stats=avg,min,med,max,p(90),p(95),p(99)",
+    "--summary-export=/home/colaminos/resq/benchmarks/results/d24_20261022_182544_3163fc/100.summary.json",
+    "--out",
+    "json=/home/colaminos/resq/benchmarks/results/d24_20261022_182544_3163fc/100.metrics.ndjson",
+    "benchmarks/post-reservation-race.js"
+  ],
+  "process_end_utc": "2026-10-22T10:29:06.084090+00:00",
+  "process_wall_seconds": 5.949768246999156,
+  "k6_exit_code": 0,
+  "logged_requests": 100,
+  "statuses": {
+    "201": 1,
+    "409": 99
+  },
+  "classifications": {
+    "created": 1,
+    "inventory_conflict": 99
+  },
+  "first_call_start_ms": 1792664945193,
+  "last_call_start_ms": 1792664945219,
+  "last_call_end_ms": 1792664945569,
+  "call_start_spread_ms": 26,
+  "request_window_ms": 376,
+  "peak_overlapping_client_calls_ms_resolution": 100,
+  "analysis_note": "Derived by decoding the quoted msg field of the unchanged original k6 log.",
+  "analysis_updated_at_utc": "2026-10-22T10:32:42.985095+00:00",
+  "overlap_definition": "half-open [start,end); end before start at the same logged millisecond"
+}

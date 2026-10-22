@@ -1,0 +1,203 @@
+{
+  "blocks": [
+    {
+      "label": "100vu-r1-cold",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` FROM `reservation` WHERE STATUS = ? AND `expire_at` IS NOT NULL AND `expire_at` <= NOW (?) ORDER BY `expire_at` ASC , `id` ASC LIMIT ?": 1,
+        "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`": 2996
+      },
+      "total_connection_SELECT_delta": 3001,
+      "background_scan_delta": 1,
+      "derived_slot_SELECTs": 3000,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 6000,
+      "rows_sent_match": true
+    },
+    {
+      "label": "100vu-r1-hot",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {},
+      "total_connection_SELECT_delta": 0,
+      "background_scan_delta": 0,
+      "derived_slot_SELECTs": 0,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 0,
+      "rows_sent_match": true
+    },
+    {
+      "label": "100vu-r2-cold",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`": 2996
+      },
+      "total_connection_SELECT_delta": 3000,
+      "background_scan_delta": 0,
+      "derived_slot_SELECTs": 3000,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 6000,
+      "rows_sent_match": true
+    },
+    {
+      "label": "100vu-r2-hot",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` FROM `reservation` WHERE STATUS = ? AND `expire_at` IS NOT NULL AND `expire_at` <= NOW (?) ORDER BY `expire_at` ASC , `id` ASC LIMIT ?": 1
+      },
+      "total_connection_SELECT_delta": 1,
+      "background_scan_delta": 1,
+      "derived_slot_SELECTs": 0,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 0,
+      "rows_sent_match": true
+    },
+    {
+      "label": "200vu-r1-cold",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`": 5987
+      },
+      "total_connection_SELECT_delta": 6000,
+      "background_scan_delta": 0,
+      "derived_slot_SELECTs": 6000,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 12000,
+      "rows_sent_match": true
+    },
+    {
+      "label": "200vu-r1-hot",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` FROM `reservation` WHERE STATUS = ? AND `expire_at` IS NOT NULL AND `expire_at` <= NOW (?) ORDER BY `expire_at` ASC , `id` ASC LIMIT ?": 1
+      },
+      "total_connection_SELECT_delta": 1,
+      "background_scan_delta": 1,
+      "derived_slot_SELECTs": 0,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 0,
+      "rows_sent_match": true
+    },
+    {
+      "label": "200vu-r2-cold",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` FROM `reservation` WHERE STATUS = ? AND `expire_at` IS NOT NULL AND `expire_at` <= NOW (?) ORDER BY `expire_at` ASC , `id` ASC LIMIT ?": 1,
+        "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`": 5993
+      },
+      "total_connection_SELECT_delta": 6001,
+      "background_scan_delta": 1,
+      "derived_slot_SELECTs": 6000,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 12000,
+      "rows_sent_match": true
+    },
+    {
+      "label": "200vu-r2-hot",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {},
+      "total_connection_SELECT_delta": 0,
+      "background_scan_delta": 0,
+      "derived_slot_SELECTs": 0,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 0,
+      "rows_sent_match": true
+    },
+    {
+      "label": "200vu-r3-cold",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`": 5991
+      },
+      "total_connection_SELECT_delta": 6000,
+      "background_scan_delta": 0,
+      "derived_slot_SELECTs": 6000,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 12000,
+      "rows_sent_match": true
+    },
+    {
+      "label": "200vu-r3-hot",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {},
+      "total_connection_SELECT_delta": 0,
+      "background_scan_delta": 0,
+      "derived_slot_SELECTs": 0,
+      "derived_matches_expected": true,
+      "rows_sent_collected": true,
+      "rows_sent_delta": 0,
+      "rows_sent_match": true
+    },
+    {
+      "label": "50vu-r4-cold",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`": 1494
+      },
+      "total_connection_SELECT_delta": 1500,
+      "background_scan_delta": 0,
+      "derived_slot_SELECTs": 1500,
+      "derived_matches_expected": true,
+      "rows_sent_collected": false,
+      "rows_sent_delta": null
+    },
+    {
+      "label": "50vu-r4-hot",
+      "thread_ids_stable": true,
+      "connection_ids_stable": true,
+      "connections": 10,
+      "only_expected_business_sql_changed": true,
+      "business_sql_digest_deltas": {
+        "SELECT `id` FROM `reservation` WHERE STATUS = ? AND `expire_at` IS NOT NULL AND `expire_at` <= NOW (?) ORDER BY `expire_at` ASC , `id` ASC LIMIT ?": 1
+      },
+      "total_connection_SELECT_delta": 1,
+      "background_scan_delta": 1,
+      "derived_slot_SELECTs": 0,
+      "derived_matches_expected": true,
+      "rows_sent_collected": false,
+      "rows_sent_delta": null
+    }
+  ],
+  "all_checks_passed": true
+}

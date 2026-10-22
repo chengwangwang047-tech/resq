@@ -1,0 +1,225 @@
+{
+    "setup_data": {
+        "startAt": 1792664938993
+    },
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "created or inventory business conflict": {
+                    "passes": 50,
+                    "fails": 0,
+                    "name": "created or inventory business conflict",
+                    "path": "::created or inventory business conflict",
+                    "id": "d0c90dd1421a4fe67a9c689363b23059"
+                }
+            }
+    },
+    "metrics": {
+        "http_req_sending": {
+            "p(99)": 0.22547411999999994,
+            "avg": 0.05328523999999997,
+            "min": 0.009048,
+            "med": 0.038951,
+            "max": 0.238906,
+            "p(90)": 0.10976270000000005,
+            "p(95)": 0.15710204999999997
+        },
+        "reservation_request_start_offset_ms": {
+            "avg": 2.88,
+            "min": 1,
+            "med": 3,
+            "max": 5,
+            "p(90)": 4,
+            "p(95)": 4.549999999999997,
+            "p(99)": 5
+        },
+        "http_req_duration": {
+            "min": 471.028893,
+            "med": 561.2610374999999,
+            "max": 649.635192,
+            "p(90)": 632.9549198,
+            "p(95)": 639.2952981,
+            "p(99)": 647.52017168,
+            "avg": 561.6273294800001
+        },
+        "http_req_blocked": {
+            "med": 3.667877,
+            "max": 6.504361,
+            "p(90)": 5.3522902,
+            "p(95)": 5.6180787,
+            "p(99)": 6.42521767,
+            "avg": 3.467335780000001,
+            "min": 0.983953
+        },
+        "data_received": {
+            "count": 9363,
+            "rate": 1654.8720116560085
+        },
+        "reservation_http_409": {
+            "count": 49,
+            "rate": 8.660549884774582
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 50,
+            "value": 0
+        },
+        "iterations": {
+            "count": 50,
+            "rate": 8.83729580079039,
+            "thresholds": {
+                "count==50": false
+            }
+        },
+        "reservation_unexpected_rate": {
+            "fails": 50,
+            "passes": 0,
+            "thresholds": {
+                "rate==0": false
+            },
+            "value": 0
+        },
+        "data_sent": {
+            "count": 17891,
+            "rate": 3162.1611834388173
+        },
+        "http_req_duration{expected_response:true}": {
+            "max": 649.635192,
+            "p(90)": 632.9549198,
+            "p(95)": 639.2952981,
+            "p(99)": 647.52017168,
+            "avg": 561.6273294800001,
+            "min": 471.028893,
+            "med": 561.2610374999999
+        },
+        "vus_max": {
+            "value": 50,
+            "min": 50,
+            "max": 50
+        },
+        "http_reqs": {
+            "count": 50,
+            "rate": 8.83729580079039,
+            "thresholds": {
+                "count==50": false
+            }
+        },
+        "reservation_created": {
+            "count": 1,
+            "rate": 0.1767459160158078,
+            "thresholds": {
+                "count==1": false
+            }
+        },
+        "http_req_connecting": {
+            "p(99)": 6.022360859999998,
+            "avg": 3.3822008400000003,
+            "min": 0.952928,
+            "med": 3.607226,
+            "max": 6.440814,
+            "p(90)": 5.2893505,
+            "p(95)": 5.37510135
+        },
+        "reservation_unexpected": {
+            "count": 0,
+            "rate": 0,
+            "thresholds": {
+                "count==0": false
+            }
+        },
+        "reservation_rate_limited": {
+            "count": 0,
+            "rate": 0,
+            "thresholds": {
+                "count==0": false
+            }
+        },
+        "reservation_http_other": {
+            "count": 0,
+            "rate": 0
+        },
+        "reservation_conflict": {
+            "rate": 8.660549884774582,
+            "count": 49,
+            "thresholds": {
+                "count==49": false
+            }
+        },
+        "iteration_duration": {
+            "min": 5479.259787,
+            "med": 5568.226107500001,
+            "max": 5656.056792,
+            "p(90)": 5639.4153863,
+            "p(95)": 5646.659442849999,
+            "p(99)": 5653.89438427,
+            "avg": 5568.20865406
+        },
+        "vus": {
+            "value": 50,
+            "min": 50,
+            "max": 50
+        },
+        "http_req_receiving": {
+            "p(90)": 0.1348984,
+            "p(95)": 0.14990309999999996,
+            "p(99)": 0.22150229999999982,
+            "avg": 0.07335520000000001,
+            "min": 0.037755,
+            "med": 0.0547285,
+            "max": 0.263755
+        },
+        "reservation_call_duration_ms": {
+            "med": 564,
+            "max": 652,
+            "p(90)": 635.3,
+            "p(95)": 645.1,
+            "p(99)": 649.55,
+            "avg": 565.16,
+            "min": 477
+        },
+        "http_req_tls_handshaking": {
+            "med": 0,
+            "max": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0,
+            "avg": 0,
+            "min": 0
+        },
+        "http_req_waiting": {
+            "p(99)": 647.4089242599999,
+            "avg": 561.50068904,
+            "min": 470.841116,
+            "med": 561.1281255,
+            "max": 649.493691,
+            "p(90)": 632.8762324,
+            "p(95)": 639.19820195
+        },
+        "checks": {
+            "passes": 50,
+            "fails": 0,
+            "thresholds": {
+                "rate==1": false
+            },
+            "value": 1
+        },
+        "reservation_technical_failure": {
+            "count": 0,
+            "rate": 0,
+            "thresholds": {
+                "count==0": false
+            }
+        },
+        "reservation_technical_failure_rate": {
+            "passes": 0,
+            "fails": 50,
+            "thresholds": {
+                "rate==0": false
+            },
+            "value": 0
+        }
+    }
+}

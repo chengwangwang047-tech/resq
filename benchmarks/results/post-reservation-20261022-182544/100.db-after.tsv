@@ -1,0 +1,10 @@
+observed_db_time	observed_utc_time	session_time_zone
+2026-10-22 18:29:06.089	2026-10-22 10:29:06.089	SYSTEM
+id	resource_id	name	slot_start	slot_end	status
+118	112	DAY24_BENCH_ONLY_d24_20261022_182544_3163fc	2099-01-24 10:00:00	2099-01-24 11:00:00	RESERVED
+status	rows_in_status
+PENDING	1
+effective_count
+1
+id	user_id	slot_id	status	request_id	created_at	expire_at
+58	38	118	PENDING	d24_20261022_182544_3163fc_n100_100_11_0	2026-10-22 18:29:05	2026-10-22 18:39:05.000

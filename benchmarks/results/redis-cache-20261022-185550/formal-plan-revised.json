@@ -1,0 +1,72 @@
+{
+  "accepted_50_order": [
+    [
+      50,
+      "cold",
+      1
+    ],
+    [
+      50,
+      "hot",
+      1
+    ],
+    [
+      50,
+      "hot",
+      4
+    ],
+    [
+      50,
+      "cold",
+      4
+    ]
+  ],
+  "remaining_order": [
+    [
+      100,
+      "hot",
+      1
+    ],
+    [
+      100,
+      "cold",
+      1
+    ],
+    [
+      100,
+      "cold",
+      2
+    ],
+    [
+      100,
+      "hot",
+      2
+    ],
+    [
+      200,
+      "cold",
+      1
+    ],
+    [
+      200,
+      "hot",
+      1
+    ],
+    [
+      200,
+      "hot",
+      2
+    ],
+    [
+      200,
+      "cold",
+      2
+    ]
+  ],
+  "excluded_blocks": [
+    "50vu-r2-hot",
+    "50vu-r2-cold"
+  ],
+  "exclusion_reason": "r2 cold shared digest count mismatch; paired hot kept as diagnostic; raw files retained",
+  "row_counter_added_from_100vu": true
+}

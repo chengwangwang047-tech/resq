@@ -1,0 +1,39 @@
+{
+  "label": "200vu-r2-cold",
+  "vus": 200,
+  "arm": "cold",
+  "repeat": 2,
+  "start": "2026-10-22T11:11:40.932608+00:00",
+  "end": "2026-10-22T11:12:12.929325+00:00",
+  "k6_exit": 0,
+  "iterations_per_vu": 30,
+  "prep": {
+    "cold_unique_keys": 6000
+  },
+  "keys_before": {
+    "target_keys": 6000,
+    "present": 0,
+    "min_pttl_ms": 999999999,
+    "max_pttl_ms": -3
+  },
+  "keys_after": {
+    "target_keys": 6000,
+    "present": 6000,
+    "min_pttl_ms": 267970,
+    "max_pttl_ms": 358315
+  },
+  "resource_pttl_before_ms": 323997,
+  "slot_select_delta": 5993,
+  "expected_slot_selects": 6000,
+  "redis_observed": {
+    "GET_resource": 6000,
+    "GET_slot": 6000,
+    "SET_slot": 6000,
+    "slot_unique_get_keys": 6000
+  },
+  "connection_select_delta": 6001,
+  "background_scan_delta": 1,
+  "slot_selects_via_connections": 6000,
+  "shared_digest_difference": -7,
+  "connection_rows_sent_delta": 12000
+}

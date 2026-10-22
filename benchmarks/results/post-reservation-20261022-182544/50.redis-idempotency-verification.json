@@ -1,0 +1,258 @@
+{
+  "observed_at_utc": "2026-10-22T10:32:42.982312+00:00",
+  "requests": [
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_44_0",
+      "state": "SUCCESS",
+      "ttl_seconds": 86177,
+      "reservation_id": "57",
+      "user_id": "71",
+      "slot_id": "117"
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_14_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_35_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_7_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_46_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_30_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_13_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_50_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_38_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_28_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_45_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_10_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_6_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_15_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_48_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_5_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_9_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_22_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_11_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_1_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_16_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_21_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_4_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_3_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_26_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_41_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_19_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_27_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_34_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_29_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_17_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_32_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_20_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_47_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_23_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_18_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_43_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_31_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_39_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_12_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_33_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_37_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_24_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_8_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_49_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_40_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_25_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_42_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_2_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    },
+    {
+      "key": "request:d24_20261022_182544_3163fc_n50_50_36_0",
+      "state": "ABSENT",
+      "ttl_seconds": -2
+    }
+  ]
+}

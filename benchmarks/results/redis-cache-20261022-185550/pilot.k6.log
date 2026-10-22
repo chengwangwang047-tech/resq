@@ -1,0 +1,86 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: /home/colaminos/resq/benchmarks/results/d24cache_20261022_185550_9afb96/cache_compare.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 2 max VUs, 2m5s max duration (incl. graceful stop):
+              * compare: 5 iterations for each of 2 VUs (maxDuration: 2m0s, gracefulStop: 5s)
+
+
+running (0m01.0s), 2/2 VUs, 0 complete and 0 interrupted iterations
+compare   [   0% ] 2 VUs  0m01.0s/2m0s  00/10 iters, 5 per VU
+
+running (0m02.0s), 2/2 VUs, 2 complete and 0 interrupted iterations
+compare   [  20% ] 2 VUs  0m02.0s/2m0s  02/10 iters, 5 per VU
+
+running (0m03.0s), 2/2 VUs, 4 complete and 0 interrupted iterations
+compare   [  40% ] 2 VUs  0m03.0s/2m0s  04/10 iters, 5 per VU
+
+running (0m04.0s), 2/2 VUs, 6 complete and 0 interrupted iterations
+compare   [  60% ] 2 VUs  0m04.0s/2m0s  06/10 iters, 5 per VU
+
+running (0m05.0s), 2/2 VUs, 8 complete and 0 interrupted iterations
+compare   [  80% ] 2 VUs  0m05.0s/2m0s  08/10 iters, 5 per VU
+
+
+  █ THRESHOLDS 
+
+    business_failure_rate
+    ✓ 'rate==0' rate=0.00%
+
+    checks
+    ✓ 'rate==1' rate=100.00%
+
+    http_req_failed
+    ✓ 'rate==0' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 20      3.971829/s
+    checks_succeeded...: 100.00% 20 out of 20
+    checks_failed......: 0.00%   0 out of 20
+
+
+    CUSTOM
+    business_failure_rate..........: 0.00%  0 out of 10
+    business_success...............: 10     1.985914/s
+
+    HTTP
+    http_req_duration..............: avg=6.1ms min=4.08ms med=6.85ms max=7.28ms p(90)=7.23ms p(95)=7.26ms p(99)=7.28ms
+      { expected_response:true }...: avg=6.1ms min=4.08ms med=6.85ms max=7.28ms p(90)=7.23ms p(95)=7.26ms p(99)=7.28ms
+    http_req_failed................: 0.00%  0 out of 10
+    http_reqs......................: 10     1.985914/s
+
+    EXECUTION
+    iteration_duration.............: avg=1s    min=1s     med=1s     max=1s     p(90)=1s     p(95)=1s     p(99)=1s    
+    iterations.....................: 10     1.985914/s
+    vus............................: 2      min=2       max=2
+    vus_max........................: 2      min=2       max=2
+
+    NETWORK
+    data_received..................: 3.7 kB 735 B/s
+    data_sent......................: 1.1 kB 226 B/s
+
+
+
+
+running (0m05.0s), 0/2 VUs, 10 complete and 0 interrupted iterations
+compare ✓ [ 100% ] 2 VUs  0m05.0s/2m0s  10/10 iters, 5 per VU
+time="2026-10-22T18:59:22+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":0,\"vu\":1,\"iteration\":0,\"date\":\"2096-06-05\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":4.086239,\"waiting_ms\":3.883459,\"at_ms\":1792666762846,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:22+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":1,\"vu\":2,\"iteration\":0,\"date\":\"2096-06-06\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":4.731271,\"waiting_ms\":4.540397,\"at_ms\":1792666762847,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:23+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":3,\"vu\":2,\"iteration\":1,\"date\":\"2096-06-08\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":6.727187,\"waiting_ms\":6.631439,\"at_ms\":1792666763854,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:23+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":2,\"vu\":1,\"iteration\":1,\"date\":\"2096-06-07\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":7.227874,\"waiting_ms\":6.873885,\"at_ms\":1792666763854,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:24+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":4,\"vu\":1,\"iteration\":2,\"date\":\"2096-06-09\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":4.56815,\"waiting_ms\":4.2659,\"at_ms\":1792666764859,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:24+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":5,\"vu\":2,\"iteration\":2,\"date\":\"2096-06-10\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":5.063033,\"waiting_ms\":4.506601,\"at_ms\":1792666764860,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:25+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":7,\"vu\":2,\"iteration\":3,\"date\":\"2096-06-12\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":7.182923,\"waiting_ms\":6.79095,\"at_ms\":1792666765868,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:25+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":6,\"vu\":1,\"iteration\":3,\"date\":\"2096-06-11\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":6.988679,\"waiting_ms\":6.685715,\"at_ms\":1792666765868,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:26+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":8,\"vu\":1,\"iteration\":4,\"date\":\"2096-06-13\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":7.180945,\"waiting_ms\":7.077551,\"at_ms\":1792666766876,\"arm\":\"pilot-hot\"}" source=console
+time="2026-10-22T18:59:26+08:00" level=info msg="{\"kind\":\"cache_request\",\"index\":9,\"vu\":2,\"iteration\":4,\"date\":\"2096-06-14\",\"status\":200,\"valid\":true,\"bytes\":245,\"duration_ms\":7.287913,\"waiting_ms\":7.003401,\"at_ms\":1792666766876,\"arm\":\"pilot-hot\"}" source=console

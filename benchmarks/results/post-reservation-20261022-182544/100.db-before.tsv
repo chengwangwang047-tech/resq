@@ -1,0 +1,6 @@
+observed_db_time	observed_utc_time	session_time_zone
+2026-10-22 18:29:00.114	2026-10-22 10:29:00.114	SYSTEM
+id	resource_id	name	slot_start	slot_end	status
+118	112	DAY24_BENCH_ONLY_d24_20261022_182544_3163fc	2099-01-24 10:00:00	2099-01-24 11:00:00	AVAILABLE
+effective_count
+0

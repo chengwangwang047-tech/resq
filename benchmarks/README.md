@@ -1,0 +1,40 @@
+# ResQ Day24 实验报告与证据
+
+三份正式报告统一放在 `benchmarks/`，按读取性能、预约竞争、缓存对照阅读。
+
+| 实验 | 正式报告 | 证据目录 |
+|---|---|---|
+| GET slots，50/100/200 VU读取压测 | [day24-get-slots-report.md](day24-get-slots-report.md) | [results/get-slots-user-records/](results/get-slots-user-records/) |
+| POST reservation，50/100/200 VU预约竞争 | [day24-post-reservation-report.md](day24-post-reservation-report.md) | [results/post-reservation-20261022-182544/](results/post-reservation-20261022-182544/) |
+| Redis热命中与首次miss回源对照 | [day24-redis-cache-report.md](day24-redis-cache-report.md) | [results/redis-cache-20261022-185550/](results/redis-cache-20261022-185550/) |
+
+```text
+benchmarks/
+├── README.md
+├── day24-get-slots-report.md
+├── day24-post-reservation-report.md
+├── day24-redis-cache-report.md
+├── get-slots.js
+├── post-reservation-race.js
+├── refresh-day24-test-tokens.py
+└── results/
+    ├── get-slots-user-records/
+    ├── post-reservation-20261022-182544/
+    ├── redis-cache-20261022-185550/
+    └── layout-migration.json
+```
+
+## 目录改名对应关系
+
+| 原目录 | 新目录 | 保留的历史实验编号 |
+|---|---|---|
+| `d24_20261022_182544_3163fc` | `post-reservation-20261022-182544` | `d24_20261022_182544_3163fc` |
+| `d24cache_20261022_185550_9afb96` | `redis-cache-20261022-185550` | `d24cache_20261022_185550_9afb96` |
+
+仅调整目录名称和正式报告入口。历史实验编号、测试资源名、数据库/vhost名、私有凭据目录、原始日志/SQL/JSON/脚本快照保持不变；它们记录的是当时执行事实，其中可能仍出现旧绝对路径。需要查阅历史文件时，用上表替换 `benchmarks/results/` 后的目录名。原有 `artifact-sha256.json` 等校验文件继续针对各证据目录内的原始相对路径生效。
+
+顶层POST报告与原证据目录内版本在整理前逐字节相同；顶层作为正式入口，证据目录内保留历史快照。Redis完整报告提升到顶层作为正式入口，原技术报告和结论也保留为历史快照。报告中的证据文件名除另注外，均相对于对应证据目录。
+
+GET资料来自用户提供的终端汇总，包含三轮原文和提取表；它没有原生逐请求采样，不能补造。POST、Redis目录包含独立实验的日志、检查证据和脚本。历史写请求命令、fixtures插入和执行脚本不能直接当作新实验重放；未来复测应使用新的实验标识和目录，先核查原服务及业务状态。
+
+本次仅整理文件、补写文档并从已提供记录提取数字，没有运行压测、启动服务或修改业务数据。迁移前后原证据文件哈希及非benchmarks文件完整性见 [layout-migration.json](results/layout-migration.json)。

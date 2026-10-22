@@ -1,0 +1,479 @@
+{
+  "before": {
+    "e7395e03384df0e4ea02ab984bb91999a325a92f89bfd0ff89ccc16e333bd6bc": {
+      "digest_text": "SELECT DATE ( `slot_start` ) , `id` FROM `resource_slot` ORDER BY `slot_start` , `id`",
+      "count": 1,
+      "sum_timer_ps": 2984640000,
+      "rows_sent": 12240,
+      "rows_examined": 24480
+    }
+  },
+  "after_cold": {
+    "e7395e03384df0e4ea02ab984bb91999a325a92f89bfd0ff89ccc16e333bd6bc": {
+      "digest_text": "SELECT DATE ( `slot_start` ) , `id` FROM `resource_slot` ORDER BY `slot_start` , `id`",
+      "count": 1,
+      "sum_timer_ps": 2984640000,
+      "rows_sent": 12240,
+      "rows_examined": 24480
+    },
+    "19991c8a0b8df2151247be3a578979f470b28beaca0c41aa37a9d4c540662435": {
+      "digest_text": "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`",
+      "count": 10,
+      "sum_timer_ps": 2258388000,
+      "rows_sent": 20,
+      "rows_examined": 20
+    }
+  },
+  "after_hot": {
+    "e7395e03384df0e4ea02ab984bb91999a325a92f89bfd0ff89ccc16e333bd6bc": {
+      "digest_text": "SELECT DATE ( `slot_start` ) , `id` FROM `resource_slot` ORDER BY `slot_start` , `id`",
+      "count": 1,
+      "sum_timer_ps": 2984640000,
+      "rows_sent": 12240,
+      "rows_examined": 24480
+    },
+    "19991c8a0b8df2151247be3a578979f470b28beaca0c41aa37a9d4c540662435": {
+      "digest_text": "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`",
+      "count": 10,
+      "sum_timer_ps": 2258388000,
+      "rows_sent": 20,
+      "rows_examined": 20
+    }
+  },
+  "keys_before": {
+    "target_keys": 10,
+    "present": 0,
+    "min_pttl_ms": 999999999,
+    "max_pttl_ms": -3
+  },
+  "keys_after_cold": {
+    "target_keys": 10,
+    "present": 10,
+    "min_pttl_ms": 300950,
+    "max_pttl_ms": 346960
+  },
+  "cold": [
+    {
+      "date": "2096-06-05",
+      "ms": 21.41782000035164,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12120,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-05T09:00:00",
+          "slotEnd": "2096-06-05T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12121,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-05T10:00:00",
+          "slotEnd": "2096-06-05T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-06",
+      "ms": 5.855596999026602,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12122,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-06T09:00:00",
+          "slotEnd": "2096-06-06T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12123,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-06T10:00:00",
+          "slotEnd": "2096-06-06T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-07",
+      "ms": 5.6196680016000755,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12124,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-07T09:00:00",
+          "slotEnd": "2096-06-07T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12125,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-07T10:00:00",
+          "slotEnd": "2096-06-07T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-08",
+      "ms": 5.4053089988883585,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12126,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-08T09:00:00",
+          "slotEnd": "2096-06-08T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12127,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-08T10:00:00",
+          "slotEnd": "2096-06-08T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-09",
+      "ms": 5.986669999401784,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12128,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-09T09:00:00",
+          "slotEnd": "2096-06-09T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12129,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-09T10:00:00",
+          "slotEnd": "2096-06-09T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-10",
+      "ms": 5.584241000178736,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12130,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-10T09:00:00",
+          "slotEnd": "2096-06-10T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12131,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-10T10:00:00",
+          "slotEnd": "2096-06-10T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-11",
+      "ms": 4.824297000595834,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12132,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-11T09:00:00",
+          "slotEnd": "2096-06-11T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12133,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-11T10:00:00",
+          "slotEnd": "2096-06-11T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-12",
+      "ms": 5.022166998969624,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12134,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-12T09:00:00",
+          "slotEnd": "2096-06-12T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12135,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-12T10:00:00",
+          "slotEnd": "2096-06-12T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-13",
+      "ms": 5.293566002364969,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12136,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-13T09:00:00",
+          "slotEnd": "2096-06-13T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12137,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-13T10:00:00",
+          "slotEnd": "2096-06-13T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-14",
+      "ms": 5.32828699942911,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12138,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-14T09:00:00",
+          "slotEnd": "2096-06-14T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12139,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-14T10:00:00",
+          "slotEnd": "2096-06-14T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    }
+  ],
+  "hot": [
+    {
+      "date": "2096-06-05",
+      "ms": 6.225114997505443,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12120,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-05T09:00:00",
+          "slotEnd": "2096-06-05T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12121,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-05T10:00:00",
+          "slotEnd": "2096-06-05T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-06",
+      "ms": 3.5778929996013176,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12122,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-06T09:00:00",
+          "slotEnd": "2096-06-06T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12123,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-06T10:00:00",
+          "slotEnd": "2096-06-06T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-07",
+      "ms": 3.388337001524633,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12124,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-07T09:00:00",
+          "slotEnd": "2096-06-07T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12125,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-07T10:00:00",
+          "slotEnd": "2096-06-07T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-08",
+      "ms": 3.1793609996384475,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12126,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-08T09:00:00",
+          "slotEnd": "2096-06-08T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12127,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-08T10:00:00",
+          "slotEnd": "2096-06-08T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-09",
+      "ms": 3.619696999521693,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12128,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-09T09:00:00",
+          "slotEnd": "2096-06-09T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12129,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-09T10:00:00",
+          "slotEnd": "2096-06-09T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-10",
+      "ms": 3.7135319980734494,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12130,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-10T09:00:00",
+          "slotEnd": "2096-06-10T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12131,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-10T10:00:00",
+          "slotEnd": "2096-06-10T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-11",
+      "ms": 3.7595399990095757,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12132,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-11T09:00:00",
+          "slotEnd": "2096-06-11T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12133,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-11T10:00:00",
+          "slotEnd": "2096-06-11T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-12",
+      "ms": 3.812789000221528,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12134,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-12T09:00:00",
+          "slotEnd": "2096-06-12T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12135,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-12T10:00:00",
+          "slotEnd": "2096-06-12T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-13",
+      "ms": 3.700506000313908,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12136,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-13T09:00:00",
+          "slotEnd": "2096-06-13T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12137,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-13T10:00:00",
+          "slotEnd": "2096-06-13T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    },
+    {
+      "date": "2096-06-14",
+      "ms": 3.041279000171926,
+      "bytes": 245,
+      "body": [
+        {
+          "id": 12138,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-14T09:00:00",
+          "slotEnd": "2096-06-14T10:00:00",
+          "status": "AVAILABLE"
+        },
+        {
+          "id": 12139,
+          "resourceId": 24000001,
+          "slotStart": "2096-06-14T10:00:00",
+          "slotEnd": "2096-06-14T11:00:00",
+          "status": "AVAILABLE"
+        }
+      ]
+    }
+  ]
+}

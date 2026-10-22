@@ -1,0 +1,22 @@
+{
+  "observed_utc": "2026-10-22T11:17:58.912469+00:00",
+  "original_business_table_hashes_equal": true,
+  "business_table_equal": {
+    "compute_resource": true,
+    "mq_consume_record": true,
+    "reservation": true,
+    "resource_slot": true,
+    "resource_slot_test": true,
+    "user": true
+  },
+  "non_benchmarks_files_hashed": 502,
+  "non_benchmarks_changed_paths": [],
+  "git_tracked_diff_empty": true,
+  "original_mq_queue_counts_consumers_equal": true,
+  "app_pid_state": "absent",
+  "app_pid_exited_or_reaped": true,
+  "port8080_listening": false,
+  "dedicated_rabbit_connection_absent": true,
+  "data_cleanup_performed": false,
+  "lab_database_vhost_accounts_retained": true
+}

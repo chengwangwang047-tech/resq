@@ -1,0 +1,52 @@
+Table	Create Table
+reservation	CREATE TABLE `reservation` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `slot_id` bigint NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `request_id` varchar(100) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `expire_at` datetime(3) DEFAULT NULL COMMENT '预约确认截止时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `request_id` (`request_id`),
+  KEY `idx_user_status_created` (`user_id`,`status`,`created_at`),
+  KEY `idx_user_created_id` (`user_id`,`created_at` DESC,`id` DESC)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+Table	Create Table
+resource_slot	CREATE TABLE `resource_slot` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `resource_id` bigint NOT NULL,
+  `slot_start` datetime NOT NULL,
+  `slot_end` datetime NOT NULL,
+  `status` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_resource_slot_start` (`resource_id`,`slot_start`)
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+Table	Create Table
+compute_resource	CREATE TABLE `compute_resource` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+Table	Create Table
+user	CREATE TABLE `user` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_user_username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+Table	Create Table
+mq_consume_record	CREATE TABLE `mq_consume_record` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `event_id` varchar(100) NOT NULL,
+  `consumed_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_event_id` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

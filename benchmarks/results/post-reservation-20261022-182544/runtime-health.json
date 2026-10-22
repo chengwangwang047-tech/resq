@@ -1,0 +1,8 @@
+{
+  "observed_at_utc": "2026-10-22T10:30:55.775282+00:00",
+  "redis_fallback_or_write_failure_log_matches": 0,
+  "application_logging_changed": false,
+  "rate_limit_changed": false,
+  "auth_changed": false,
+  "idempotency_changed": false
+}

@@ -1,0 +1,61 @@
+colaminos@DESKTOP-2K4QSE8:~/resq$ cd ~/resq
+
+k6 run \
+  --vus 50 \
+  --duration 30s \
+  --summary-mode=full \
+  --summary-trend-stats="avg,min,med,max,p(90),p(95),p(99)" \
+  benchmarks/get-slots.js
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+
+     execution: local
+        script: benchmarks/get-slots.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 50 max VUs, 1m0s max duration (incl. graceful stop):
+              * default: 50 looping VUs for 30s (gracefulStop: 30s)
+
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 3000    95.068699/s
+    checks_succeeded...: 100.00% 3000 out of 3000
+    checks_failed......: 0.00%   0 out of 3000
+
+    ✓ HTTP status is 200
+    ✓ slots not empty
+
+    HTTP
+    http_req_blocked...............: avg=53.68µs min=699ns  med=2.38µs   max=3.2ms   p(90)=6.71µs   p(95)=10.28µs  p(99)=1.75ms
+    http_req_connecting............: avg=46.32µs min=0s     med=0s       max=3.11ms  p(90)=0s       p(95)=0s       p(99)=1.73ms
+    http_req_duration..............: avg=5.38ms  min=1.57ms med=5.19ms   max=11.42ms p(90)=8.5ms    p(95)=9.44ms   p(99)=10.77ms
+      { expected_response:true }...: avg=5.38ms  min=1.57ms med=5.19ms   max=11.42ms p(90)=8.5ms    p(95)=9.44ms   p(99)=10.77ms
+    http_req_failed................: 0.00%  0 out of 1500
+    http_req_receiving.............: avg=221.5µs min=4.79µs med=129.03µs max=7.76ms  p(90)=534.36µs p(95)=718.04µs p(99)=1.27ms
+    http_req_sending...............: avg=22.86µs min=1.63µs med=5.86µs   max=1.38ms  p(90)=23.72µs  p(95)=49.96µs  p(99)=387.29µs
+    http_req_tls_handshaking.......: avg=0s      min=0s     med=0s       max=0s      p(90)=0s       p(95)=0s       p(99)=0s
+    http_req_waiting...............: avg=5.13ms  min=1.43ms med=4.94ms   max=11.3ms  p(90)=8.25ms   p(95)=9.24ms   p(99)=10.72ms
+    http_reqs......................: 1500   47.534349/s
+
+    EXECUTION
+    iteration_duration.............: avg=1s      min=1s     med=1s       max=1.01s   p(90)=1s       p(95)=1.01s    p(99)=1.01s
+    iterations.....................: 1500   47.534349/s
+    vus............................: 50     min=50        max=50
+    vus_max........................: 50     min=50        max=50
+
+    NETWORK
+    data_received..................: 534 kB 17 kB/s
+    data_sent......................: 164 kB 5.2 kB/s
+
+
+
+
+running (0m31.6s), 00/50 VUs, 1500 complete and 0 interrupted iterations
+default ✓ [======================================] 50 VUs  30s

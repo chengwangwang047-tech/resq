@@ -1,0 +1,6 @@
+{
+  "GET_resource": 3000,
+  "GET_slot": 3000,
+  "SET_slot": 3000,
+  "slot_unique_get_keys": 3000
+}

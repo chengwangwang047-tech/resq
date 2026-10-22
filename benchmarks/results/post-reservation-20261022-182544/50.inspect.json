@@ -1,0 +1,99 @@
+{
+  "paused": null,
+  "vus": null,
+  "duration": null,
+  "iterations": null,
+  "stages": null,
+  "scenarios": {
+    "reservation_race": {
+      "executor": "per-vu-iterations",
+      "startTime": null,
+      "gracefulStop": null,
+      "env": null,
+      "exec": null,
+      "tags": null,
+      "vus": 50,
+      "iterations": 1,
+      "maxDuration": "30s"
+    }
+  },
+  "executionSegment": null,
+  "executionSegmentSequence": null,
+  "noSetup": null,
+  "setupTimeout": "30s",
+  "noTeardown": null,
+  "teardownTimeout": null,
+  "handleSummaryTimeout": null,
+  "rps": null,
+  "dns": {
+    "ttl": null,
+    "select": null,
+    "policy": null
+  },
+  "maxRedirects": null,
+  "userAgent": null,
+  "batch": null,
+  "batchPerHost": null,
+  "httpDebug": null,
+  "insecureSkipTLSVerify": null,
+  "tlsCipherSuites": null,
+  "tlsVersion": null,
+  "tlsAuth": null,
+  "tlsAIAFetch": null,
+  "throw": null,
+  "thresholds": {
+    "checks": [
+      "rate==1"
+    ],
+    "http_reqs": [
+      "count==50"
+    ],
+    "iterations": [
+      "count==50"
+    ],
+    "reservation_conflict": [
+      "count==49"
+    ],
+    "reservation_created": [
+      "count==1"
+    ],
+    "reservation_rate_limited": [
+      "count==0"
+    ],
+    "reservation_technical_failure": [
+      "count==0"
+    ],
+    "reservation_technical_failure_rate": [
+      "rate==0"
+    ],
+    "reservation_unexpected": [
+      "count==0"
+    ],
+    "reservation_unexpected_rate": [
+      "rate==0"
+    ]
+  },
+  "blacklistIPs": null,
+  "blockHostnames": null,
+  "hosts": null,
+  "noConnectionReuse": null,
+  "noVUConnectionReuse": null,
+  "minIterationDuration": null,
+  "ext": null,
+  "summaryTrendStats": [
+    "avg",
+    "min",
+    "med",
+    "max",
+    "p(90)",
+    "p(95)",
+    "p(99)"
+  ],
+  "summaryTimeUnit": null,
+  "systemTags": null,
+  "tags": null,
+  "metricSamplesBufferSize": null,
+  "noCookiesReset": null,
+  "discardResponseBodies": null,
+  "features": null
+}

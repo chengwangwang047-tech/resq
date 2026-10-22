@@ -1,0 +1,6 @@
+{
+  "debug_lines": 0,
+  "cache_debug_lines": 0,
+  "log_contains_private_values": false,
+  "explicit_logging_settings": "2: server.port=8080\n10: spring.sql.init.mode=never\n18: spring.data.redis.host=127.0.0.1\n19: spring.data.redis.port=6379\n20: spring.data.redis.timeout=3s\n22: logging.level.com.resq.cache=DEBUG\n23: logging.level.com.resq.service.ResourceService=DEBUG\n25: spring.rabbitmq.host=127.0.0.1\n26: spring.rabbitmq.port=5672"
+}

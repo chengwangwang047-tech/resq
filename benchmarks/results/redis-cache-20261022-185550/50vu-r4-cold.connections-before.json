@@ -1,0 +1,27 @@
+{
+  "threads": {
+    "201": 454,
+    "202": 413,
+    "203": 321,
+    "204": 311,
+    "205": 302,
+    "206": 297,
+    "207": 262,
+    "208": 256,
+    "209": 261,
+    "210": 269
+  },
+  "background_due_scan_count": 7,
+  "business_select_digests": {
+    "SELECT COUNT ( * ) FROM `compute_resource`": 1,
+    "SELECT DATE ( `slot_start` ) , `id` FROM `resource_slot` ORDER BY `slot_start` , `id`": 1,
+    "SELECT `id` , NAME , TYPE , STATUS FROM `compute_resource`": 1,
+    "SELECT `resource_id` , COUNT ( * ) , MIN ( `slot_start` ) , MAX ( `slot_start` ) FROM `resource_slot` GROUP BY `resource_id`": 1,
+    "SELECT COUNT ( * ) FROM `reservation`": 1,
+    "SELECT `id` , NAME , TYPE , STATUS , `created_at` FROM `compute_resource` ORDER BY `id`": 1,
+    "SELECT `id` FROM `reservation` WHERE STATUS = ? AND `expire_at` IS NOT NULL AND `expire_at` <= NOW (?) ORDER BY `expire_at` ASC , `id` ASC LIMIT ?": 7,
+    "SELECT NAME FROM `compute_resource` WHERE `id` = ?": 10,
+    "SELECT `id` , NAME , TYPE , STATUS , `created_at` FROM `compute_resource` WHERE `id` = ?": 7,
+    "SELECT `id` , `resource_id` , `slot_start` , `slot_end` , STATUS FROM `resource_slot` WHERE `resource_id` = ? AND `slot_start` >= ? AND `slot_start` < ? ORDER BY `slot_start` , `id`": 3108
+  }
+}

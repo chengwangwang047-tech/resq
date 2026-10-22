@@ -1,0 +1,4 @@
+vus,slot_id,requests,201,409_inventory,429,other_status,technical_failures,technical_failure_rate,http_req_failed_rate,business_conflict_rate,http_p95_ms,http_p99_ms,http_avg_ms,request_window_ms,process_wall_seconds,start_spread_ms,conservative_peak_client_calls,db_effective_before,db_effective_after,k6_exit_code
+50,117,50,1,49,0,0,0,0,0,0.98,639.2952981,647.52017168,561.6273294800001,655,6.1077227469977515,4,50,0,1,0
+100,118,100,1,99,0,0,0,0,0,0.99,332.58460279999997,345.05924894000015,208.97901407999996,376,5.949768246999156,26,100,0,1,0
+200,119,200,1,199,0,0,0,0,0,0.995,596.66950755,616.7945259599999,349.01266205999985,670,6.144186794001143,49,198,0,1,0

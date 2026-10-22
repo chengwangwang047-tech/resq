@@ -1,0 +1,10 @@
+{
+  "src/main/java/com/resq/cache/ResourceCache.java": "8662392a0c206f576019cac0331619b87b5928108dff83e72e63409dfc05f1ab",
+  "src/main/java/com/resq/cache/ResourceSlotCache.java": "2f4476ff2ceb7d084536e0ba81c2376ede4f77a5facc02794f3bf25218111fcf",
+  "src/main/java/com/resq/service/ResourceService.java": "c959ad3aa080211c206ff9318dd321f30a40a85e57390512ab86e0337dce5f91",
+  "src/main/java/com/resq/mapper/JdbcResourceSlotMapper.java": "0ab31382747ea01f1dff691bcfb068ee4970f1985389671fb8b9119f8165de27",
+  "src/main/java/com/resq/controller/ResourceController.java": "191e3b0155725269dd87b78582e6801cd9e30ff679aefee44de4b108b6c219c1",
+  "src/main/java/com/resq/scheduler/ReservationExpirationScheduler.java": "092e4d934c0e8513ab1f5c4bd17a37cd3f14e60125ad404043bc83856e92d36b",
+  "src/main/java/com/resq/config/RabbitMQConfig.java": "2245294965ab3128d271ac646f153fafb35cd94bd9d0d943a0c9ce44357734de",
+  "src/main/java/com/resq/config/ReservationTimeoutMqConfig.java": "3d2068ad0320be83cc93461f9a8a10e62aa1052e50921b3f1c7a91573ee52050"
+}

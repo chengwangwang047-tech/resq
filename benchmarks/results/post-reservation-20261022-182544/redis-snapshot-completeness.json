@@ -1,0 +1,53 @@
+{
+  "note": "Historical snapshots lost trailing nil MGET entries during parsing, including the alternate minute in the 50-VU after snapshot. Preserved without reconstructing past observations. All after snapshots contain a positive count for every selected user.",
+  "snapshots": [
+    {
+      "vus": 50,
+      "phase": "before",
+      "expected_rate_keys": 50,
+      "recorded_rate_keys": 1,
+      "complete_all_queried_minutes": false,
+      "selected_users_represented": 1
+    },
+    {
+      "vus": 50,
+      "phase": "after",
+      "expected_rate_keys": 100,
+      "recorded_rate_keys": 50,
+      "complete_all_queried_minutes": false,
+      "selected_users_represented": 50
+    },
+    {
+      "vus": 100,
+      "phase": "before",
+      "expected_rate_keys": 100,
+      "recorded_rate_keys": 1,
+      "complete_all_queried_minutes": false,
+      "selected_users_represented": 1
+    },
+    {
+      "vus": 100,
+      "phase": "after",
+      "expected_rate_keys": 100,
+      "recorded_rate_keys": 100,
+      "complete_all_queried_minutes": true,
+      "selected_users_represented": 100
+    },
+    {
+      "vus": 200,
+      "phase": "before",
+      "expected_rate_keys": 200,
+      "recorded_rate_keys": 100,
+      "complete_all_queried_minutes": false,
+      "selected_users_represented": 100
+    },
+    {
+      "vus": 200,
+      "phase": "after",
+      "expected_rate_keys": 200,
+      "recorded_rate_keys": 200,
+      "complete_all_queried_minutes": true,
+      "selected_users_represented": 200
+    }
+  ]
+}

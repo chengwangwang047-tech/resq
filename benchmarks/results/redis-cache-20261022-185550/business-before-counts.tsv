@@ -1,0 +1,6 @@
+compute_resource	9
+mq_consume_record	3
+reservation	16
+resource_slot	14
+resource_slot_test	10000
+user	210
