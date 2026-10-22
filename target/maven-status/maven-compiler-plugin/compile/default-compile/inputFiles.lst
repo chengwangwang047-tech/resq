@@ -55,6 +55,7 @@
 /home/colaminos/resq/src/main/java/com/resq/service/UserService.java
 /home/colaminos/resq/src/main/java/com/resq/service/WaitlistService.java
 /home/colaminos/resq/src/main/java/com/resq/vo/ErrorResponse.java
+/home/colaminos/resq/src/main/java/com/resq/vo/ReservationPageVO.java
 /home/colaminos/resq/src/main/java/com/resq/vo/ResourceVO.java
 /home/colaminos/resq/src/main/java/com/resq/vo/SlotVO.java
 /home/colaminos/resq/src/main/java/com/resq/vo/UserProfileVO.java

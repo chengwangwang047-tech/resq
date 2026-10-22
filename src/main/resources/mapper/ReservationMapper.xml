@@ -54,4 +54,10 @@
           resultType="java.lang.Long"> SELECT id FROM reservation WHERE status = 'PENDING' AND
           expire_at IS NOT NULL AND expire_at &lt;= NOW(3) ORDER BY expire_at ASC, id ASC LIMIT
           #{limit} </select>
+     <!-- Day23：按创建时间与主键进行游标分页 -->
+     <select id="findPageByUserId" resultMap="reservation"> SELECT id, user_id, slot_id, status,
+          request_id, created_at, expire_at FROM reservation WHERE user_id = #{userId} <if
+               test="cursorCreatedAt != null and cursorId != null"> AND ( created_at &lt;
+          #{cursorCreatedAt} OR ( created_at = #{cursorCreatedAt} AND id &lt; #{cursorId} ) ) </if>
+          ORDER BY created_at DESC, id DESC LIMIT #{limit} </select>
 </mapper>

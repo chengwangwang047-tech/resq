@@ -14,7 +14,9 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
+import com.resq.vo.ReservationPageVO;
+import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationController {
@@ -57,7 +59,54 @@ public class ReservationController {
 
         return reservationService.findByUserId(userId);
     }
+    // Day23：当前用户预约历史游标分页
+@GetMapping("/me/page")
+public ReservationPageVO findMinePage(
+        @RequestAttribute("currentUserId") Long userId,
 
+        @RequestParam(name = "size", defaultValue = "20")
+        int size,
+
+        @RequestParam(name = "cursorCreatedAt", required = false)
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        LocalDateTime cursorCreatedAt,
+
+        @RequestParam(name = "cursorId", required = false)
+        Long cursorId) {
+
+    // 1. 限制分页大小
+    if (size < 1 || size > 100) {
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "size 必须在 1~100 之间"
+        );
+    }
+
+    // 2. 两个游标必须同时提供或同时不提供
+    if ((cursorCreatedAt == null) != (cursorId == null)) {
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "两个游标参数必须同时提供"
+        );
+    }
+
+    // 3. 游标 ID 必须合法
+    if (cursorId != null && cursorId <= 0) {
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "cursorId 必须大于 0"
+        );
+    }
+
+    // 4. 调用 Service
+    return reservationService.findPageByUserId(
+            userId,
+            cursorCreatedAt,
+            cursorId,
+            size
+    );
+}
+    
     // GET /api/reservations/{id}
     @GetMapping("/{id}")
     public Reservation findById(

@@ -4,7 +4,7 @@ import com.resq.domain.Reservation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 /** 正式预约数据契约；XML 未填时调用会抛 BindingException，不代表持久化已完成。 */
@@ -65,4 +65,10 @@ public interface ReservationMapper {
                           AND expire_at > NOW(3)
                         """)
         int countPendingNotDue(@Param("id") Long id);
+        // Day23：预约历史游标分页
+List<Reservation> findPageByUserId(
+        @Param("userId") Long userId,
+        @Param("cursorCreatedAt") LocalDateTime cursorCreatedAt,
+        @Param("cursorId") Long cursorId,
+        @Param("limit") int limit);
 }

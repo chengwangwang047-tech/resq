@@ -14,6 +14,7 @@ import com.resq.event.ReservationCreatedEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.beans.factory.annotation.Value;
 import java.time.temporal.ChronoUnit;
+import com.resq.vo.ReservationPageVO;
 
 @Service
 public class ReservationService {
@@ -62,6 +63,52 @@ public class ReservationService {
 
         // 5. 返回结果
         return result;
+    }
+
+    // Day23：查询当前用户的预约历史（游标分页）
+    public ReservationPageVO findPageByUserId(
+            Long userId,
+            LocalDateTime cursorCreatedAt,
+            Long cursorId,
+            int size) {
+
+        // 1. 用户校验
+        if (userId == null || userId <= 0) {
+            throw new IllegalArgumentException("用户 ID 不合法");
+        }
+
+        // 2. 查询 size + 1 条
+        List<Reservation> fetched = reservationMapper.findPageByUserId(
+                userId,
+                cursorCreatedAt,
+                cursorId,
+                size + 1);
+
+        // 3. 判断是否存在下一页
+        boolean hasMore = fetched.size() > size;
+
+        // 4. 最多保留 size 条
+        List<Reservation> records = hasMore
+                ? fetched.subList(0, size)
+                : fetched;
+
+        // 5. 如果没有下一页，返回空游标
+        if (!hasMore) {
+            return new ReservationPageVO(
+                    List.copyOf(records),
+                    false,
+                    null,
+                    null);
+        }
+
+        // 6. 最后一条记录作为下一页游标
+        Reservation last = records.get(records.size() - 1);
+
+        return new ReservationPageVO(
+                List.copyOf(records),
+                true,
+                last.getCreatedAt(),
+                last.getId());
     }
 
     /** Day13 仅底层查询；Day14 才由 JWT 身份调用，当前没有 /me 接口。 */
