@@ -1,2 +1,20 @@
 out/
 *.class
+
+# Maven build outputs and Python bytecode
+target/
+__pycache__/
+*.pyc
+
+# Raw benchmark evidence and historical snapshots are kept in benchmarks/archives/.
+/benchmarks/results/**/*.metrics.ndjson
+/benchmarks/results/**/*.log
+/benchmarks/results/**/*.redis-owned-commands.ndjson
+/benchmarks/results/**/*.command.sh
+/benchmarks/results/get-slots-user-records/user-pasted-k6-output.txt
+/benchmarks/results/get-slots-user-records/get-slots.current-snapshot.js
+/benchmarks/results/post-reservation-20261022-182544/original-post-reservation-race.js
+/benchmarks/results/post-reservation-20261022-182544/post-reservation-race.js
+/benchmarks/results/post-reservation-20261022-182544/refresh-day24-test-tokens.py
+/benchmarks/results/redis-cache-20261022-185550/cache_lab.executed-final.py
+/benchmarks/results/redis-cache-20261022-185550/cache_lab.initial-digest-version.py

@@ -1,6 +1,8 @@
 # ResQ Day24：GET slots 并发读取实验
 
-本报告依据用户提供的 k6 终端记录整理，未重新运行压测。原文保存在 [user-pasted-k6-output.txt](results/get-slots-user-records/user-pasted-k6-output.txt)，三档日志和提取后的数值见[证据目录](results/get-slots-user-records/)。
+本报告依据用户提供的 k6 终端记录整理，未重新运行压测。原文保存在 [user-pasted-k6-output.txt](archives/day24-get-slots-raw.zip)，三档日志和提取后的数值见[证据目录](results/get-slots-user-records/)。
+
+本报告引用的原始终端记录、分档日志和脚本快照已压缩保存；文件名与内容保持不变，解压路径见[原始证据归档说明](archives/README.md)。
 
 50、100、200 VU 各运行一轮30秒。全部10,500次请求完成，HTTP失败率为0%，21,000项检查全部通过，未记录中断迭代。在本次带 `sleep(1)` 的固定请求节奏下，随VU增加，实际请求速率上升，平均延迟和高分位延迟也有所增加；现有记录未出现HTTP失败或空列表检查失败。
 
@@ -57,8 +59,8 @@ k6 run \
 
 ## 证据索引
 
-- [完整粘贴原文](results/get-slots-user-records/user-pasted-k6-output.txt)：按附件字节原样保存，包含50/100/200 VU记录。
-- [50 VU](results/get-slots-user-records/50.k6.log)、[100 VU](results/get-slots-user-records/100.k6.log)、[200 VU](results/get-slots-user-records/200.k6.log)：从原文按三段命令分离，内容未重造。
+- [完整粘贴原文](archives/day24-get-slots-raw.zip)：按附件字节原样保存，包含50/100/200 VU记录。
+- [50 VU](archives/day24-get-slots-raw.zip)、[100 VU](archives/day24-get-slots-raw.zip)、[200 VU](archives/day24-get-slots-raw.zip)：从原文按三段命令分离，内容未重造。
 - [汇总CSV](results/get-slots-user-records/parsed-summary.csv)、[提取说明及JSON](results/get-slots-user-records/parsed-summary.json)：派生数据，不冒充原生k6 summary-export。
-- [当前脚本快照](results/get-slots-user-records/get-slots.current-snapshot.js)：只读复制，原脚本未修改。
+- [当前脚本快照](archives/day24-get-slots-raw.zip)：只读复制，原脚本未修改。
 - [POST reservation报告](day24-post-reservation-report.md)：独立的预约并发竞争实验。

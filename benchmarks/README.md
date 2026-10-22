@@ -17,6 +17,10 @@ benchmarks/
 ├── get-slots.js
 ├── post-reservation-race.js
 ├── refresh-day24-test-tokens.py
+├── archives/
+│   ├── README.md
+│   ├── manifest.json
+│   └── day24-*-raw.zip
 └── results/
     ├── get-slots-user-records/
     ├── post-reservation-20261022-182544/
@@ -38,3 +42,15 @@ benchmarks/
 GET资料来自用户提供的终端汇总，包含三轮原文和提取表；它没有原生逐请求采样，不能补造。POST、Redis目录包含独立实验的日志、检查证据和脚本。历史写请求命令、fixtures插入和执行脚本不能直接当作新实验重放；未来复测应使用新的实验标识和目录，先核查原服务及业务状态。
 
 本次仅整理文件、补写文档并从已提供记录提取数字，没有运行压测、启动服务或修改业务数据。迁移前后原证据文件哈希及非benchmarks文件完整性见 [layout-migration.json](results/layout-migration.json)。
+
+## 原始证据压缩归档
+
+Day24 的大体积原始指标、完整日志、Redis 命令轨迹与历史脚本快照已按实验压缩到
+[archives/](archives/README.md)，各文件的原路径、大小和 SHA-256 见
+[归档清单](archives/manifest.json)。诊断异常轮与其配对轮也完整保留。
+正式报告、测试与分析脚本、汇总 CSV/JSON、必要配置、源码快照和 `build/pom.xml` 继续按原路径纳入 Git。
+
+现有本地原始文件保留；新克隆仓库需按归档说明解压后读取报告中引用的原始日志和采样。
+历史报告与脚本中的旧实验路径仍按上表换算。`layout-migration.json` 与 `artifact-sha256.json`
+保留当时的记录，当前归档范围见 `archives/manifest.json`。
+`target/`、`__pycache__/` 和 `*.pyc` 已停止跟踪，未删除本地文件。

@@ -1,6 +1,0 @@
-{
-  "mysqlStopped": true,
-  "redisStopped": true,
-  "privateDataRemoved": true,
-  "mainAndPomUnchangedDuringRun": true
-}

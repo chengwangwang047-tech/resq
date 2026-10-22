@@ -1,4 +1,0 @@
-reservation	0
-resource_slot	0
-compute_resource	0
-user	0
