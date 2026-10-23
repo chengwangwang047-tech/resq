@@ -150,3 +150,7 @@ ResQ 支持基于 `(created_at, id)` 联合游标的预约历史分页，
 
 详细实验环境、SQL、执行计划及局限性见：
 [Day23 性能基准测试报告](docs/performance/day23-benchmark.md)
+
+## P0 安全修复与验收
+
+资源写权限、预约时间边界及 RabbitMQ 失败路由配置见 [P0 修复与验证](docs/p0-fixes.md)。新环境启动消费前应按该说明配置失败路由 policy。

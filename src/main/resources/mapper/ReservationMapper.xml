@@ -36,7 +36,7 @@
           #{id} AND user_id = #{userId} AND status = #{expectedStatus} </update>
      <!-- TODO(D13-CONFLICT): reserveSlotIfAvailable，原子地 AVAILABLE -> RESERVED。 -->
      <update id="reserveSlotIfAvailable"> UPDATE resource_slot SET status = 'RESERVED' WHERE id =
-          #{slotId} AND status = 'AVAILABLE' </update>
+          #{slotId} AND status = 'AVAILABLE' AND slot_end &gt; NOW(3) </update>
      <!-- TODO(D13-CANCEL): releaseReservedSlot，RESERVED -> AVAILABLE；
          Service 必须先成功取消所属预约，重复取消不得释放新预约的时隙。 -->
      <update id="releaseReservedSlot"> UPDATE resource_slot SET status = 'AVAILABLE' WHERE id =

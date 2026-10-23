@@ -18,3 +18,7 @@ __pycache__/
 /benchmarks/results/post-reservation-20261022-182544/refresh-day24-test-tokens.py
 /benchmarks/results/redis-cache-20261022-185550/cache_lab.executed-final.py
 /benchmarks/results/redis-cache-20261022-185550/cache_lab.initial-digest-version.py
+
+deploy/.env
+
+/logs/

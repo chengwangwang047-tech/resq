@@ -1,0 +1,52 @@
+services:
+
+  mysql:
+    image: mysql:8.0.46
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?required}
+      MYSQL_DATABASE: resq
+      MYSQL_USER: ${RESQ_DB_USERNAME:?required}
+      MYSQL_PASSWORD: ${RESQ_DB_PASSWORD:?required}
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    networks:
+      - resq_net
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - resq_net
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    hostname: resq-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RESQ_RABBITMQ_USERNAME:?required}
+      RABBITMQ_DEFAULT_PASS: ${RESQ_RABBITMQ_PASSWORD:?required}
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - resq_net
+
+volumes:
+  mysql_data:
+  redis_data:
+  rabbitmq_data:
+
+networks:
+  resq_net:
+    driver: bridge
