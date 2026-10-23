@@ -209,7 +209,7 @@ fi
 确认上一命令成功，再执行正常登录。辅助脚本仅接受 `d24_` 测试账户、连接本机登录接口，并检查私有文件权限：
 
 ```bash
-python3 benchmarks/refresh-day24-test-tokens.py \
+python3 benchmarks/refresh-benchmark-tokens.py \
   --accounts "$DAY24_ACCOUNTS" --tokens "$RESQ_TOKENS_FILE"
 ```
 

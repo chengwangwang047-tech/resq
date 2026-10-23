@@ -9,12 +9,12 @@ from contextlib import contextmanager
 import datetime, hashlib, json, os, shutil, signal, socket, subprocess, sys, tempfile, time, uuid
 import xml.etree.ElementTree as ET
 
-PROJECT = Path(__file__).resolve().parents[2]
+PROJECT = Path(__file__).resolve().parents[1]
 STAMP = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
-RESULTS = PROJECT / 'target' / 'day17-results' / (STAMP + '-' + uuid.uuid4().hex[:8])
+RESULTS = PROJECT / 'target' / 'native-reservation-results' / (STAMP + '-' + uuid.uuid4().hex[:8])
 TESTS = ','.join([
-    'ReservationLockServiceTest', 'Day17ReservationHttpContractTest',
-    'Day17LockTransactionTest', 'Day17ConcurrencyComparisonTest',
+    'ReservationLockServiceTest', 'ReservationHttpContractTest',
+    'ReservationLockTransactionTest', 'ReservationConcurrencyComparisonTest',
     'ReservationServiceTest', 'ResourceSlotCacheInvalidatorTest',
     'ResourceSlotCacheRetryTest', 'ResourceSlotCacheTest',
 ])
@@ -156,7 +156,7 @@ def main():
             wait_ready(lambda: subprocess.run(cli + ['-e','SELECT 1'],
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=2,
                         env=private_environment()).returncode == 0, mysql)
-            sql = (PROJECT / 'src/test/resources/day17-schema.sql').read_text()
+            sql = (PROJECT / 'src/test/resources/reservation-test-schema.sql').read_text()
             setup = "CREATE DATABASE resq_day17 CHARACTER SET utf8mb4;\nUSE resq_day17;\n" + sql
             setup += "\nCREATE TABLE day17_safety_guard(token CHAR(32) NOT NULL);\n"
             setup += f"INSERT INTO day17_safety_guard VALUES('{guard}');\n"
@@ -181,7 +181,7 @@ def main():
             temporary_pom(pom)
             test_log = (RESULTS / 'maven.log').open('w')
             handles.append(test_log)
-            print('Running isolated Day17 suite. Results:', RESULTS, flush=True)
+            print('Running isolated reservation suite. Results:', RESULTS, flush=True)
             # Production runtime environment is explicitly removed. The test whitelist has no Boot context.
             environment = private_environment()
             args = ['mvn','-B','-f',str(pom),f'-Dtest={TESTS}',
@@ -222,5 +222,5 @@ def main():
 if __name__ == '__main__':
     try: sys.exit(main())
     except Exception as error:
-        print('Day17 isolated runner:', error, file=sys.stderr)
+        print('Native reservation runner:', error, file=sys.stderr)
         sys.exit(1)

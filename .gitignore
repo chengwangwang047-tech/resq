@@ -22,3 +22,6 @@ __pycache__/
 deploy/.env
 
 /logs/
+
+# Local learning snapshots; tracked catalog: docs/learning-archive.md
+/learning-archive/

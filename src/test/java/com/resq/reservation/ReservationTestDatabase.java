@@ -1,4 +1,4 @@
-package com.resq.day17;
+package com.resq.reservation;
 
 import com.resq.cache.ResourceSlotCache;
 import com.resq.cache.ResourceSlotCacheInvalidator;
@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 /** No Spring Boot context: never loads application.properties or production connection settings. */
-public final class Day17TestDatabase implements AutoCloseable {
+public final class ReservationTestDatabase implements AutoCloseable {
     public final HikariDataSource pool;
     public final JdbcTemplate jdbc;
     public final DataSourceTransactionManager tx;
@@ -40,14 +40,14 @@ public final class Day17TestDatabase implements AutoCloseable {
     public final RedissonClient redis;
     public static final LocalDateTime START = LocalDateTime.of(2099, 1, 1, 9, 0);
 
-    public Day17TestDatabase() throws Exception {
+    public ReservationTestDatabase() throws Exception {
         String url = System.getProperty("day17.mysql.url", "");
         String port = System.getProperty("day17.redis.port", "");
         String token = System.getProperty("day17.guard", "");
         // Refuse normal/default production addresses before establishing any connection.
         if (!url.matches("jdbc:mysql://127\\.0\\.0\\.1:13317/resq_day17\\?.*")
                 || !port.equals("16317") || !token.matches("[a-f0-9]{32}")) {
-            throw new IllegalStateException("Use scripts/day17/run_tests.py: dedicated endpoints/guard required");
+            throw new IllegalStateException("Use scripts/run_native_reservation_tests.py: dedicated endpoints/guard required");
         }
         HikariConfig hc = new HikariConfig();
         hc.setJdbcUrl(url);

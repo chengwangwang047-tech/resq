@@ -55,7 +55,7 @@ k6 run \
 
 **证据限制**：每档仅一轮约30秒短测，没有重复轮次、到达率阶梯或饱和点搜索。因此不能把189.55 req/s称为最大吞吐，不能把单轮结果解释为稳态容量，也不能以0失败证明预约写入、库存或其他业务路径正确。
 
-本记录没有缓存键状态、Redis命令轨迹、SQL查询计数、日志级别、JVM参数或启动顺序证据，无法判定各请求命中还是回源，也不能把整个GET轮次称为“无缓存”或“纯热缓存”基线。仅有汇总，无法还原逐请求分布、重算合并P95/P99或归因长尾。缓存收益请参阅独立的 [Redis缓存对照报告](day24-redis-cache-report.md)，不要直接把两次环境下的数值相减。
+本记录没有缓存键状态、Redis命令轨迹、SQL查询计数、日志级别、JVM参数或启动顺序证据，无法判定各请求命中还是回源，也不能把整个GET轮次称为“无缓存”或“纯热缓存”基线。仅有汇总，无法还原逐请求分布、重算合并P95/P99或归因长尾。缓存收益请参阅独立的 [Redis缓存对照报告](redis-cache-report.md)，不要直接把两次环境下的数值相减。
 
 ## 证据索引
 
@@ -63,4 +63,4 @@ k6 run \
 - [50 VU](archives/day24-get-slots-raw.zip)、[100 VU](archives/day24-get-slots-raw.zip)、[200 VU](archives/day24-get-slots-raw.zip)：从原文按三段命令分离，内容未重造。
 - [汇总CSV](results/get-slots-user-records/parsed-summary.csv)、[提取说明及JSON](results/get-slots-user-records/parsed-summary.json)：派生数据，不冒充原生k6 summary-export。
 - [当前脚本快照](archives/day24-get-slots-raw.zip)：只读复制，原脚本未修改。
-- [POST reservation报告](day24-post-reservation-report.md)：独立的预约并发竞争实验。
+- [POST reservation报告](reservation-concurrency-report.md)：独立的预约并发竞争实验。

@@ -1,22 +1,22 @@
-# ResQ Day24 实验报告与证据
+# ResQ 性能实验报告与证据
 
 三份正式报告统一放在 `benchmarks/`，按读取性能、预约竞争、缓存对照阅读。
 
 | 实验 | 正式报告 | 证据目录 |
 |---|---|---|
-| GET slots，50/100/200 VU读取压测 | [day24-get-slots-report.md](day24-get-slots-report.md) | [results/get-slots-user-records/](results/get-slots-user-records/) |
-| POST reservation，50/100/200 VU预约竞争 | [day24-post-reservation-report.md](day24-post-reservation-report.md) | [results/post-reservation-20261022-182544/](results/post-reservation-20261022-182544/) |
-| Redis热命中与首次miss回源对照 | [day24-redis-cache-report.md](day24-redis-cache-report.md) | [results/redis-cache-20261022-185550/](results/redis-cache-20261022-185550/) |
+| GET slots，50/100/200 VU读取压测 | [resource-slot-query-report.md](resource-slot-query-report.md) | [results/get-slots-user-records/](results/get-slots-user-records/) |
+| POST reservation，50/100/200 VU预约竞争 | [reservation-concurrency-report.md](reservation-concurrency-report.md) | [results/post-reservation-20261022-182544/](results/post-reservation-20261022-182544/) |
+| Redis热命中与首次miss回源对照 | [redis-cache-report.md](redis-cache-report.md) | [results/redis-cache-20261022-185550/](results/redis-cache-20261022-185550/) |
 
 ```text
 benchmarks/
 ├── README.md
-├── day24-get-slots-report.md
-├── day24-post-reservation-report.md
-├── day24-redis-cache-report.md
+├── resource-slot-query-report.md
+├── reservation-concurrency-report.md
+├── redis-cache-report.md
 ├── get-slots.js
 ├── post-reservation-race.js
-├── refresh-day24-test-tokens.py
+├── refresh-benchmark-tokens.py
 ├── archives/
 │   ├── README.md
 │   ├── manifest.json

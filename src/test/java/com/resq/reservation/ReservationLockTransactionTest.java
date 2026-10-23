@@ -1,5 +1,5 @@
 
-package com.resq.day17;
+package com.resq.reservation;
 
 import com.resq.cache.ReservationRequestStateStore;
 import com.resq.domain.Reservation;
@@ -50,7 +50,7 @@ import static org.mockito.Mockito.*;
         named = "resq.day17.integration",
         matches = "true")
 @org.junit.jupiter.api.Tag("integration")
-class Day17LockTransactionTest {
+class ReservationLockTransactionTest {
 
     /**
      * Day18 新增：
@@ -89,7 +89,7 @@ class Day17LockTransactionTest {
     void successCommitsBeforeRealUnlockAndAnotherThreadCanAcquire()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var f = db.fixture();
             String key = lockKey(f.slot());
@@ -170,7 +170,7 @@ class Day17LockTransactionTest {
     void actualBusinessConflictPreservesExistingReservationAndReleasesLock()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var f = db.fixture();
             String key = lockKey(f.slot());
@@ -213,7 +213,7 @@ class Day17LockTransactionTest {
     void reusedRequestIdDifferentSlotReturnsConflictAndPreservesSlot()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var first = db.fixture();
             var second = db.fixture();
@@ -291,7 +291,7 @@ class Day17LockTransactionTest {
     void simulatedDatabaseTransportFailureAfterRealUpdateRollsBackAndReleasesLock()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var f = db.fixture();
             String key = lockKey(f.slot());
@@ -369,7 +369,7 @@ class Day17LockTransactionTest {
     void realAcquisitionWaitTimesOutNearTwoSecondsAndKeepsOwnersLock()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var f = db.fixture();
             String key = lockKey(f.slot());
@@ -438,7 +438,7 @@ class Day17LockTransactionTest {
     void realWaitingThreadInterruptionRestoresFlagWithoutReleasingOwnersLock()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var f = db.fixture();
             String key = lockKey(f.slot());
@@ -531,10 +531,10 @@ class Day17LockTransactionTest {
     }
 
     @Test
-    void actualPreInterruptedRedisCommandReportsLibraryFailureAndPreservesOwnersLock()
+    void preInterruptedLockWaitPreservesOwnersLock()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var f = db.fixture();
             String key = lockKey(f.slot());
@@ -568,9 +568,18 @@ class Day17LockTransactionTest {
                                 request(f.slot())))
                         .get(5, TimeUnit.SECONDS);
 
-                assertInstanceOf(
-                        RedisException.class,
-                        result.failure());
+                // A completed Redis future and an interruptible wait can observe this interrupt
+                // through different Redisson paths. Both must retain the interruption cause.
+                Throwable failure = result.failure();
+                assertTrue(failure instanceof RedisException || failure instanceof ReservationBusyException);
+                Throwable interruption = failure;
+                while (interruption != null && !(interruption instanceof InterruptedException)) {
+                    interruption = interruption.getCause();
+                }
+                assertInstanceOf(InterruptedException.class, interruption);
+                if (failure instanceof ReservationBusyException) {
+                    assertTrue(result.interrupted());
+                }
 
                 assertTrue(owner.isHeldByCurrentThread());
 
@@ -606,7 +615,7 @@ class Day17LockTransactionTest {
     void cacheEvictionFailureAfterCommitKeepsReservationAndRetriesAfterLockRelease()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var f = db.fixture();
             String key = lockKey(f.slot());
@@ -637,7 +646,7 @@ class Day17LockTransactionTest {
                 verify(db.cache, times(1))
                         .evict(
                                 f.resource(),
-                                Day17TestDatabase.START.toLocalDate());
+                                ReservationTestDatabase.START.toLocalDate());
 
                 assertReleasedForAnotherThread(db, key);
 
@@ -646,14 +655,14 @@ class Day17LockTransactionTest {
                 verify(db.cache, times(2))
                         .evict(
                                 f.resource(),
-                                Day17TestDatabase.START.toLocalDate());
+                                ReservationTestDatabase.START.toLocalDate());
 
                 db.invalidator.retryFailedEvictions();
 
                 verify(db.cache, times(2))
                         .evict(
                                 f.resource(),
-                                Day17TestDatabase.START.toLocalDate());
+                                ReservationTestDatabase.START.toLocalDate());
 
                 assertEquals(1, db.count(f.slot()));
 
@@ -677,7 +686,7 @@ class Day17LockTransactionTest {
     void actualClosedRedisClientCleanupFailureCanRecoverCommittedReservation()
             throws Exception {
 
-        try (Day17TestDatabase db = new Day17TestDatabase()) {
+        try (ReservationTestDatabase db = new ReservationTestDatabase()) {
 
             var f = db.fixture();
             String key = lockKey(f.slot());
@@ -831,7 +840,7 @@ class Day17LockTransactionTest {
     }
 
     private static void assertReleasedForAnotherThread(
-            Day17TestDatabase db,
+            ReservationTestDatabase db,
             String key) throws Exception {
 
         ExecutorService worker =
@@ -974,7 +983,7 @@ class Day17LockTransactionTest {
     }
 
     private static void releaseMainThreadLock(
-            Day17TestDatabase db,
+            ReservationTestDatabase db,
             String key) {
 
         RLock lock = db.redis.getLock(key);
@@ -987,7 +996,7 @@ class Day17LockTransactionTest {
     private static void report(
             String path,
             long started,
-            Day17TestDatabase db,
+            ReservationTestDatabase db,
             long slot) {
 
         System.out.printf(

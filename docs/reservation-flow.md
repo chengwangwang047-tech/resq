@@ -1,56 +1,36 @@
-# Reservation Flow
+# 预约业务流程
 
-登录
-→ 查看资源
-→ 查看时隙
-→ 创建预约
-→ PENDING
-→ CONFIRMED / CANCELLED
+本说明以当前 src/main 下的 Controller、Service、Mapper 和事务实现为准。早期内存模型与事务设计原文已归档，见 [学习归档索引](learning-archive.md)。
 
-## Day10：预约的数据库并发兜底
+## 创建预约
 
-当前 Java 层仍是接口与内存练习；下面是接入 MySQL InnoDB 时的设计约定，不代表已实现持久化。
+1. JWT 拦截器校验身份，Controller 取得服务端用户 ID，校验 slotId 与 X-Request-Id。
+2. ReservationLockService 先从 MySQL 查询合法重试；新请求执行用户限流、登记 Redis PROCESSING，再获取对应时隙的 Redisson 锁。
+3. ReservationService.create 在事务中重新检查 requestId，以条件 SQL 把 AVAILABLE 且 slot_end > NOW(3) 的时隙更新为 RESERVED。受影响行数必须为 1。
+4. 插入 PENDING 预约并设置 expireAt；插入失败会回滚时隙抢占。登记提交后缓存删除，发布应用事件。
+5. 返回事务服务后更新 Redis SUCCESS。幂等请求仍以 MySQL 记录为最终依据；部分 Redis/Redisson 连接故障使用既有 MySQL 兜底分支。
 
-### 为什么先查再写会出错
+Spring 提交后事件监听器负责发送通知和超时消息。当前发送失败存在既有可靠性边界，不能据此宣称端到端消息不丢失。缓存与数据库也不是原子更新。
 
-A、B 都可能先 SELECT 到同一时隙为 AVAILABLE，再分别通过 Java 判断并写入预约。查询与写入之间存在竞态窗口。单纯把这两步放进事务也不能消除该窗口；Day6 的 synchronized 只能协调同一 JVM 中遵守同一把锁的线程，不能保护多个服务实例。
+## 状态变化
 
-### 用条件 UPDATE 决定谁抢到时隙
+| 入口 | 条件与结果 |
+| --- | --- |
+| 创建 | 可预约时隙被抢占后，插入 PENDING |
+| 确认 | 本人、PENDING 且 expire_at > NOW(3)，条件更新为 CONFIRMED |
+| 取消 | 本人、PENDING，条件更新为 CANCELLED，再释放 RESERVED 时隙；整段使用一个事务 |
+| 超时 | PENDING 且 expire_at <= NOW(3)，条件更新为 EXPIRED 并释放时隙 |
 
-以下是服务层控制的 SQL 流程示意，问号表示绑定参数，分支由应用判断：
+重复取消、确认后取消或状态竞争导致条件更新失败，返回 409，不能再次释放新预约占用的时隙。真正的释放失败继续返回安全的 500 并回滚。确认竞争的更详细边界仍以现有代码和审计记录为准。
 
-```sql
-START TRANSACTION;
-UPDATE resource_slot
-SET status = 'RESERVED'
-WHERE id = ? AND status = 'AVAILABLE';
--- 立即读取这条 UPDATE 的 affected rows（例如 JDBC executeUpdate 返回值）。
--- 等于 1：才继续下面的 INSERT。
--- 等于 0：ROLLBACK，返回时隙不可预约；可能已被占用，也可能 id 不存在。
-INSERT INTO reservation (user_id, slot_id, status, request_id, created_at)
-VALUES (?, ?, 'PENDING', ?, NOW());
-COMMIT;
-```
+RabbitMQ 延迟消息与到期扫描共同触发超时处理；扫描用于补偿，不能据此扩大为所有 MQ 事件的可靠投递保证。历史预约会保留，不能通过简单 UNIQUE(slot_id) 限制全部历史。
 
-主键 id 定位一个时隙，条件检查与状态修改在同一条 UPDATE 中完成。两个请求竞争同一行时，后来的请求可能等待；前者提交后，后者重新判断 AVAILABLE 条件，通常得到 0。若前者回滚，后者可能成功。因此应以 UPDATE 返回值判断抢占结果，不能依赖先前 SELECT 的结果。
+## 证据与测试
 
-### 事务边界与失败处理
+- ReservationHttpContractTest：请求参数与响应契约。
+- ReservationServiceTest：期限、事件、影响行数与异常分支。
+- ReservationLockTransactionTest：真实隔离 MySQL/Redis 下的事务、锁和幂等回归。
+- ReservationCancellationHttpTest：真实隔离 HTTP/JWT 取消冲突、失败回滚与缓存断言。
+- ReservationConcurrencyComparisonTest：100/500 客户端的并发对照；其中不安全模拟只使用临时实验表。
 
-UPDATE 时隙与 INSERT 预约必须使用同一数据库连接、同一事务，中间不能自动提交。INSERT 失败、唯一约束冲突或其他异常都应回滚，恢复此次 UPDATE 前的时隙状态；只有 COMMIT 成功才向用户报告预约成功。事务内不调用耗时的外部服务。死锁或锁等待超时应先回滚整笔事务，再按策略有限重试，重试使用同一个 request_id。
-
-取消预约时也要在同一事务中校验并更新对应预约状态、释放它实际占用的时隙，不能仅凭 slot_id 无条件释放，以免重复取消释放了后续的新预约。
-
-### 唯一约束负责最后一道防线
-
-- Day08 的 reservation.request_id 已有 UNIQUE，但允许 NULL。真正接入预约服务时应要求非空（并考虑 NOT NULL），保证一次逻辑请求只有一个标识。重复请求应读取已有记录，核对 user_id、slot_id 等是否一致，再返回已有结果；不能换一个 request_id 重复创建。request_id 唯一解决重复请求，不解决不同请求争抢同一时隙。
-- 业务约束是一个时隙最多一条有效预约（PENDING / CONFIRMED）。取消或过期后还要保留历史，因此不能直接给 reservation.slot_id 加 UNIQUE，否则时隙无法再次预约。也不能用 UNIQUE(slot_id, status)：它既允许 PENDING 与 CONFIRMED 并存，又会限制多条取消历史。
-- 接入数据库时可用可空生成列 active_slot_id（有效状态时取 slot_id，其余为 NULL）加 UNIQUE，利用 MySQL 唯一索引允许多个 NULL 来保留历史；或使用以 slot_id 为主键的独立占用表。具体迁移应在确认有效状态规则并清理旧数据后执行，本次仅记录方案，不改表。
-
-条件 UPDATE 负责抢占，事务负责时隙与预约共同成功或失败，唯一约束负责阻止绕过正常服务路径的重复数据。所有创建入口都应遵守同一协议；确认、取消、过期也要保持占用状态一致。
-
-### 接入时的验收场景
-
-1. 两个连接竞争同一 AVAILABLE 时隙：只提交一条有效预约，另一个收到冲突。
-2. UPDATE 成功后故意让 INSERT 失败：回滚后时隙仍为 AVAILABLE。
-3. 相同 request_id 重试：返回同一预约；携带不同参数时拒绝复用。
-4. 取消后重新预约：保留取消历史，仍只能有一条有效预约。
+默认构建与隔离执行方法见 [测试说明](testing.md)。Mock 测试不能替代真实事务或 MQ 验收；未启用的 P0 专用 IT 不计为通过。

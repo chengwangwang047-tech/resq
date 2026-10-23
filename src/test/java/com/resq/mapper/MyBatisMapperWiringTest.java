@@ -9,7 +9,7 @@ import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** 只检查注册及 XML 可解析，不连接数据库，不表示 SQL/业务验收通过。 */
-class Day13MapperWiringTest {
+class MyBatisMapperWiringTest {
 
     @Test
     void annotationLabMapperCanBeRegistered() {

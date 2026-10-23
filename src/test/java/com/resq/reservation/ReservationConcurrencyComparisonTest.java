@@ -1,5 +1,5 @@
 
-package com.resq.day17;
+package com.resq.reservation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.resq.cache.ReservationRequestStateStore;
@@ -40,7 +40,7 @@ import static org.mockito.ArgumentMatchers.*;
         named = "resq.day17.integration",
         matches = "true")
 @org.junit.jupiter.api.Tag("integration")
-class Day17ConcurrencyComparisonTest {
+class ReservationConcurrencyComparisonTest {
 
     record Outcome(
             String category,
@@ -58,7 +58,7 @@ class Day17ConcurrencyComparisonTest {
 
         List<Map<String, Object>> reports = new ArrayList<>();
 
-        try (var db = new Day17TestDatabase()) {
+        try (var db = new ReservationTestDatabase()) {
 
             db.jdbc.execute(
                     "CREATE TABLE day17_unsafe_slot(" +
@@ -140,7 +140,7 @@ class Day17ConcurrencyComparisonTest {
     }
 
     private Map<String, Object> unsafe(
-            Day17TestDatabase db,
+            ReservationTestDatabase db,
             int clients) throws Exception {
 
         db.jdbc.update(
@@ -220,7 +220,7 @@ class Day17ConcurrencyComparisonTest {
     }
 
     private Map<String, Object> safe(
-            Day17TestDatabase db,
+            ReservationTestDatabase db,
             int clients,
             boolean lock) throws Exception {
 

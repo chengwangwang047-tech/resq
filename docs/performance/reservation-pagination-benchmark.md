@@ -1191,7 +1191,7 @@ src/main/resources/mapper/ReservationMapper.xml
 
 ```text
 docs/performance/resq-index-design.md
-docs/performance/day23-benchmark.md
+docs/performance/reservation-pagination-benchmark.md
 ```
 
 **最终总结：**

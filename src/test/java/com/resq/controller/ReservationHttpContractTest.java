@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * exercise JWT authentication, a servlet-container error dispatch, or live HTTP.
  * Dependencies are mocked, so these tests open neither MySQL nor Redis sockets.
  */
-class Day17ReservationHttpContractTest {
+class ReservationHttpContractTest {
 
     private static final Long USER_ID = 900_017L;
     private static final Long SLOT_ID = 900_018L;

@@ -32,7 +32,7 @@ python3 scripts/run_integration_tests.py
 
 集成测试会创建/更新/删除自己的合成用户、资源、时隙、预约，写 Redis Key，并向临时 MQ 发送事件；这些操作仅存在于本次临时环境。所有 Mapper 夹具自行建立关系，不再依赖 user=1、slot=1。测试 schema 补齐 expire_at 等当前字段；未来时隙用于真实预约，缓存 JSON 断言与夹具日期一致。
 
-旧 `scripts/day17/run_tests.py` 继续保留为原生 MySQL/Redis 进程验证入口，已适配测试分组和最新 schema。不得在共享或开发服务上手动伪造 guard 来绕过隔离检查。
+`scripts/run_native_reservation_tests.py` 提供原生 MySQL/Redis 进程验证入口，已适配测试分组和最新 schema，说明见 [原生预约测试](native-reservation-testing.md)。不得在共享或开发服务上手动伪造 guard 来绕过隔离检查。
 
 P0 的两个 `*IT` 仍保留独立的显式启用标记；本脚本不设置其连接变量，因此 profile 列入它们时会显示跳过。它们的独立隔离验收方法见 `docs/p0-fixes.md`，不应把跳过计为通过。
 
@@ -53,3 +53,5 @@ python3 scripts/test_integration_runner.py
 - 解锁或所有权检查失败不能覆盖原业务异常，清理异常作为 suppressed 保留；已提交但解锁失败时仍沿用 MySQL 回查恢复路径。
 
 `ReservationCancellationHttpTest` 使用真实隔离 MySQL、Redis、JWT 与 HTTP，证明重复取消不释放后续新预约、确认后取消为 409，以及释放失败为 500 时预约状态/时隙和缓存保持回滚前结果。
+
+预中断锁等待的真实集成测试接受两条已有路径：Redisson 包装的 RedisException，或 ReservationBusyException 包装 InterruptedException。两条路径都必须保留中断原因，业务中断分支还必须恢复中断标记；锁仍属于原持有线程、争抢线程不能解锁、数据库不发生预约写入的断言保留。异常外层类型取决于库内部异步等待时序，不应把单次实验观察写成唯一契约。

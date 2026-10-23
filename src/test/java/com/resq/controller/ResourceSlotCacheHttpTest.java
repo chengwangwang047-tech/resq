@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /** 需要真实 MySQL、Redis 与 JWT 环境变量；只写入并清理本次创建的隔离夹具。 */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class Day15CacheHttpTest extends com.resq.support.IsolatedSpringIntegrationTest {
+class ResourceSlotCacheHttpTest extends com.resq.support.IsolatedSpringIntegrationTest {
     private static final LocalDate DAY = LocalDate.of(2099, 1, 1);
     @Autowired private TestRestTemplate http;
     @Autowired private JdbcTemplate jdbc;

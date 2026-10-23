@@ -56,7 +56,7 @@ redis-cli DEL resource:1:slots:2026-10-12
 ```
 
 缓存键仅包含业务标识与查询条件，不应包含密码、JWT 或其他敏感信息。
-# Day18｜X-Request-Id 生成与校验规则
+## X-Request-Id 生成与校验规则
 
 ## 1. 作用
 
@@ -130,7 +130,7 @@ requestId.matches("[A-Za-z0-9_-]{1,100}")
 
 **服务端：** 校验格式、识别重复请求、检查业务参数、通过 Redis 和 MySQL 保障幂等性。
 
-## 7. Day18 实际验证
+## 7. 请求幂等验证记录
 
 - 顺序重复提交：两次均返回预约 ID 46。
 - MySQL：对应 requestId 只有一条预约。
@@ -149,7 +149,7 @@ ResQ 支持基于 `(created_at, id)` 联合游标的预约历史分页，
 降低至约 0.222 ms。
 
 详细实验环境、SQL、执行计划及局限性见：
-[Day23 性能基准测试报告](docs/performance/day23-benchmark.md)
+[预约分页性能基准测试报告](docs/performance/reservation-pagination-benchmark.md)
 
 ## P0 安全修复与验收
 
@@ -158,3 +158,7 @@ ResQ 支持基于 `(created_at, id)` 联合游标的预约历史分页，
 ## 构建与隔离测试
 
 `mvn clean package` 默认运行无需中间件的测试；完整隔离集成测试使用 `python3 scripts/run_integration_tests.py`。环境、连接保护和异常契约见 [测试说明](docs/testing.md)。
+
+## 学习资料与职责命名
+
+现行业务保留原有 Maven 与部署结构；独立学习材料已分类保存在本地 `learning-archive/`，该目录不进入 Git 或 Docker 镜像。分类、迁移清单和恢复说明见 [学习归档索引](docs/learning-archive.md)。当前实现见 [预约流程](docs/reservation-flow.md) 和 [MyBatis 映射说明](docs/mybatis-mapping.md)。

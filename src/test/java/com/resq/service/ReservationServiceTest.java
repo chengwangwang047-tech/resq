@@ -195,6 +195,6 @@ void cancellingChecksOwnershipStatusAndAffectedRows() {
         verifyNoInteractions(invalidator);
     }
 
-    // 真正的事务回滚由 Day17LockTransactionTest 和 ReservationCancellationHttpTest 验证；
+    // 真正的事务回滚由 ReservationLockTransactionTest 和 ReservationCancellationHttpTest 验证；
     // 这里的 Mockito 测试只验证服务调用与异常分支。
 }
