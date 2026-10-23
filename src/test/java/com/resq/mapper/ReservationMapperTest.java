@@ -14,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class ReservationMapperTest {
+class ReservationMapperTest extends com.resq.support.IsolatedSpringIntegrationTest {
 
     @Autowired
     private ReservationMapper mapper;
+
+    @Autowired private org.springframework.jdbc.core.JdbcTemplate jdbc;
 
     @Test
     void insertThenFindByIdMapsAllColumns() {
@@ -32,6 +34,7 @@ class ReservationMapperTest {
         assertEquals(expected.getStatus(), actual.getStatus());
         assertEquals(expected.getRequestId(), actual.getRequestId());
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
+        assertEquals(expected.getExpireAt(), actual.getExpireAt());
     }
 
     @Test
@@ -56,9 +59,18 @@ class ReservationMapperTest {
     }
 
     private Reservation fixture() {
-        // TODO(TEST-FIXTURE): 先核实测试库 user=1 / slot=1 存在；有其他约束时换隔离夹具。
-        // 此 Mapper 测试只验证映射；不宣称实际业务可重复预约同一时隙。
-        return new Reservation(null, 1L, 1L, "PENDING", "D13-" + UUID.randomUUID(),
-                LocalDateTime.of(2026, 10, 8, 9, 0));
+        String suffix = UUID.randomUUID().toString();
+        jdbc.update("INSERT INTO `user`(username,password,email,created_at) VALUES(?,?,?,NOW())",
+                "mapper-" + suffix, "SYNTHETIC-NO-LOGIN", suffix + "@example.invalid");
+        long user = jdbc.queryForObject("SELECT id FROM `user` WHERE username=?", Long.class, "mapper-" + suffix);
+        jdbc.update("INSERT INTO compute_resource(name,type,status,created_at) VALUES(?,'GPU','AVAILABLE',NOW())", suffix);
+        long resource = jdbc.queryForObject("SELECT id FROM compute_resource WHERE name=?", Long.class, suffix);
+        jdbc.update("INSERT INTO resource_slot(resource_id,slot_start,slot_end,status) VALUES(?,?,?,'AVAILABLE')",
+                resource, LocalDateTime.of(2099,1,1,9,0), LocalDateTime.of(2099,1,1,10,0));
+        long slot = jdbc.queryForObject("SELECT id FROM resource_slot WHERE resource_id=?", Long.class, resource);
+        Reservation reservation = new Reservation(null, user, slot, "PENDING", "mapper-" + suffix,
+                LocalDateTime.of(2099,1,1,8,0));
+        reservation.setExpireAt(LocalDateTime.of(2099,1,1,8,10));
+        return reservation;
     }
 }

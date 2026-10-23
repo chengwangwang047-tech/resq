@@ -4,6 +4,13 @@ package com.resq.exception;
 import com.resq.vo.ErrorResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +19,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+        private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+        private static final String INTERNAL_ERROR = "服务器内部错误，请稍后重试";
 
         // 原有：资源不存在 -> 404
         @ExceptionHandler(ResourceNotFoundException.class)
@@ -26,21 +35,41 @@ public class GlobalExceptionHandler {
                                 .body(body);
         }
 
-        // 原有：参数校验失败 -> 400
-        @ExceptionHandler(MethodArgumentNotValidException.class)
-        public ResponseEntity<ErrorResponse> handleValidation(
-                        MethodArgumentNotValidException e) {
+        @Override
+        protected ResponseEntity<Object> handleMethodArgumentNotValid(
+                        MethodArgumentNotValidException e, HttpHeaders headers,
+                        HttpStatusCode status, WebRequest request) {
+                String message = e.getBindingResult().getAllErrors().stream()
+                                .findFirst().map(error -> error.getDefaultMessage()).orElse("请求参数不合法");
+                return new ResponseEntity<>(new ErrorResponse(false, message), headers, status);
+        }
 
-                String message = e.getBindingResult()
-                                .getFieldErrors()
-                                .get(0)
-                                .getDefaultMessage();
+        @Override
+        protected ResponseEntity<Object> handleExceptionInternal(
+                        Exception e, Object body, HttpHeaders headers,
+                        HttpStatusCode status, WebRequest request) {
+                String message = status.is5xxServerError() ? INTERNAL_ERROR : "请求格式或参数不合法";
+                if (e instanceof ResponseStatusException responseStatus && status.is4xxClientError()
+                                && responseStatus.getReason() != null) {
+                        message = responseStatus.getReason();
+                }
+                // Preserve Spring MVC's status and headers (e.g. Allow); never expose raw parser/SQL errors.
+                return super.handleExceptionInternal(e, new ErrorResponse(false, message), headers, status, request);
+        }
 
-                ErrorResponse body = new ErrorResponse(false, message);
+        @ExceptionHandler(IllegalArgumentException.class)
+        public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException e) {
+                return ResponseEntity.badRequest().body(new ErrorResponse(false, "请求参数不合法"));
+        }
 
-                return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(body);
+        @ExceptionHandler(Exception.class)
+        public ResponseEntity<ErrorResponse> handleUnexpected(Exception e) {
+                // Keep a diagnostic type/location without logging request bodies, tokens or raw SQL messages.
+                StackTraceElement[] stack = e.getStackTrace();
+                log.error("未处理的请求异常，type={}，location={}", e.getClass().getName(),
+                                stack.length == 0 ? "unknown" : stack[0]);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body(new ErrorResponse(false, INTERNAL_ERROR));
         }
 
         // Day14 新增：预约不存在 -> 404

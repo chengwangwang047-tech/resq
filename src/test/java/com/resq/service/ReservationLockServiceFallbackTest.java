@@ -44,7 +44,7 @@ class ReservationLockServiceFallbackTest {
         lockService = new ReservationLockService(
                 redissonClient,
                 reservationService,
-                stateStore);
+                stateStore, mock(ReservationRateLimiter.class));
     }
 
     private ReservationCreateDTO newRequest() {

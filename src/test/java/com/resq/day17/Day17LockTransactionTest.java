@@ -49,6 +49,7 @@ import static org.mockito.Mockito.*;
 @EnabledIfSystemProperty(
         named = "resq.day17.integration",
         matches = "true")
+@org.junit.jupiter.api.Tag("integration")
 class Day17LockTransactionTest {
 
     /**
@@ -81,7 +82,7 @@ class Day17LockTransactionTest {
         return new ReservationLockService(
                 client,
                 service,
-                stateStore);
+                stateStore, mock(com.resq.service.ReservationRateLimiter.class));
     }
 
     @Test
@@ -328,7 +329,7 @@ class Day17LockTransactionTest {
                         db.transactional(
                                 new ReservationService(
                                         failingMapper,
-                                        db.invalidator));
+                                        db.invalidator, mock(org.springframework.context.ApplicationEventPublisher.class)));
 
                 ReservationLockService service =
                         day17Service(db.redis, transactional);

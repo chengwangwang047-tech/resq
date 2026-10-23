@@ -23,12 +23,15 @@ class ReservationServiceTest {
     private ReservationMapper mapper;
     private ReservationService service;
     private ResourceSlotCacheInvalidator invalidator;
+    private org.springframework.context.ApplicationEventPublisher publisher;
 
     @BeforeEach
     void setUp() {
         mapper = mock(ReservationMapper.class);
         invalidator = mock(ResourceSlotCacheInvalidator.class);
-        service = new ReservationService(mapper, invalidator);
+        publisher = mock(org.springframework.context.ApplicationEventPublisher.class);
+        service = new ReservationService(mapper, invalidator, publisher);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "confirmTimeoutSeconds", 600L);
     }
 
     @Test
@@ -90,7 +93,7 @@ void creatingReservationRejectsBusySlotWithoutInsert() {
 
     // 抢占失败后不能执行 INSERT
     verify(mapper, never()).insert(any());
-    verifyNoInteractions(invalidator);
+    verifyNoInteractions(invalidator, publisher);
 }
 
 @Test
@@ -125,7 +128,7 @@ void cancellingChecksOwnershipStatusAndAffectedRows() {
             .thenReturn(0);
 
     // 重复取消应该失败
-    assertThrows(IllegalStateException.class,
+    assertThrows(ReservationConflictException.class,
             () -> service.cancel(7L, 100L));
 
     // 重复取消绝对不能再次释放时隙
@@ -153,11 +156,21 @@ void cancellingChecksOwnershipStatusAndAffectedRows() {
             row.setId(100L);
             return 1;
         });
-        assertEquals(100L, service.create(7L, dto).getId());
-        var order = inOrder(mapper, invalidator);
+        Reservation created = service.create(7L, dto);
+        assertEquals(100L, created.getId());
+        assertEquals(created.getCreatedAt().plusSeconds(600), created.getExpireAt());
+        var event = org.mockito.ArgumentCaptor.forClass(com.resq.event.ReservationCreatedEvent.class);
+        verify(publisher).publishEvent(event.capture());
+        assertEquals(created.getId(), event.getValue().reservationId());
+        assertEquals(created.getSlotId(), event.getValue().slotId());
+        assertEquals(created.getUserId(), event.getValue().userId());
+        assertEquals(created.getRequestId(), event.getValue().requestId());
+        assertEquals("PENDING", event.getValue().status());
+        var order = inOrder(mapper, invalidator, publisher);
         order.verify(mapper).reserveSlotIfAvailable(10L);
         order.verify(mapper).insert(any());
         order.verify(invalidator).evictAfterCommit(10L);
+        order.verify(publisher).publishEvent(event.getValue());
     }
 
     @Test
@@ -166,7 +179,7 @@ void cancellingChecksOwnershipStatusAndAffectedRows() {
         when(mapper.insert(any())).thenReturn(0);
         assertThrows(IllegalStateException.class,
                 () -> service.create(7L, new ReservationCreateDTO(10L, "D15-failed")));
-        verifyNoInteractions(invalidator);
+        verifyNoInteractions(invalidator, publisher);
     }
 
     @Test
@@ -182,6 +195,6 @@ void cancellingChecksOwnershipStatusAndAffectedRows() {
         verifyNoInteractions(invalidator);
     }
 
-    // TODO(TEST-TX): 另写 Spring 事务集成测试：抢占成功但 INSERT 失败后时隙回滚；
-    // 取消后释放失败时预约状态也回滚。这里的 Mockito 测试不能证明事务生效。
+    // 真正的事务回滚由 Day17LockTransactionTest 和 ReservationCancellationHttpTest 验证；
+    // 这里的 Mockito 测试只验证服务调用与异常分支。
 }

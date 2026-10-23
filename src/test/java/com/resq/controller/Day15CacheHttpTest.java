@@ -34,8 +34,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /** 需要真实 MySQL、Redis 与 JWT 环境变量；只写入并清理本次创建的隔离夹具。 */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class Day15CacheHttpTest {
-    private static final LocalDate DAY = LocalDate.of(2026, 10, 6);
+class Day15CacheHttpTest extends com.resq.support.IsolatedSpringIntegrationTest {
+    private static final LocalDate DAY = LocalDate.of(2099, 1, 1);
     @Autowired private TestRestTemplate http;
     @Autowired private JdbcTemplate jdbc;
     @Autowired private ResourceMapper resources;
@@ -120,7 +120,8 @@ class Day15CacheHttpTest {
         assertEquals(DAY.atTime(9, 0), first[0].getSlotStart());
         String cached = redis.opsForValue().get(dayKey);
         assertNotNull(cached);
-        assertTrue(cached.contains("2026-10-06T09:00:00"));
+        assertEquals(DAY.atTime(9, 0).format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                objectMapper.readTree(cached).get(0).get("slotStart").asText());
         Long ttl = redis.getExpire(dayKey, TimeUnit.SECONDS);
         assertNotNull(ttl);
         long elapsedSeconds = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - fillStarted) + 1;

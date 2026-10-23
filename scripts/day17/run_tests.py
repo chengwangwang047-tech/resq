@@ -185,6 +185,7 @@ def main():
             # Production runtime environment is explicitly removed. The test whitelist has no Boot context.
             environment = private_environment()
             args = ['mvn','-B','-f',str(pom),f'-Dtest={TESTS}',
+                '-Dtest.groups=integration | !integration',
                 '-Dresq.day17.integration=true',
                 '-Dday17.mysql.url=jdbc:mysql://127.0.0.1:13317/resq_day17?characterEncoding=UTF-8&connectionTimeZone=Asia/Shanghai&connectTimeout=2000&socketTimeout=10000',
                 '-Dday17.redis.port=16317',f'-Dday17.guard={guard}',f'-Dday17.results={RESULTS}',

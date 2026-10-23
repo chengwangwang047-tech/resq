@@ -264,7 +264,7 @@ public class ReservationService {
                 id, authenticatedUserId, "PENDING", "CANCELLED");
 
         if (updated != 1) {
-            throw new IllegalStateException("取消预约失败");
+            throw new ReservationConflictException("预约状态已变化，无法取消");
         }
 
         // 2. 再释放对应的时隙

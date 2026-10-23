@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class ResourceLabMapperTest {
+class ResourceLabMapperTest extends com.resq.support.IsolatedSpringIntegrationTest {
 
     @Autowired
     private ResourceLabMapper mapper;

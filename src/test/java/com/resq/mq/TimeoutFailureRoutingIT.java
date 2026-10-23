@@ -25,6 +25,7 @@ import static org.mockito.Mockito.*;
 
 /** Opt-in only: use a disposable broker; never loads application connection settings. */
 @EnabledIfEnvironmentVariable(named = "RESQ_P0_ISOLATED_BROKER", matches = "[a-f0-9]{32}")
+@org.junit.jupiter.api.Tag("integration")
 class TimeoutFailureRoutingIT {
     @Test void retryExhaustionRetainsMessagesAndSuccessIsAcknowledged() throws Exception {
         int port = Integer.parseInt(System.getenv("RESQ_P0_RABBIT_PORT"));

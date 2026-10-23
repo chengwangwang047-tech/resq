@@ -29,6 +29,7 @@ import static org.mockito.Mockito.*;
 
 /** Requires a brand new disposable MySQL instance and full current deployment schema. */
 @EnabledIfEnvironmentVariable(named = "RESQ_P0_ISOLATED_MYSQL", matches = "[a-f0-9]{32}")
+@org.junit.jupiter.api.Tag("integration")
 class ReservationTimeBoundaryIT {
     private JdbcTemplate jdbc;
     private ReservationMapper mapper;

@@ -58,6 +58,7 @@ public class ReservationLockService {
 
         RLock lock = redissonClient.getLock(lockKey);
         boolean locked = false;
+        RuntimeException primaryFailure = null;
 
         try {
             locked = lock.tryLock(2, TimeUnit.SECONDS);
@@ -90,10 +91,25 @@ public class ReservationLockService {
             throw new ReservationBusyException(
                     "等待预约锁时被中断", e);
 
+        } catch (RuntimeException e) {
+            primaryFailure = e;
+            throw e;
         } finally {
-
-            if (locked && lock.isHeldByCurrentThread()) {
-                lock.unlock();
+            if (locked) {
+                try {
+                    if (lock.isHeldByCurrentThread()) {
+                        lock.unlock();
+                    }
+                } catch (RuntimeException cleanupFailure) {
+                    if (primaryFailure == null) {
+                        // Preserve the existing MySQL recovery path after an uncertain success.
+                        throw cleanupFailure;
+                    }
+                    if (primaryFailure != cleanupFailure) {
+                        primaryFailure.addSuppressed(cleanupFailure);
+                    }
+                    log.warn("预约锁清理失败，已保留原异常，slotId={}", dto.getSlotId());
+                }
             }
         }
     }

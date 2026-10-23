@@ -52,7 +52,7 @@ class ReservationLockServiceTest {
         lock = mock(RLock.class);
         reservationService = mock(ReservationService.class);
         requestStateStore = mock(ReservationRequestStateStore.class);
-        service = new ReservationLockService(redissonClient, reservationService, requestStateStore);
+        service = new ReservationLockService(redissonClient, reservationService, requestStateStore, mock(ReservationRateLimiter.class));
         request = new ReservationCreateDTO(SLOT_ID, REQUEST_ID);
         when(redissonClient.getLock(LOCK_KEY)).thenReturn(lock);
         when(requestStateStore.tryStart(eq(REQUEST_ID), eq(USER_ID), eq(SLOT_ID), anyString()))
@@ -278,21 +278,21 @@ class ReservationLockServiceTest {
     }
 
     @Test
-    void ownershipCheckFailureCurrentlyMasksBusinessFailureWhenNothingWasCommitted() throws InterruptedException {
+    void ownershipCheckFailurePreservesBusinessFailureAsPrimary() throws InterruptedException {
         when(lock.tryLock(2, TimeUnit.SECONDS)).thenReturn(true);
         ReservationConflictException businessFailure = new ReservationConflictException("Slot is unavailable");
         when(reservationService.create(USER_ID, request)).thenThrow(businessFailure);
         RedisException cleanupFailure = new RedisException("Simulated ownership check failure");
         when(lock.isHeldByCurrentThread()).thenThrow(cleanupFailure);
 
-        RedisException actual = assertThrows(RedisException.class, () -> service.create(USER_ID, request));
+        ReservationConflictException actual = assertThrows(ReservationConflictException.class, () -> service.create(USER_ID, request));
 
-        // Retain the Day17 regression observation; this is an existing production limitation.
-        assertSame(cleanupFailure, actual);
-        assertEquals(0, actual.getSuppressed().length);
+        // The business error stays primary; cleanup remains available as a suppressed cause.
+        assertSame(businessFailure, actual);
+        assertArrayEquals(new Throwable[] {cleanupFailure}, actual.getSuppressed());
         verify(lock, never()).unlock();
-        verify(reservationService, times(2)).findExistingForRetry(USER_ID, request);
-        assertProcessingRetained();
+        verify(reservationService).findExistingForRetry(USER_ID, request);
+        verifyOwnedProcessingReleased();
     }
 
     @Test
@@ -312,20 +312,35 @@ class ReservationLockServiceTest {
     }
 
     @Test
-    void unlockFailureCurrentlyMasksBusinessFailureWhenNothingWasCommitted() throws InterruptedException {
+    void unlockFailurePreservesBusinessFailureAsPrimary() throws InterruptedException {
         acquiredOwnedLock();
         ReservationConflictException businessFailure = new ReservationConflictException("Slot is unavailable");
         when(reservationService.create(USER_ID, request)).thenThrow(businessFailure);
         RedisException cleanupFailure = new RedisException("Simulated Redis unlock failure");
         doThrow(cleanupFailure).when(lock).unlock();
 
-        RedisException actual = assertThrows(RedisException.class, () -> service.create(USER_ID, request));
+        ReservationConflictException actual = assertThrows(ReservationConflictException.class, () -> service.create(USER_ID, request));
 
-        // Retain the Day17 regression observation; this is an existing production limitation.
-        assertSame(cleanupFailure, actual);
-        assertEquals(0, actual.getSuppressed().length);
+        // The business error stays primary; cleanup remains available as a suppressed cause.
+        assertSame(businessFailure, actual);
+        assertArrayEquals(new Throwable[] {cleanupFailure}, actual.getSuppressed());
         verify(lock).isHeldByCurrentThread();
         verify(lock).unlock();
+        verify(reservationService).findExistingForRetry(USER_ID, request);
+        verifyOwnedProcessingReleased();
+    }
+
+    @Test
+    void databaseFailureStaysPrimaryWhenUnlockAlsoFails() throws InterruptedException {
+        acquiredOwnedLock();
+        RuntimeException databaseFailure = new org.springframework.dao.DataAccessResourceFailureException("Synthetic database failure");
+        RedisException cleanupFailure = new RedisException("Synthetic unlock failure");
+        when(reservationService.create(USER_ID, request)).thenThrow(databaseFailure);
+        doThrow(cleanupFailure).when(lock).unlock();
+
+        RuntimeException actual = assertThrows(RuntimeException.class, () -> service.create(USER_ID, request));
+        assertSame(databaseFailure, actual);
+        assertArrayEquals(new Throwable[] {cleanupFailure}, actual.getSuppressed());
         verify(reservationService, times(2)).findExistingForRetry(USER_ID, request);
         assertProcessingRetained();
     }

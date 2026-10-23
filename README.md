@@ -154,3 +154,7 @@ ResQ 支持基于 `(created_at, id)` 联合游标的预约历史分页，
 ## P0 安全修复与验收
 
 资源写权限、预约时间边界及 RabbitMQ 失败路由配置见 [P0 修复与验证](docs/p0-fixes.md)。新环境启动消费前应按该说明配置失败路由 policy。
+
+## 构建与隔离测试
+
+`mvn clean package` 默认运行无需中间件的测试；完整隔离集成测试使用 `python3 scripts/run_integration_tests.py`。环境、连接保护和异常契约见 [测试说明](docs/testing.md)。

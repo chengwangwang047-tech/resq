@@ -39,6 +39,7 @@ import static org.mockito.ArgumentMatchers.*;
 @EnabledIfSystemProperty(
         named = "resq.day17.integration",
         matches = "true")
+@org.junit.jupiter.api.Tag("integration")
 class Day17ConcurrencyComparisonTest {
 
     record Outcome(
@@ -256,7 +257,7 @@ class Day17ConcurrencyComparisonTest {
         ReservationService measuredService = db.transactional(
                 new ReservationService(
                         measuredMapper,
-                        db.invalidator));
+                        db.invalidator, mock(org.springframework.context.ApplicationEventPublisher.class)));
 
         // Day18：模拟新增的 Redis 请求状态组件
         ReservationRequestStateStore stateStore =
@@ -281,7 +282,7 @@ class Day17ConcurrencyComparisonTest {
                 new ReservationLockService(
                         db.redis,
                         measuredService,
-                        stateStore);
+                        stateStore, mock(com.resq.service.ReservationRateLimiter.class));
 
         try {
             Map<String, Object> result = measure(

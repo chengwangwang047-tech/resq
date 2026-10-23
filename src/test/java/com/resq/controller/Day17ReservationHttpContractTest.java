@@ -172,39 +172,28 @@ class Day17ReservationHttpContractTest {
     }
 
     @Test
-    void unexpectedIllegalStateExceptionIsUnresolvedByCurrentAdvice() {
-        IllegalStateException failure = new IllegalStateException("Simulated unexpected state");
+    void unexpectedIllegalStateExceptionReturnsSafe500() throws Exception {
         when(reservationLockService.create(eq(USER_ID), any(ReservationCreateDTO.class)))
-                .thenThrow(failure);
-
-        ServletException actual = assertThrows(ServletException.class, () ->
-                mvc.perform(post("/api/reservations")
-                        .requestAttr("currentUserId", USER_ID)
-                        .header("X-Request-Id", REQUEST_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(VALID_BODY)));
-
-        assertSame(failure, actual.getCause());
-        // Standalone MockMvc does not perform the container's /error dispatch.
-        // This proves the generic exception remains unmapped; it does not claim
-        // a live HTTP 500 or describe the corrected lock timeout branch.
+                .thenThrow(new IllegalStateException("Simulated unexpected state"));
+        mvc.perform(post("/api/reservations").requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID).contentType(MediaType.APPLICATION_JSON)
+                        .content(VALID_BODY))
+                .andExpect(status().isInternalServerError())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("success").value(false))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("message").value("服务器内部错误，请稍后重试"));
         verifyNoInteractions(reservationService);
     }
 
     @Test
-    void redisExceptionIsUnresolvedByCurrentAdvice() {
-        RedisException redisFailure = new RedisException("Simulated Redis failure");
+    void unexpectedRedisExceptionReturnsSafe500() throws Exception {
         when(reservationLockService.create(eq(USER_ID), any(ReservationCreateDTO.class)))
-                .thenThrow(redisFailure);
-
-        ServletException actual = assertThrows(ServletException.class, () ->
-                mvc.perform(post("/api/reservations")
-                        .requestAttr("currentUserId", USER_ID)
-                        .header("X-Request-Id", REQUEST_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(VALID_BODY)));
-
-        assertSame(redisFailure, actual.getCause());
+                .thenThrow(new RedisException("Simulated Redis failure"));
+        mvc.perform(post("/api/reservations").requestAttr("currentUserId", USER_ID)
+                        .header("X-Request-Id", REQUEST_ID).contentType(MediaType.APPLICATION_JSON)
+                        .content(VALID_BODY))
+                .andExpect(status().isInternalServerError())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("success").value(false))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("message").value("服务器内部错误，请稍后重试"));
         verifyNoInteractions(reservationService);
     }
 

@@ -1,13 +1,16 @@
 package com.resq.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class ResourceCreateDTO {
 
     @NotBlank(message = "name must not be blank")
+    @Size(max = 100, message = "name must not exceed 100 characters")
     private String name;
 
     @NotBlank(message = "type must not be blank")
+    @Size(max = 20, message = "type must not exceed 20 characters")
     private String type;
 
     public ResourceCreateDTO() {

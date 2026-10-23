@@ -52,7 +52,7 @@ public final class Day17TestDatabase implements AutoCloseable {
         HikariConfig hc = new HikariConfig();
         hc.setJdbcUrl(url);
         hc.setUsername("day17_test");
-        hc.setPassword(""); // Only this temporary loopback instance; no live credentials.
+        hc.setPassword(System.getenv().getOrDefault("RESQ_IT_DB_PASSWORD", "")); // Only this temporary loopback instance; no live credentials.
         hc.setMaximumPoolSize(16);
         hc.setMinimumIdle(0);
         hc.setConnectionTimeout(10000);
@@ -90,7 +90,7 @@ public final class Day17TestDatabase implements AutoCloseable {
             cache = mock(ResourceSlotCache.class);
             when(cache.evict(anyLong(), any(LocalDate.class))).thenReturn(true);
             invalidator = new ResourceSlotCacheInvalidator(slots, cache);
-            service = transactional(new ReservationService(mapper, invalidator));
+            service = transactional(new ReservationService(mapper, invalidator, mock(org.springframework.context.ApplicationEventPublisher.class)));
         } catch (Throwable failure) {
             if (createdRedis != null) createdRedis.shutdown();
             pool.close();
@@ -99,6 +99,7 @@ public final class Day17TestDatabase implements AutoCloseable {
     }
 
     public ReservationService transactional(ReservationService target) {
+        org.springframework.test.util.ReflectionTestUtils.setField(target, "confirmTimeoutSeconds", 600L);
         ProxyFactory pf = new ProxyFactory(target);
         pf.setProxyTargetClass(true);
         pf.addAdvice(new TransactionInterceptor(tx, new AnnotationTransactionAttributeSource()));

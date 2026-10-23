@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class JdbcResourceSlotMapperTest {
+class JdbcResourceSlotMapperTest extends com.resq.support.IsolatedSpringIntegrationTest {
     @Autowired private ResourceMapper resources;
     @Autowired private ResourceSlotMapper slots;
     @Autowired private JdbcTemplate jdbc;

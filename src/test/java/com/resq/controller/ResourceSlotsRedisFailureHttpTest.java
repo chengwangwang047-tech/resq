@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {"spring.data.redis.connect-timeout=100ms", "spring.data.redis.timeout=100ms"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-class ResourceSlotsRedisFailureHttpTest {
+class ResourceSlotsRedisFailureHttpTest extends com.resq.support.IsolatedSpringIntegrationTest {
     @Autowired private TestRestTemplate http;
     @Autowired private ResourceMapper resources;
     @Autowired private JdbcTemplate jdbc;
