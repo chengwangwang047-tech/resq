@@ -40,4 +40,19 @@ python3 scripts/configure_timeout_failure_policy.py --container deploy-rabbitmq-
 - MySQL：RESQ_P0_ISOLATED_MYSQL、RESQ_P0_MYSQL_PORT、RESQ_P0_MYSQL_PASSWORD。固定专用库 resq_p0、账号 p0_test，且要求 p0_safety_guard.guard 与标记匹配；测试写入该专用库。
 - RabbitMQ：RESQ_P0_ISOLATED_BROKER、RESQ_P0_RABBIT_PORT、RESQ_P0_RABBIT_USER、RESQ_P0_RABBIT_PASSWORD。仅限临时 broker；测试创建业务同名拓扑并发送、消费合成消息。标记只是显式启用条件，不能代替容器归属检查。
 
-隔离实例配置完成后，测试可由 Maven 显式选择；当前仓库旧测试的 8 处编译错误仍属于 P1，解决前正常 Maven testCompile 仍受阻。本批使用排除凭据配置的临时副本和精确选定测试编译执行，没有修改、删除或关闭旧失败测试来隐藏该问题。
+当前旧测试编译问题已经修复。两个专用套件可通过仓库内安全入口复现，不依赖此前工作目录中的临时脚本，也不需要改写业务 SQL 或复制/筛选测试源码：
+
+```bash
+# 只执行这 8 项：新建自己的 MySQL 和 RabbitMQ，完成后按归属清理。
+python3 scripts/run_p0_integration_tests.py
+
+# 原有 29 项 + 以上 8 项，两阶段隔离执行，汇总要求 0 跳过。
+python3 scripts/run_integration_tests.py
+
+# 入口自身的离线保护测试，不调用 Docker/Maven。
+python3 scripts/test_p0_integration_runner.py
+```
+
+前提是 Java 21、Maven、Python 3、Docker 可用，并已有 Maven 依赖缓存和所需镜像。专用入口只使用 `mysql:8.0.46`、`rabbitmq:3.13-management`；完整入口另外需要 `redis:7-alpine`。镜像缺失则明确失败，不会偷偷拉取或更新。首次可先 `mvn clean package` 准备依赖并自行拉取指定镜像。
+
+入口自动分配本机端口、生成测试凭据/guard、导入现行 schema，并在新 broker 上设置失败路由 policy；不读取真实 `.env`，不使用现有容器或卷。报告与失败行为详见 [测试入口](testing.md)。测试源码和业务断言未改变；8 项必须真实执行，跳过不算通过。

@@ -1,4 +1,4 @@
-# 测试入口与 P1-01、P1-02、P1-05
+# 构建与隔离测试入口
 
 ## 默认构建
 
@@ -25,8 +25,9 @@ python3 scripts/run_integration_tests.py
 1. 拒绝已占用的专用回环端口 13317、16317、56719、15679，不停止任何原有进程。
 2. 创建具有唯一归属标记的三个临时容器，数据目录使用 tmpfs，生成仅供本次使用的合成凭据。
 3. 从 `deploy/init/01-schema.sql` 初始化独立 `resq_day17` 库，写入数据库、Redis 和 RabbitMQ 的隔离 guard。
-4. 清除继承的应用连接变量与 JVM/Maven 覆盖参数，设置本次隔离连接，执行 `mvn -Pintegration test` 及 Day17 显式启用参数。
-5. 输出独立测试报告，最后核对创建 ID 和归属标记，只清理本次临时容器；现有数据卷不挂载、不清理。
+4. 清除继承的应用连接变量与 JVM/Maven 覆盖参数，禁用 Maven 用户 rc，使用 `mvn -o -B -Pintegration test -Dtest=**/*Test` 及 Day17 显式启用参数执行原有 29 项集成测试；两项专用 `*IT` 不在此阶段重复运行。
+5. 核对创建 ID 和归属标记，清理第一阶段三个临时容器；现有数据卷不挂载、不清理。
+6. 再调用下述专用入口，新建另外两个临时容器执行 8 项 P0 测试。两阶段依次执行，当前基线合计 37 项，要求 0 失败、0 错误、0 跳过。
 
 七组 Spring 集成测试使用显式 test Profile。连接前检查隔离标记以及数据库/Redis/MQ guard；不提供 guard 时直接拒绝，不回退到 dev 或 prod。测试中的后台预约过期/缓存重试任务不执行，MQ 监听器不自动启动，避免干扰事务和缓存断言。
 
@@ -34,14 +35,32 @@ python3 scripts/run_integration_tests.py
 
 `scripts/run_native_reservation_tests.py` 提供原生 MySQL/Redis 进程验证入口，已适配测试分组和最新 schema，说明见 [原生预约测试](native-reservation-testing.md)。不得在共享或开发服务上手动伪造 guard 来绕过隔离检查。
 
-P0 的两个 `*IT` 仍保留独立的显式启用标记；本脚本不设置其连接变量，因此 profile 列入它们时会显示跳过。它们的独立隔离验收方法见 `docs/p0-fixes.md`，不应把跳过计为通过。
+## 只运行 8 项专用 P0 测试
 
-报告位于 `target/integration-results/<时间-随机后缀>/`，含 `maven.log`、独立 Surefire 报告、`summary.json` 和 `cleanup.json`；这些是构建产物，执行 clean 前如需保留应另行归档。不要把含合成运行参数的完整日志直接当成公开简历附件。
+```bash
+python3 scripts/run_p0_integration_tests.py
+```
+
+该命令可独立运行，也由完整入口自动调用，不要求先启动 ResQ 或 Compose，不读取 `deploy/.env`。它保留两个 `*IT` 的专用启用条件，不要求用户手动填写任何 `RESQ_P0_*` 变量。
+
+- 新建 `mysql:8.0.46`、`rabbitmq:3.13-management` 两个容器，随机名称、完整 ID 和独立归属标记；MySQL/RabbitMQ 数据目录使用 tmpfs，不挂载已有数据或数据卷。
+- Docker 自动分配 `127.0.0.1` 端口；拒绝公开绑定、多个绑定及开发端口 3306/5672。凭据每轮随机生成，清除继承的应用连接/JVM 参数，不接触本机原账号与密钥。
+- MySQL 只在新容器中初始化当前 schema、`resq_p0` / `p0_test` 以及 `p0_safety_guard`；测试连接前仍检查数据库 guard。
+- 检查容器归属后，只给本次 broker 应用既有超时失败路由 policy，再以精确测试名选择 `ReservationTimeBoundaryIT`（7 项）和 `TimeoutFailureRoutingIT`（1 项），通过 integration Profile 执行。
+- 两套新报告必须同时存在、数量为 7+1、失败/错误/跳过均为零；Maven 返回成功但实际跳过、漏跑也会使入口失败。超时只终止本次 Maven 进程组。
+- 正常和异常退出均尝试清理本次容器；清理前先校验全部完整 ID 与归属标记。发现不匹配则停止清理并保留失败记录，绝不按模糊名称清理原有资源；不执行 volume prune 或对现有环境 down。
+
+详细业务断言与启用条件见 [P0 修复与验证](p0-fixes.md)。单纯手动给 Maven 设置标记不能证明环境隔离，不应绕过上述入口。直接 `mvn -Pintegration test` 也不等价于完整验收：它不会创建依赖、初始化 guard 或配置临时 broker policy。
+
+独立运行报告：`target/p0-integration-results/<时间-随机后缀>/`，含 `maven.log`、`surefire-reports/`、`summary.json`（passed 与两套测试统计）、`cleanup.json`。目录 0700，命令行入口以 0077 umask 创建结果文件。测试日志只涉及合成参数，仍应本地保存，不直接公开。
+
+完整运行报告位于 `target/integration-results/<时间-随机后缀>/`：根目录 `maven.log`、`surefire-reports/` 与 `cleanup.json` 对应第一阶段；`p0/` 含第二阶段相同文件及专用 `summary.json`。根目录 `summary.json` 汇总两阶段所有测试，`acceptance.json` 记录完整入口是否成功及最终统计。第二阶段失败会使完整入口返回非零，不能只看第一阶段报告判定成功；这些是构建产物，执行 clean 前如需保留应另行归档。不要把含合成运行参数的完整日志直接当成公开简历附件。
 
 入口安全测试不调用 Docker：
 
 ```bash
 python3 scripts/test_integration_runner.py
+python3 scripts/test_p0_integration_runner.py
 ```
 
 ## 异常与校验契约

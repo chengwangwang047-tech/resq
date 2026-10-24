@@ -209,7 +209,7 @@ ResQ 支持基于 `(created_at, id)` 联合游标的预约历史分页，
 
 ## 构建与隔离测试
 
-`mvn clean package` 默认运行无需中间件的测试；完整隔离集成测试使用 `python3 scripts/run_integration_tests.py`。环境、连接保护和异常契约见 [测试说明](docs/testing.md)。
+`mvn clean package` 默认运行无需中间件的测试；完整隔离集成测试使用 `python3 scripts/run_integration_tests.py`，依次运行原有 29 项及专用 P0 的 8 项，要求全部通过且无跳过。只复现预约时间边界与 MQ 失败路由可运行 `python3 scripts/run_p0_integration_tests.py`，由脚本新建专属 MySQL/RabbitMQ，不需要启动现有 Compose。环境、连接保护和异常契约见 [测试说明](docs/testing.md)。
 
 ## 学习资料与职责命名
 

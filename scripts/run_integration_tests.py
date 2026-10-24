@@ -30,10 +30,11 @@ def run(args, *, env, data=None, timeout=30):
                           check=True, timeout=timeout).stdout.strip()
 
 
-def main():
+def run_standard_tests():
     if sys.platform != 'linux':
         raise RuntimeError('Run inside WSL Ubuntu')
     env = clean_environment()
+    env['MAVEN_SKIP_RC'] = 'true'
     # Refuse conflicts; never stop any pre-existing process or reuse its database.
     for port in PORTS:
         with socket.socket() as sock:
@@ -127,6 +128,7 @@ def main():
                          'JAVA_TOOL_OPTIONS': '-Duser.timezone=UTC'})
         reports = results / 'surefire-reports'
         command = ['mvn', '-o', '-B', '-Pintegration', 'test',
+                   '-Dtest=**/*Test',
                    '-Dresq.day17.integration=true',
                    '-Dday17.mysql.url=jdbc:mysql://127.0.0.1:13317/resq_day17?allowPublicKeyRetrieval=true&useSSL=false&connectionTimeZone=UTC&connectTimeout=2000&socketTimeout=10000',
                    '-Dday17.redis.port=16317', '-Dday17.guard=' + guard,
@@ -158,8 +160,10 @@ def main():
             raise RuntimeError('Integration tests failed; inspect the isolated Maven report')
         if not statuses:
             raise RuntimeError('No integration reports were produced')
-        print('INTEGRATION_SUITE_PASSED', flush=True)
-        return 0
+        if any(int(s[key]) for s in statuses for key in ('failures', 'errors', 'skipped')):
+            raise RuntimeError('Standard integration tests must pass without skips')
+        print('STANDARD_INTEGRATION_SUITE_PASSED', flush=True)
+        return results
     finally:
         cleanup = []
         for container in reversed(owned):
@@ -172,10 +176,30 @@ def main():
         print('Removed only this run\'s three disposable containers; existing services/volumes preserved.', flush=True)
 
 
+def main():
+    # The first phase cleans up its three containers before the dedicated phase starts.
+    # Its Maven selection excludes *IT; those suites run once in their own instances below.
+    results = run_standard_tests()
+    statuses = json.loads((results / 'summary.json').read_text())
+    outcome = {'passed': False, 'standardSuitesPassed': True, 'dedicatedSuitesPassed': False}
+    try:
+        from run_p0_integration_tests import main as run_dedicated_tests
+        statuses.extend(run_dedicated_tests(results / 'p0'))
+        (results / 'summary.json').write_text(json.dumps(statuses, indent=2) + '\n')
+        outcome.update(passed=True, dedicatedSuitesPassed=True,
+                       totals={key: sum(int(s[key]) for s in statuses)
+                               for key in ('tests', 'failures', 'errors', 'skipped')})
+        print('INTEGRATION_SUITE_PASSED', json.dumps(outcome['totals']), flush=True)
+        return 0
+    finally:
+        (results / 'acceptance.json').write_text(json.dumps(outcome, indent=2) + '\n')
+
+
 if __name__ == '__main__':
+    os.umask(0o077)
     try:
         sys.exit(main())
-    except (RuntimeError, OSError, subprocess.SubprocessError) as exc:
+    except (RuntimeError, OSError, ValueError, subprocess.SubprocessError, ET.ParseError) as exc:
         # Exception text from commands could contain generated credentials; do not dump it.
         print('Isolated integration run failed (' + type(exc).__name__ + '); inspect target/integration-results.', file=sys.stderr)
         sys.exit(1)
