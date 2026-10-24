@@ -46,6 +46,7 @@ docker compose --env-file deploy/.env -f deploy/compose.yaml stop
 | Redis 缓存对照 | [benchmarks/redis-cache-report.md](benchmarks/redis-cache-report.md) |
 | 原始证据 ZIP 与恢复方法 | [benchmarks/archives/README.md](benchmarks/archives/README.md) |
 | 本地学习归档分类与恢复索引 | [docs/learning-archive.md](docs/learning-archive.md) |
+| 本机常驻练习环境、启停与原数据回退说明 | [docs/practice.md](docs/practice.md) |
 | v1.0 命令行演示：准备、执行、状态、清理 | [docs/demo.md](docs/demo.md) |
 | v1.0 演示实测与验收限制 | [docs/demo-acceptance.md](docs/demo-acceptance.md) |
 | 全新环境种子数据、安全约束与验证 | [docs/demo-seed.md](docs/demo-seed.md) |
@@ -235,3 +236,7 @@ python3 scripts/demo/run.py cleanup
 ```
 
 `all` 可替换为依次执行 `basic`、`concurrency`、`advanced`。重复演示须新建 session；不清空旧库或重复写同一场景。prepare 使用新项目、新卷、合成凭据和 60 秒确认期，原 deploy 环境保持原样。镜像与 Maven 缓存、报告路径、安全边界和主持人提纲见 [演示说明](docs/demo.md)。候补仅入队/去重/排名，通知仅日志模拟；演示不承诺消息绝不丢失或生产容量。
+
+## 本机常驻练习
+
+本机已初始化的带种子数据环境使用 `python3 scripts/practice.py start`、`stop`、`status` 管理，应用地址为 http://localhost:8081，数据长期保留。其配置独立于原 deploy/.env，避免误切回旧库。与临时演示 session 的区别、新机器使用方式及回退镜像见 [练习说明](docs/practice.md)。
