@@ -46,8 +46,10 @@ docker compose --env-file deploy/.env -f deploy/compose.yaml stop
 | Redis 缓存对照 | [benchmarks/redis-cache-report.md](benchmarks/redis-cache-report.md) |
 | 原始证据 ZIP 与恢复方法 | [benchmarks/archives/README.md](benchmarks/archives/README.md) |
 | 本地学习归档分类与恢复索引 | [docs/learning-archive.md](docs/learning-archive.md) |
+| v1.0 命令行演示：准备、执行、状态、清理 | [docs/demo.md](docs/demo.md) |
+| v1.0 演示实测与验收限制 | [docs/demo-acceptance.md](docs/demo-acceptance.md) |
 | 全新环境种子数据、安全约束与验证 | [docs/demo-seed.md](docs/demo-seed.md) |
-| v1.0 统一演示方案评估（待实施） | [docs/demo-system-plan.md](docs/demo-system-plan.md) |
+| v1.0 统一演示原始设计记录 | [docs/demo-system-plan.md](docs/demo-system-plan.md) |
 | 本轮项目现状、验收结果与改进建议 | [docs/project-acceptance.md](docs/project-acceptance.md) |
 
 正式性能报告保留历史测试日期和适用范围，不能当作当前版本吞吐量保证。旧总汇 `benchmarks/benchmarks.md` 及 `benchmarks/results/` 内三份 Day24 Markdown 快照仅保留本地副本，停止 Git 跟踪；新克隆请通过上述正式报告和证据归档阅读，不依赖这些旧快照。
@@ -220,3 +222,16 @@ ResQ 支持基于 `(created_at, id)` 联合游标的预约历史分页，
 ## Compose 统一部署
 
 现有 deploy/compose.yaml 已包含应用与三个依赖的统一配置。环境准备、首次 MQ policy 初始化、隔离验收及现有环境切换步骤见 [部署说明](docs/deployment.md)。配置文件更新不会自动切换当前运行环境。
+
+## ResQ v1.0 自动演示
+
+无需手动替换 JWT 或资源 ID。提前准备独立环境，再选择一键演示或分模块讲解：
+
+```bash
+python3 scripts/demo/prepare.py
+python3 scripts/demo/run.py status
+python3 scripts/demo/run.py all
+python3 scripts/demo/run.py cleanup
+```
+
+`all` 可替换为依次执行 `basic`、`concurrency`、`advanced`。重复演示须新建 session；不清空旧库或重复写同一场景。prepare 使用新项目、新卷、合成凭据和 60 秒确认期，原 deploy 环境保持原样。镜像与 Maven 缓存、报告路径、安全边界和主持人提纲见 [演示说明](docs/demo.md)。候补仅入队/去重/排名，通知仅日志模拟；演示不承诺消息绝不丢失或生产容量。

@@ -13,10 +13,9 @@ import subprocess
 import sys
 import time
 import traceback
-import urllib.error
-import urllib.request
 
 import start_compose as deployment
+from http_probe import request_json
 
 PROJECT = Path(__file__).resolve().parents[1]
 GUARD_LABEL = 'resq.acceptance.guard'
@@ -185,25 +184,11 @@ def main(keep_image=False):
                    'Synthetic database operation', data=statement)
 
     def request(method, path, expected=200, payload=None, token=None, request_id=None):
-        headers = {}
-        if token:
-            headers['Authorization'] = 'Bearer ' + token
-        if request_id:
-            headers['X-Request-Id'] = request_id
-        data = None if payload is None else json.dumps(payload).encode()
-        if data is not None:
-            headers['Content-Type'] = 'application/json'
-        req = urllib.request.Request('http://127.0.0.1:' + str(ports['RESQ_APP_PORT']) + path,
-                                     data=data, headers=headers, method=method)
-        try:
-            response = urllib.request.urlopen(req, timeout=10)
-        except urllib.error.HTTPError as error:
-            response = error
-        with response:
-            status, body = response.status, response.read()
+        status, body = request_json('http://127.0.0.1:' + str(ports['RESQ_APP_PORT']),
+                                    method, path, payload, token, request_id, timeout=10)
         if status != expected:
             raise RuntimeError(method + ' ' + path + ' returned unexpected HTTP ' + str(status))
-        return json.loads(body) if body else None
+        return body
 
     def ready(timeout=120):
         deadline = time.monotonic() + timeout

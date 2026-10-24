@@ -35,9 +35,9 @@
 
 ## 如何用于独立的新 Compose 演示环境
 
-当前尚未实现 `scripts/demo/prepare.py`，以下是种子阶段的手工接入方法，不是完整演示命令。首先在仓库外准备权限受限的**新演示配置文件**，可参考 deploy/.env.example 的变量名；填写新的合成账号/密码/JWT 密钥、独立镜像标签、UTC 和不与现有环境冲突的端口。不要复制原环境的真实 `.env`，不要沿用已有卷。
+统一入口现已实现，通常直接使用 `python3 scripts/demo/prepare.py`，它会在独立环境中调用本种子脚本；后续 `python3 scripts/demo/run.py all` 自动演示，详见 [演示说明](demo.md)。以下保留种子阶段的手工接入方法，适用于单独接入种子，不是完整演示命令。首先在仓库外准备权限受限的**新演示配置文件**，可参考 deploy/.env.example 的变量名；填写新的合成账号/密码/JWT 密钥、独立镜像标签、UTC 和不与现有环境冲突的端口。不要复制原环境的真实 `.env`，不要沿用已有卷。
 
-把该文件绝对路径保存到 `DEMO_ENV`。Compose 解析整个配置时仍要求包括 JWT 和镜像在内的必填变量齐全，即使本步骤只启动 MySQL。终端中若已 export 同名 RESQ 配置，可能覆盖文件；手工接入前应清除冲突覆盖，未来 prepare 入口会统一清理继承变量。
+把该文件绝对路径保存到 `DEMO_ENV`。Compose 解析整个配置时仍要求包括 JWT 和镜像在内的必填变量齐全，即使本步骤只启动 MySQL。终端中若已 export 同名 RESQ 配置，可能覆盖文件；手工接入前应清除冲突覆盖，统一 prepare 入口会清理继承变量。
 
 ```bash
 cd ~/resq
@@ -55,9 +55,9 @@ DEMO_MYSQL_ID="$(docker compose --env-file "$DEMO_ENV" -p "$DEMO_PROJECT" \
 python3 scripts/seed_demo_data.py --container "$DEMO_MYSQL_ID" --guard "$RESQ_DEMO_GUARD"
 ```
 
-成功时输出 JSON 清单，含 resourceId、slotId、日期和场景标识，不含密码或 JWT。保存这份输出即可供后续演示按场景获取动态 ID。导入后不能再次往同一库补种；本入口没有 clear、force、reset 或覆盖功能。重复演示应使用未来 prepare 创建的新 session/新项目，不清空原库。
+成功时输出 JSON 清单，含 resourceId、slotId、日期和场景标识，不含密码或 JWT。保存这份输出即可供后续演示按场景获取动态 ID。导入后不能再次往同一库补种；本入口没有 clear、force、reset 或覆盖功能。重复演示应使用 prepare 创建的新 session/新项目，不清空原库。
 
-原有 `start_compose.py` CLI 没有 `--override` 参数，不要直接给它传一个不存在的选项；未来统一 prepare 可以复用其 compose_command/start 函数传入 overlay。当前本步骤只提供种子写入，尚未自动编排四服务或演示流程。
+原有 `start_compose.py` CLI 没有 `--override` 参数，不要直接给它传一个不存在的选项；统一 prepare 已复用其 compose_command/start 函数传入 overlay。本节手工步骤仅提供种子写入，四服务与场景编排请使用统一入口。
 
 ## 不准备任何本地凭据，先验证种子工具
 
@@ -71,3 +71,5 @@ python3 scripts/verify_demo_seed.py
 本次实测：8 项离线保护测试通过；5 个真实 MySQL 验证阶段通过，覆盖全新 schema、写入后故障回滚、两资源/八未来时隙及 ID 清单、重复导入拒绝、错误 guard 拒绝。原容器状态与数据卷保留，临时容器已清理。命名卷分支有离线归属测试，实际数据库写入验收采用 tmpfs，未在现有卷上试验。
 
 验证结果在 target/demo-seed-results/<时间-随机后缀>/，含 summary.json 和脱敏 manifest.json；下一次 Maven clean 会删除。业务代码、测试断言、原 schema、Dockerfile 和原 Compose 均未改变。
+
+后续统一演示彩排已在独立 Compose 的具名卷中调用同一 seed 成功；此前单独 verify_demo_seed 的五阶段验证仍使用 tmpfs。两者证据范围分别见 [演示验收](demo-acceptance.md)。
