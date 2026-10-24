@@ -39,6 +39,130 @@ ResQ 围绕这些问题实现预约闭环：以 MySQL 保存业务状态，以�
 | 构建与部署 | Maven、Docker、Docker Compose；Python 3 编排部署、隔离验收与演示 |
 | 测试与性能分析 | JUnit 5、Mockito、MockMvc、真实中间件集成测试、k6、EXPLAIN ANALYZE、JVM Thread Dump |
 
+## 系统架构
+
+下图对应标准 `deploy/compose.yaml` 的四服务拓扑。app 框内都是同一个 Spring Boot 进程中的组件；没有额外网关、微服务或计算任务执行集群。脚本通过 HTTP 或部署工具访问这套系统。
+
+```mermaid
+flowchart TB
+    CLIENT["HTTP 客户端 / 命令行演示<br/>默认 127.0.0.1:8081"]
+    subgraph COMPOSE["Docker Compose / resq_net"]
+        direction TB
+        subgraph APP["app：Spring Boot / prod / :8080 / Actuator 健康检查"]
+            WEB["WebMvc / Controllers / 参数校验<br/>JwtAuthInterceptor 校验受保护接口"]
+            AUTH["认证与用户<br/>AuthService / JwtService / UserService<br/>BCrypt、JWT、本人资料"]
+            RESOURCE["资源与候补<br/>ResourceService / WaitlistService<br/>资源、时隙、入队与排名"]
+            RES["预约业务<br/>ReservationLockService / ReservationService<br/>幂等、限流、锁、事务与状态流转"]
+            DATA["MyBatis / JdbcTemplate Mapper<br/>用户、资源、时隙、预约、消费记录"]
+            RC["Redis 访问组件<br/>Cache、RequestStateStore、Lua、Redisson"]
+            AFTER["新建预约提交后处理<br/>缓存失效及内存重试<br/>通知事件与超时事件发布"]
+            NOTIFY["NotificationConsumer<br/>仅日志模拟通知"]
+            TIMEOUT["超时消费者及消费事务 Service<br/>eventId 去重、共享过期事务<br/>AUTO ACK；失败共 3 次尝试"]
+            SCAN["到期扫描补偿<br/>ReservationExpirationScheduler<br/>查询到期预约、调用共享过期事务"]
+
+            WEB --> AUTH
+            WEB --> RESOURCE
+            WEB --> RES
+            AUTH --> DATA
+            RESOURCE --> DATA
+            RESOURCE --> RC
+            RES --> DATA
+            RES --> RC
+            RES -.->|提交后| AFTER
+            AFTER -->|删除日期缓存| RC
+            TIMEOUT --> DATA
+            SCAN --> DATA
+        end
+
+        MYSQL[("mysql:3306 / 持久卷<br/>五张业务表 / InnoDB 事务")]
+        REDIS[("redis:6379 / AOF 持久卷<br/>缓存、请求状态、限流、锁、候补")]
+        MQ["rabbitmq:5672 / 持久卷<br/>通知 Exchange → 通知队列<br/>TTL 等待 → 到期处理队列<br/>消费失败拒绝 → 失败隔离队列"]
+
+        DATA --> MYSQL
+        RC --> REDIS
+        AFTER -->|AFTER_COMMIT 监听器发消息| MQ
+        MQ -->|通知队列| NOTIFY
+        MQ -->|到期处理队列| TIMEOUT
+    end
+    CLIENT -->|HTTP / JWT| WEB
+```
+
+| 异步路径 | 实际组件与拓扑 |
+| --- | --- |
+| 提交后发送 | 事务内发布 `ReservationCreatedEvent`；`ReservationEventPublisher`、`ReservationTimeoutPublisher` 在 AFTER_COMMIT 阶段发送，后者只处理 PENDING |
+| 创建通知 | `resq.reservation.exchange` → `resq.notification.queue` → `NotificationConsumer`，路由键 `reservation.created` |
+| 超时等待 | `resq.reservation.timeout.delay.exchange` → `resq.reservation.timeout.delay.queue.{T}s`，路由键 `reservation.timeout.wait.{T}s`，队列 TTL 为 `T × 1000` 毫秒 |
+| 到期消费 | 等待队列到期后死信路由到 `resq.reservation.timeout.dead.exchange` → `resq.reservation.timeout.dead.queue`，路由键 `reservation.timeout.expired`；由 `ReservationTimeoutConsumer`、`ReservationTimeoutConsumeService` 处理 |
+| 失败隔离 | 超时处理共 3 次尝试，仍失败则拒绝且不重入队；broker policy 将消息死信路由到 `resq.reservation.timeout.failed.exchange` → `resq.reservation.timeout.failed.queue`，路由键 `reservation.timeout.failed`，无自动重放处理器 |
+| 扫描补偿 | 默认首轮延迟 10 秒，此后每轮结束 60 秒后再执行，每批最多查询 100 条到期 PENDING；与超时消费共享 `ReservationService.expireIfPendingAndDue`，扫描本身不写消息去重记录 |
+
+实线表示请求、组件调用或消息路径，虚线表示提交后回调。图中 Mapper 合并展示两种数据访问方式，实际分工见 [映射说明](docs/mybatis-mapping.md)。超时消费与扫描成功释放时隙后，也通过 `ResourceSlotCacheInvalidator` 登记提交后缓存删除；图中将共享过期事务归入两个异步入口，避免画成组件循环依赖。
+
+`start_compose.py` 先等依赖健康、配置失败路由 policy，再启动 app。正常部署 T=600，独立演示默认 T=60；应用内部使用 Compose 服务名连接依赖。三个依赖分别使用持久卷，本机 `practice.py` 可通过私有 overlay 映射另一组卷，详见 [部署说明](docs/deployment.md)。
+
+提交后发 MQ、删 Redis 与数据库事务不是跨系统原子操作；生产者发送失败仍只记录日志，没有持久化补发。候补没有自动递补路径；通知也没有真实邮件/短信路径。图中超时消费的去重、重试和失败路由不能套用到普通通知链路。
+
+
+## 数据模型
+
+ER 图依据 [deploy/init/01-schema.sql](deploy/init/01-schema.sql) 的五张表。**虚线表示代码中的业务关联；当前 DDL 没有声明任何 FOREIGN KEY。** 图中不将逻辑关联字段标成数据库外键。PK 为主键，UK 为单列唯一键；组合唯一键与普通索引在图后列出。
+
+```mermaid
+erDiagram
+    user ||..o{ reservation : "user_id 关联"
+    compute_resource ||..o{ resource_slot : "resource_id 关联"
+    resource_slot ||..o{ reservation : "slot_id 关联，保留历史"
+
+    user {
+        bigint id PK "非空，自增"
+        varchar(50) username UK "非空"
+        varchar(100) password "非空，BCrypt 哈希"
+        varchar(100) email UK "可空"
+        datetime created_at "非空"
+    }
+    compute_resource {
+        bigint id PK "非空，自增"
+        varchar(100) name "非空"
+        varchar(20) type "非空，资源类型字符串"
+        varchar(20) status "非空，资源状态字符串"
+        datetime created_at "非空"
+    }
+    resource_slot {
+        bigint id PK "非空，自增"
+        bigint resource_id "非空，关联资源 ID"
+        datetime slot_start "非空"
+        datetime slot_end "非空"
+        varchar(20) status "非空，AVAILABLE / RESERVED"
+    }
+    reservation {
+        bigint id PK "非空，自增"
+        bigint user_id "非空，关联用户 ID"
+        bigint slot_id "非空，关联时隙 ID"
+        varchar(20) status "非空，四种预约状态见状态图"
+        varchar(100) request_id UK "DDL 可空，创建接口必填"
+        datetime created_at "非空"
+        datetime(3) expire_at "可空，确认截止时间"
+    }
+    mq_consume_record {
+        bigint id PK "非空，自增"
+        varchar(100) event_id UK "非空，超时事件去重"
+        datetime consumed_at "非空，默认当前时间"
+    }
+```
+
+| 表 | 实际索引与约束 |
+| --- | --- |
+| `user` | `PRIMARY(id)`；`uk_user_username(username)`、`email(email)` 唯一 |
+| `compute_resource` | `PRIMARY(id)` |
+| `resource_slot` | `PRIMARY(id)`；`uk_resource_slot_start(resource_id, slot_start)` 组合唯一，图中不将两列分别标成 UK |
+| `reservation` | `PRIMARY(id)`；`request_id(request_id)` 唯一；普通索引 `idx_user_status_created(user_id, status, created_at)`、`idx_user_created_id(user_id, created_at DESC, id DESC)` |
+| `mq_consume_record` | `PRIMARY(id)`；`uk_event_id(event_id)` 唯一 |
+
+一个时隙可以对应多条历史预约；当前没有针对有效预约的 `slot_id` 唯一约束。状态竞争由预约事务与条件更新控制，组合时隙唯一键也不等于任意时间区间不重叠约束。上述业务关联的基数表达正常业务模型，不代表数据库会拒绝孤立关联值。
+
+`mq_consume_record` 没有 `reservation_id` 列，`consumed_at` 的数据库默认值为 CURRENT_TIMESTAMP。超时事件 ID 由代码构造为 `reservation-expire-{reservationId}`，仅通过事件语义关联预约，因此不画成数据库外键关系。候补、限流、请求状态和缓存存放在 Redis，不存在对应的 MySQL 业务表；这五张表也没有任务执行表或管理员角色表。
+
+
 ## 核心实现
 
 ### 预约事务与状态流转
@@ -56,6 +180,83 @@ stateDiagram-v2
 ```
 
 普通部署默认确认期限为 600 秒。确认、取消和过期处理使用状态条件更新；只有 PENDING 可以取消，不能先确认再取消同一条预约。重复取消不得释放后续新预约已占用的时隙。详见 [预约流程](docs/reservation-flow.md)。
+
+### 并发预约流程
+
+下图对应 `ReservationController` → `ReservationLockService` → `ReservationService.create`，按业务阶段合并内部方法的重复回查。多个用户竞争同一 `slotId`，或同一用户重放同一 `requestId`，都会经过这些判断；MySQL 是最终判断依据。
+
+```mermaid
+flowchart TB
+    START["并发 POST /api/reservations<br/>JWT + X-Request-Id + slotId"]
+    VALID["校验 JWT、DTO 和 requestId 格式"]
+    INVALID["身份无效 401 / 参数非法 400"]
+    HISTORY{"MySQL 按 request_id 回查<br/>是否已有预约？"}
+    HISTORYDONE["参数相同：201 返回原预约<br/>用户或时隙不同：409"]
+    LIMIT["Lua 按用户自然分钟限流，默认 10 次<br/>连接故障/查询超时则跳过限流"]
+    RATE["超限：429"]
+    NX{"SET NX 登记 PROCESSING<br/>ownerToken + 用户/时隙，TTL 180s"}
+    RECHECK["未登记成功：读 Redis，再查 MySQL<br/>匹配记录返回 201 / 参数冲突 409<br/>仍无记录且无参数冲突则 503"]
+    LOCK{"Redisson 时隙锁<br/>tryLock 最多等待 2s"}
+    FALLBACK["Redis 指定异常：切换数据库兜底<br/>不使用 Redis/锁，仍调用同一事务 Service"]
+
+    subgraph TX["ReservationService.create：单个 MySQL 事务"]
+        TXCHECK{"事务内再次按 request_id 查询"}
+        TXEXIST["已有且参数相同<br/>返回历史记录，事务正常结束"]
+        UPDATE["条件 UPDATE resource_slot<br/>id 匹配、AVAILABLE、slot_end 大于 NOW(3)"]
+        INSERT["影响 1 行后 INSERT PENDING 预约<br/>request_id 唯一，expire_at = now + T<br/>校验插入行数与回填 ID"]
+        COMMIT["新建成功：登记缓存 afterCommit 回调<br/>发布创建事件并提交事务<br/>提交后删缓存、调用 MQ 监听器"]
+        ROLLBACK["业务冲突或 SQL 等异常：回滚事务<br/>已抢占时隙与新增记录一起回滚"]
+    end
+
+    EXIT["退出执行封装<br/>持锁路径在 finally 核对所有权后解锁<br/>数据库兜底路径不持锁"]
+    RESULT{"执行封装的结果？"}
+    SUCCESS["成功：若本次登记过 PROCESSING<br/>按 ownerToken Lua 比较后写 SUCCESS，TTL 24h<br/>Redis 写失败仅记日志，仍返回 201 原预约"]
+    KNOWN["已知冲突 / 繁忙：返回 409 / 503<br/>仅按 ownerToken 清理自己的 PROCESSING<br/>清理失败不覆盖业务异常"]
+    RECOVER["唯一键冲突 / 未知异常：事务外回查 request_id<br/>匹配记录：恢复成功，尝试 owner 条件写 SUCCESS<br/>确认参数冲突：清自己状态并返回 409<br/>仍无记录或回查失败：保留原异常与 PROCESSING"]
+
+    START --> VALID
+    VALID -->|失败| INVALID
+    VALID -->|通过| HISTORY
+    HISTORY -->|有| HISTORYDONE
+    HISTORY -->|无| LIMIT
+    LIMIT -->|超限| RATE
+    LIMIT -->|通过或上述降级| NX
+    NX -->|登记成功| LOCK
+    NX -->|未取得资格| RECHECK
+    NX -->|连接失败 / 查询超时| FALLBACK
+    RECHECK -->|读取 Redis 连接失败 / 查询超时| FALLBACK
+    LOCK -->|取得锁| TXCHECK
+    LOCK -->|Redisson 连接异常 / 超时| FALLBACK
+    LOCK -->|等待失败、中断或其他异常| EXIT
+    FALLBACK --> TXCHECK
+    TXCHECK -->|没有记录| UPDATE
+    TXCHECK -->|已有且参数相同| TXEXIST
+    TXCHECK -->|已有但参数冲突| ROLLBACK
+    UPDATE -->|影响行数为 1| INSERT
+    UPDATE -->|影响行数不为 1，或异常| ROLLBACK
+    INSERT -->|成功且回填 ID| COMMIT
+    INSERT -->|唯一键冲突或其他异常| ROLLBACK
+    TXEXIST --> EXIT
+    COMMIT --> EXIT
+    ROLLBACK --> EXIT
+    EXIT --> RESULT
+    RESULT -->|正常返回，含兜底已恢复结果| SUCCESS
+    RESULT -->|ReservationConflict / ReservationBusy| KNOWN
+    RESULT -->|DuplicateKey / 其他 RuntimeException| RECOVER
+```
+
+| 关键分支 | 与源码一致的处理边界 |
+| --- | --- |
+| 幂等与限流顺序 | 首次查库 → 限流 → PROCESSING 登记；已完成的合法重试直接返回。Redis SUCCESS 不直接替代数据库记录；并发中的相同请求不保证都立即返回 201 |
+| 降级异常范围 | 请求状态组件仅捕获 `RedisConnectionFailureException` / `QueryTimeoutException`；时隙锁封装仅对 `RedisConnectionException` / `RedisTimeoutException` 切换数据库兜底。限流的对应 Redis 异常只跳过限流，其他异常不自动降级 |
+| 数据库最终控制 | 可预约时隙抢占与预约插入同事务；条件 UPDATE 失败返回 409。`request_id` 唯一冲突回滚后再查库恢复，不能通过简单 `UNIQUE(slot_id)` 限制全部历史预约 |
+| 锁与事务顺序 | 事务 Service 返回/抛出后才退出锁封装；新建成功时提交后回调已执行。`DuplicateKeyException` 的首次回查在事务回滚后、锁封装退出前；图将其与外层结果恢复合并，兜底内部回查恢复成功也作为正常结果返回 |
+| owner 与解锁 | Lua 只有比较匹配 ownerToken 才写 SUCCESS 或删除 PROCESSING；未登记的直接兜底不写这些状态。仅持有锁的当前线程解锁；清理异常保留原业务异常，单独解锁失败会进入原有回查/降级路径 |
+| 无法确认提交结果 | 已匹配记录可恢复成功；确认参数冲突清理自己状态。其他未知结果保留 PROCESSING 等 TTL，不盲目重建；回查再失败时保留原异常并附加回查异常。未匹配其他异常契约时返回安全 500 |
+| 前置与提交后故障 | 前置 MySQL 查询、限流等阶段的其他异常直接交给异常处理器，不进入尚未建立的事务或 owner 清理。缓存定位失败可能跳过删除，删除失败入内存重试；MQ 发送失败记录日志，不回滚已提交预约 |
+
+创建、真实锁竞争、事务回滚与请求幂等的可执行验证见 [测试说明](docs/testing.md)。图表示一次创建请求的控制路径；确认、取消和过期释放沿用上面的状态图，不增加候补自动递补步骤。
+
 
 ### 请求幂等
 
