@@ -1,0 +1,11 @@
+# Optional overlay for a NEW demo project only; the default deployment never loads this file.
+# Project name must be resq-demo-<first 12 characters of RESQ_DEMO_GUARD>.
+services:
+  mysql:
+    labels:
+      resq.demo.guard: ${RESQ_DEMO_GUARD:?set_a_new_32_hex_demo_guard}
+
+volumes:
+  mysql_data:
+    labels:
+      resq.demo.guard: ${RESQ_DEMO_GUARD:?set_a_new_32_hex_demo_guard}

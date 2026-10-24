@@ -46,6 +46,8 @@ docker compose --env-file deploy/.env -f deploy/compose.yaml stop
 | Redis 缓存对照 | [benchmarks/redis-cache-report.md](benchmarks/redis-cache-report.md) |
 | 原始证据 ZIP 与恢复方法 | [benchmarks/archives/README.md](benchmarks/archives/README.md) |
 | 本地学习归档分类与恢复索引 | [docs/learning-archive.md](docs/learning-archive.md) |
+| 全新环境种子数据、安全约束与验证 | [docs/demo-seed.md](docs/demo-seed.md) |
+| v1.0 统一演示方案评估（待实施） | [docs/demo-system-plan.md](docs/demo-system-plan.md) |
 | 本轮项目现状、验收结果与改进建议 | [docs/project-acceptance.md](docs/project-acceptance.md) |
 
 正式性能报告保留历史测试日期和适用范围，不能当作当前版本吞吐量保证。旧总汇 `benchmarks/benchmarks.md` 及 `benchmarks/results/` 内三份 Day24 Markdown 快照仅保留本地副本，停止 Git 跟踪；新克隆请通过上述正式报告和证据归档阅读，不依赖这些旧快照。
