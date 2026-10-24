@@ -25,3 +25,9 @@ deploy/.env
 
 # Local learning snapshots; tracked catalog: docs/learning-archive.md
 /learning-archive/
+
+# Superseded learning reports and historical Markdown snapshots (local copies retained).
+/benchmarks/benchmarks.md
+/benchmarks/results/post-reservation-20261022-182544/day24-benchmark-report.md
+/benchmarks/results/redis-cache-20261022-185550/day24-redis-cache-conclusion.md
+/benchmarks/results/redis-cache-20261022-185550/day24-redis-cache-report.md

@@ -1,3 +1,55 @@
+# ResQ 共享计算资源预约平台
+
+Java 21 / Spring Boot 3.5 后端实习项目，提供 JWT 登录鉴权、资源与时隙查询、预约创建/确认/取消、超时释放、请求幂等、Redis 缓存与限流，以及候补入队和排名查询。使用 MySQL、MyBatis/JDBC、Redisson 和 RabbitMQ，四个服务通过 Docker Compose 管理。当前没有正式前端。
+
+候补自动递补和真实邮件/短信通知尚未实现；通知消费者目前记录日志。消息发送在事务提交后执行，不承诺数据库与 MQ 的原子提交。详细边界见项目验收报告。
+
+## 快速开始
+
+需要 Java 21、Maven、Python 3、Docker 与 Docker Compose。在仓库根目录执行：
+
+```bash
+cp deploy/.env.example deploy/.env
+chmod 600 deploy/.env
+# 在本机编辑 deploy/.env，填写自己的账号、密码及 Base64 JWT 签名密钥。
+# 新环境生成至少 32 字节随机密钥；已有环境保留原有数据库账号/密码。
+mvn clean package
+python3 scripts/start_compose.py --env-file deploy/.env --build
+curl --fail http://localhost:8081/actuator/health
+```
+
+首次构建需要下载 Maven 依赖与基础镜像。镜像标签由 `.env` 中的 `RESQ_APP_IMAGE` 指定；真实 `.env` 不提交。已有环境不要覆盖原 `.env`，切换前先阅读部署文档中的数据卷、端口和时区约束。
+
+停止四个服务并保留容器与数据：
+
+```bash
+docker compose --env-file deploy/.env -f deploy/compose.yaml stop
+```
+
+## 文档导航
+
+以下相对路径均以仓库根目录为基准。
+
+| 内容 | 文档位置 |
+| --- | --- |
+| 环境变量、四服务部署、启停与隔离验收 | [docs/deployment.md](docs/deployment.md) |
+| 构建、测试分组、隔离保护与异常契约 | [docs/testing.md](docs/testing.md) |
+| 原生 MySQL/Redis 并发与事务测试 | [docs/native-reservation-testing.md](docs/native-reservation-testing.md) |
+| 预约事务、状态流转与缓存失效 | [docs/reservation-flow.md](docs/reservation-flow.md) |
+| MyBatis 与 JDBC 分工及保留的实验 Mapper | [docs/mybatis-mapping.md](docs/mybatis-mapping.md) |
+| 权限、时间边界与 MQ 失败路由修复 | [docs/p0-fixes.md](docs/p0-fixes.md) |
+| SQL 索引设计 | [docs/performance/resq-index-design.md](docs/performance/resq-index-design.md) |
+| 预约分页性能与实验限制 | [docs/performance/reservation-pagination-benchmark.md](docs/performance/reservation-pagination-benchmark.md) |
+| 压测报告与原始证据总入口 | [benchmarks/README.md](benchmarks/README.md) |
+| 时隙查询压测 | [benchmarks/resource-slot-query-report.md](benchmarks/resource-slot-query-report.md) |
+| 预约竞争与数据库正确性 | [benchmarks/reservation-concurrency-report.md](benchmarks/reservation-concurrency-report.md) |
+| Redis 缓存对照 | [benchmarks/redis-cache-report.md](benchmarks/redis-cache-report.md) |
+| 原始证据 ZIP 与恢复方法 | [benchmarks/archives/README.md](benchmarks/archives/README.md) |
+| 本地学习归档分类与恢复索引 | [docs/learning-archive.md](docs/learning-archive.md) |
+| 本轮项目现状、验收结果与改进建议 | [docs/project-acceptance.md](docs/project-acceptance.md) |
+
+正式性能报告保留历史测试日期和适用范围，不能当作当前版本吞吐量保证。旧总汇 `benchmarks/benchmarks.md` 及 `benchmarks/results/` 内三份 Day24 Markdown 快照仅保留本地副本，停止 Git 跟踪；新克隆请通过上述正式报告和证据归档阅读，不依赖这些旧快照。
+
 ## Redis 缓存设计与 Key 命名规范
 
 ResQ 使用 Redis 缓存资源详情和指定日期的资源时隙列表，采用 **Cache Aside（旁路缓存）** 模式。MySQL 是业务数据的权威来源。
@@ -162,3 +214,7 @@ ResQ 支持基于 `(created_at, id)` 联合游标的预约历史分页，
 ## 学习资料与职责命名
 
 现行业务保留原有 Maven 与部署结构；独立学习材料已分类保存在本地 `learning-archive/`，该目录不进入 Git 或 Docker 镜像。分类、迁移清单和恢复说明见 [学习归档索引](docs/learning-archive.md)。当前实现见 [预约流程](docs/reservation-flow.md) 和 [MyBatis 映射说明](docs/mybatis-mapping.md)。
+
+## Compose 统一部署
+
+现有 deploy/compose.yaml 已包含应用与三个依赖的统一配置。环境准备、首次 MQ policy 初始化、隔离验收及现有环境切换步骤见 [部署说明](docs/deployment.md)。配置文件更新不会自动切换当前运行环境。

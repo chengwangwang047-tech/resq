@@ -1,6 +1,6 @@
 # ResQ Day24：POST /api/reservations 并发竞争实验
 
-证据目录：[results/post-reservation-20261022-182544/](results/post-reservation-20261022-182544/)。下文未带路径的证据文件名均相对此目录；目录名已整理，实验编号、数据库/vhost及私有路径保持原值。正文中的旧目录路径属于当时记录，对应关系见 [README](README.md)。[历史报告快照](results/post-reservation-20261022-182544/day24-benchmark-report.md)保留原文。
+证据目录：[results/post-reservation-20261022-182544/](results/post-reservation-20261022-182544/)。下文未带路径的证据文件名均相对此目录；目录名已整理，实验编号、数据库/vhost及私有路径保持原值。正文中的旧目录路径属于当时记录，对应关系见 [README](README.md)。历史 Markdown 快照仅在原工作目录保留，不再进入 Git；本文件为交付入口，原始证据恢复方法见归档说明。
 
 本报告引用的完整日志、原始指标、历史命令和脚本快照已压缩保存，解压路径见[原始证据归档说明](archives/README.md)；汇总、配置与校验资料仍在证据目录。
 

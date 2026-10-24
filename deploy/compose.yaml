@@ -1,5 +1,14 @@
-services:
+# Keep the existing deployment's network and volume namespace.
+# Acceptance runs override this with an explicit, unique -p value.
+name: deploy
 
+x-logging: &bounded-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
   mysql:
     image: mysql:8.0.46
     restart: unless-stopped
@@ -8,24 +17,42 @@ services:
       MYSQL_DATABASE: resq
       MYSQL_USER: ${RESQ_DB_USERNAME:?required}
       MYSQL_PASSWORD: ${RESQ_DB_PASSWORD:?required}
+      TZ: ${RESQ_TIME_ZONE:-UTC}
     ports:
-      - "127.0.0.1:3306:3306"
+      - "127.0.0.1:${RESQ_MYSQL_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./init/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
     networks:
       - resq_net
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          MYSQL_PWD="$${MYSQL_PASSWORD}" mysql --protocol=TCP -h127.0.0.1
+          -u"$${MYSQL_USER}" -D"$${MYSQL_DATABASE}" -Nse 'SELECT 1' >/dev/null 2>&1
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    logging: *bounded-logging
 
   redis:
     image: redis:7-alpine
     restart: unless-stopped
     command: ["redis-server", "--appendonly", "yes"]
     ports:
-      - "127.0.0.1:6379:6379"
+      - "127.0.0.1:${RESQ_REDIS_PORT:-6379}:6379"
     volumes:
       - redis_data:/data
     networks:
       - resq_net
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -qx PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    logging: *bounded-logging
 
   rabbitmq:
     image: rabbitmq:3.13-management
@@ -35,12 +62,63 @@ services:
       RABBITMQ_DEFAULT_USER: ${RESQ_RABBITMQ_USERNAME:?required}
       RABBITMQ_DEFAULT_PASS: ${RESQ_RABBITMQ_PASSWORD:?required}
     ports:
-      - "127.0.0.1:5672:5672"
-      - "127.0.0.1:15672:15672"
+      - "127.0.0.1:${RESQ_RABBITMQ_PORT:-5672}:5672"
+      - "127.0.0.1:${RESQ_RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - resq_net
+    healthcheck:
+      test: ["CMD", "gosu", "rabbitmq", "rabbitmq-diagnostics", "-q", "check_running"]
+      interval: 10s
+      timeout: 8s
+      retries: 12
+      start_period: 30s
+    logging: *bounded-logging
+
+  app:
+    image: ${RESQ_APP_IMAGE:?set_RESQ_APP_IMAGE_to_a_versioned_tag}
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      TZ: ${RESQ_TIME_ZONE:-UTC}
+      RESQ_PROD_DB_URL: jdbc:mysql://mysql:3306/resq?characterEncoding=UTF-8&connectionTimeZone=${RESQ_TIME_ZONE:-UTC}
+      RESQ_PROD_DB_USERNAME: ${RESQ_DB_USERNAME:?required}
+      RESQ_PROD_DB_PASSWORD: ${RESQ_DB_PASSWORD:?required}
+      RESQ_PROD_REDIS_HOST: redis
+      RESQ_PROD_REDIS_PORT: "6379"
+      RESQ_PROD_RABBITMQ_HOST: rabbitmq
+      RESQ_PROD_RABBITMQ_PORT: "5672"
+      RESQ_PROD_RABBITMQ_USERNAME: ${RESQ_RABBITMQ_USERNAME:?required}
+      RESQ_PROD_RABBITMQ_PASSWORD: ${RESQ_RABBITMQ_PASSWORD:?required}
+      RESQ_PROD_JWT_SECRET_BASE64: ${RESQ_PROD_JWT_SECRET_BASE64:?required}
+      LOGGING_LEVEL_COM_RESQ_CACHE: INFO
+      LOGGING_LEVEL_COM_RESQ_SERVICE_RESOURCESERVICE: INFO
+    ports:
+      - "127.0.0.1:${RESQ_APP_PORT:-8081}:8080"
+    networks:
+      - resq_net
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          curl --fail --silent --max-time 4 http://127.0.0.1:8080/actuator/health
+          | grep -q '"status":"UP"'
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    logging: *bounded-logging
 
 volumes:
   mysql_data:
