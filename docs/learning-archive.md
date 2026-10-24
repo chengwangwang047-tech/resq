@@ -8,6 +8,8 @@
 
 ## 本地归档的使用与恢复
 
+`learning-archive/misc/local-environment/<记录目录>/` 另保存公共文档去本机化之前的原文快照与本机回退标识，含 manifest 校验清单。这些记录同样仅留本地，不包含真实环境变量文件、密码、JWT 密钥或私钥副本；新 clone 不会获得它们。读取方式和回退限制见 [练习说明](practice.md)。
+
 归档文件仍在当前电脑上；新 clone 不会获得 learning-archive/。原文件仍可从迁移前 Git 提交恢复，本轮未重写历史。需要分享学习材料时应单独审查敏感信息和体积后导出，避免直接加入整个归档目录。
 
 历史说明和脚本保留当时的路径、参数和阶段结论，不能据此判断现行业务状态，也不要用历史 SQL/脚本操作开发库。当前入口是 scripts/run_integration_tests.py 与 scripts/run_native_reservation_tests.py，详见 [测试说明](testing.md)。

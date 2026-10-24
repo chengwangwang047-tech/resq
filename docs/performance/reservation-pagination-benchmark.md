@@ -579,13 +579,14 @@ mvn -q -DskipTests compile
 export TOKEN=...
 ```
 
-实际测试使用自动注册与登录脚本：
+历史测试曾在本机加载自动注册与登录脚本。公开版用环境变量指定仓库外实际文件路径，不要求其他机器存在同名临时文件；此示例不是当前自动演示入口：
 
 ```bash
-source /tmp/resq-day23-auth.sh
+: "${RESQ_AUTH_ENV_FILE:?请先指定本机认证脚本路径}"
+source "$RESQ_AUTH_ENV_FILE"
 ```
 
-JWT 不写入项目文档，也不记录实际密钥或 Token 内容。
+JWT 不写入项目文档，也不记录实际密钥或 Token 内容。原脚本路径保存在已忽略的本地文档快照中；本文未改动实验数据或结果。当前可复现的统一入口见 [演示说明](../demo.md)。
 
 本次 HTTP 验收使用的测试数据：
 

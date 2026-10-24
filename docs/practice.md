@@ -1,67 +1,78 @@
-# 本机常驻练习环境
+# 已初始化环境的常驻练习
 
-更新日期：2026-10-24。当前四个 deploy-* 容器已切换到新练习数据卷，应用镜像为 resq:practice-latest，HTTP 入口仍为 http://localhost:8081。原容器通过 Compose 重建换挂载，原三个数据卷没有被删除、复制或覆盖。
+`scripts/practice.py` 用于管理**已在当前电脑上初始化**的持久练习环境，提供 start、stop、status，不自动清空数据库或删除数据卷。首次 Git clone 不会生成它依赖的本机配置；新机器请使用 [正常部署](deployment.md) 或 [独立演示](demo.md)。
+
+本文的 `<项目目录>`、`<session>`、`<原应用镜像>` 等都是占位说明，不能照抄为实际路径、卷名或镜像标签。具体值以各自电脑的私有元数据及回退记录为准。
 
 ## 日常启停
 
-在 WSL 仓库根目录执行：
+先进入实际仓库根目录，再执行：
 
 ```bash
-cd ~/resq
 python3 scripts/practice.py status
 python3 scripts/practice.py stop
 python3 scripts/practice.py start
 ```
 
-这套环境用于持续练习，停止后数据仍保留；没有自动清理或删除数据卷的命令。当前已启动并健康，不需要再运行 demo/prepare.py 才能访问。
+status 查询实际容器状态；本文不保证阅读时环境正在运行或健康。停止后保留数据，下一次 start 继续使用原练习卷。默认 HTTP 入口为 `http://127.0.0.1:8081`，具体端口以本机配置为准。
 
-修改 Java 代码后更新练习镜像：
+修改 Java 代码后，先构建 JAR，再更新练习镜像：
 
 ```bash
 mvn clean package
 python3 scripts/practice.py start --build
 ```
 
-后续以 practice-latest 为准；本次已将旧应用标签 day25 和 compose-it-ee4312f786a6 都指向当前构建镜像，但它们不会随着未来 practice-latest 的再次构建自动移动。
+练习镜像使用 `resq:practice-latest`。以前被复用过的其他镜像标签不会随它自动更新，不能仅凭旧标签名称判断其内容。
 
-**不要混用原来的启动配置。** 本机原 deploy/.env 原样保留，用它直接执行旧 start_compose.py 会切回原账号/数据卷配置。当前练习请使用 practice.py，它会显式选择仓库外私有配置与三个新卷，并拒绝归属不匹配的环境。不要对原配置执行 down -v 或 volume prune。
+**练习环境和普通部署配置分别管理。** practice.py 自动选择本机私有配置及练习卷，启动前检查文件哈希、服务配置和资源归属。若当前电脑保留了旧 `deploy/.env`，用它直接执行普通部署入口可能切回另一组账号或数据卷；不要混用两个入口，也不要用删卷解决配置不匹配。
 
-## 当前数据与配置
+## 本机配置的位置与含义
 
-- 2 个资源（GPU/CPU）、8 个未来时隙，当前 8 个均 AVAILABLE。
-- 注册、登录、查询、预约请求重放和取消/释放已实际验证。检查留下 1 个合成验证账号和 1 条 CANCELLED 预约；没有复制旧用户或业务数据。
-- 后续练习自行通过注册接口创建自己的账号；没有公开共享的默认账号/密码。旧库中的账号不属于新练习库，原登录 Token 也不能在新环境继续使用。
-- 正常 prod Profile、UTC，预约确认期 600 秒、等待队列 TTL=600000；没有演示用的 60 秒期限或扫描延后 24 小时覆盖，扫描沿用业务默认配置。本次未现场等待 10 分钟超时完成。
-- 依赖端口仍为本机回环地址 3306/6379/5672/15672，应用为 8081。
-- 时隙按本次 UTC 日期相对生成，未来会自然到期；不是永久可预约数据。种子工具仍只允许全新空库，不能重跑它清空已有练习记录。
+以下是通用布局，不包含某台电脑的实际 session：
 
-私有配置在 `~/.local/share/resq/practice/f5ab732eb1eb770a32c020d74eafadbc/`，目录 0700，synthetic.env/override.json 为 0600；current.json 记录本机入口。真实原 .env 未读取或改写，新账号密码与 JWT 签名密钥由本次单独生成，不提交到 Git。需要配置 IDE 数据源时在本机查看该私有文件，不把内容发到聊天或放入报告。
+```text
+~/.local/share/resq/practice/
+├── current.json               # 当前 session 标识、卷映射和配置哈希
+└── <session>/
+    ├── synthetic.env          # 仅本机保存的密码、JWT 密钥及环境变量
+    └── override.json          # 本机练习环境的 Compose 映射
+```
 
-## 数据卷与镜像回退
+`<session>` 对应 current.json 的 guard 值，工具会自动读取，无需在命令中手动替换。私有目录应为 0700，包含凭据的文件应为 0600；这些文件位于仓库外，不随 Git clone 分发。
 
-当前实际挂载：
+不要把整个私有目录、环境变量文件或其内容发到聊天、日志或 Git。需要配置 IDE 数据源时，只在本机查看所需字段。直接修改配置文件会导致哈希校验不匹配，不能通过伪造 guard 或跳过校验强行启动。
 
-- `resq-demo-f5ab732eb1eb_mysql_data`
-- `resq-demo-f5ab732eb1eb_redis_data`
-- `resq-demo-f5ab732eb1eb_rabbitmq_data`
+## 数据与时间约定
 
-名称含 resq-demo 是种子导入时的安全隔离命名；现在由常驻练习配置作为 external 数据卷明确引用，不属于 demo/run.py 的某个临时 session，不会被演示清理入口删除。
+- 若环境最初通过最小种子数据初始化，起点是 GPU/CPU 两个资源和八个未来时隙；后续练习会改变预约和时隙状态，当前结果应通过接口查询。
+- 时隙会随时间自然到期。种子工具只允许全新空库，不能向已有练习库重复补种或清空练习记录。
+- 用户自行注册和登录，没有公开共享的默认账号/密码；其他数据库的账号和 Token 不自动适用于当前练习环境。
+- 常驻练习沿用普通 prod 配置与 UTC：默认确认期限 600 秒，超时等待队列 TTL 为 600000 毫秒；独立演示的 60 秒期限只作用于该演示环境。
+- status 或健康检查只能说明当时状态，不能替代预约、确认、取消等业务验证。
 
-原三个卷仍在：deploy_mysql_data、deploy_redis_data、deploy_rabbitmq_data。旧镜像内容也保留为：
+## 本地回退记录与数据卷
 
-- `resq:backup-day25-f5ab732eb1eb`
-- `resq:backup-before-practice-f5ab732eb1eb`
+某台电脑的具体卷名、已保存的旧镜像标签、旧启动配置位置，保留在本地已忽略目录：
 
-需要恢复原环境时，应单独安排一次切换：先停止练习环境，再显式使用原 .env 与已保存的原应用镜像标签启动原 Compose 映射；不要删卷回滚。本次没有执行回退。由于原应用标签已更新，回退不能再假定 day25 或 compose-it-ee4312f786a6 仍指向旧镜像。
+```text
+learning-archive/misc/local-environment/<记录目录>/
+├── README.md
+├── manifest.json
+└── originals/                 # 本次整理前的公开文档快照
+    └── docs/practice.md        # 整理前的本机回退记录
+```
 
-这份本机 current.json/私有配置不会随 Git clone 分发。其他机器的可复现演示仍使用 [统一演示入口](demo.md)，正常部署使用 [部署说明](deployment.md)；practice.py 是本机已初始化环境的便利入口，不是新机器初始化工具。
+该目录仅在已做过本地记录保留的电脑上存在，新克隆不会包含它。快照保存的是记录当时的情况，不代表相应容器、镜像或卷此刻仍存在；它不包含真实 `.env`、私有凭据文件或私钥副本。
 
-## 本次验证
+回退前先核对本地记录里的原数据卷、原应用镜像和原启动配置，并确认与当前 Docker 资源相符。再安排单独切换：停止当前练习环境，显式选择原配置和已保存的原镜像，恢复对应卷映射。不能假设被复用过的旧标签仍指向旧镜像，也不能删除数据卷来回退。本文不提供一条对所有机器通用的回退执行命令。
 
-四服务健康，health=UP；SQL 核对资源 2、时隙 8 且全部 AVAILABLE；登录、请求幂等和取消通过；确认期 600 秒且 MQ TTL 匹配。停止/再次启动后数据仍在，原卷及旧镜像回退标签保留。practice 入口 4 项离线安全测试通过。
+练习卷由私有 override 作为 external 卷明确引用；即使某次初始化生成的卷名包含 demo 字样，也应以元数据和归属标记判断用途，不能按名称前缀批量删除。
+
+## 验证入口
 
 ```bash
 python3 scripts/test_practice.py
 ```
 
-本次没有改动业务 Java、原 schema、原 Compose、Profile 或 Dockerfile。代码/文档变更尚未提交 Git。
+这是无需启动 Docker 的入口保护测试，不代表当前练习容器已通过健康或业务验收。四服务隔离验收见 [部署说明](deployment.md)，完整预约演示见 [演示说明](demo.md)。

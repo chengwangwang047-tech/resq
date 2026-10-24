@@ -1,6 +1,8 @@
 # ResQ 项目交付整理与现状验收报告
 
-验收日期：2026-10-24（Asia/Shanghai）。项目：`/home/colaminos/resq`，分支 `main`，基准提交 `278059c`。结论针对本机当前工作目录，包含尚未提交的 Compose 改造与本轮文档整理，不等于远端仓库已具备同样状态。
+公开版路径说明：项目位置使用 `<项目目录>`，`target/` 等路径均相对仓库根目录。历史运行编号、提交及验收数字保持不变，不要求新环境使用同一编号；这些产物不会随 clone 提供。整理前的本机路径与回退说明仅保留在已忽略的 `learning-archive/misc/local-environment/` 本地快照中，详见 [练习说明](practice.md)。以下各阶段的“当前”“未提交”等表述均指各次验收发生时。
+
+验收日期：2026-10-24（Asia/Shanghai）。项目：`<项目目录>`，分支 `main`，基准提交 `278059c`。结论针对本机当前工作目录，包含尚未提交的 Compose 改造与本轮文档整理，不等于远端仓库已具备同样状态。
 
 ## 2026-10-24 后续补充：统一演示入口已完成
 
@@ -25,7 +27,7 @@
 - 专用套件报告缺失、漏跑、跳过、失败或清理归属异常均使入口失败。仅清理自己创建且通过归属校验的容器，不读取真实 `.env`。
 - 完整运行和单独运行均确认原容器状态未变、原卷保留，临时容器均已清理。未提交或推送本轮改动。
 
-完整运行报告：`/home/colaminos/resq/target/integration-results/20261024T064344Z-cd51cab5dd/acceptance.json`、`summary.json`，第二阶段详情在 `p0/`；单独运行报告：`/home/colaminos/resq/target/p0-integration-results/20261024T064554Z-7d8065e6d4/summary.json`、`cleanup.json`。这些 target/ 文件会被下一次 clean 删除。复现与结果解释见 [测试说明](testing.md) 和 [P0 修复说明](p0-fixes.md)。
+完整运行报告：`target/integration-results/20261024T064344Z-cd51cab5dd/acceptance.json`、`summary.json`，第二阶段详情在 `p0/`；单独运行报告：`target/p0-integration-results/20261024T064554Z-7d8065e6d4/summary.json`、`cleanup.json`。这些 target/ 文件会被下一次 clean 删除。复现与结果解释见 [测试说明](testing.md) 和 [P0 修复说明](p0-fixes.md)。
 
 ## 1. 验收结论与范围
 
@@ -105,8 +107,8 @@ Git 本身不跟踪空目录，因此这些删除通常不会出现在 Git diff�
 
 本次结果原始位置：
 
-- 集成测试：`/home/colaminos/resq/target/integration-results/20261024T062148Z-535c17f7b0/summary.json` 和 `cleanup.json`。
-- Compose 验收：`/home/colaminos/resq/target/compose-acceptance/20261024T062237Z-8f720b1a22da/summary.json`。
+- 集成测试：`target/integration-results/20261024T062148Z-535c17f7b0/summary.json` 和 `cleanup.json`。
+- Compose 验收：`target/compose-acceptance/20261024T062237Z-8f720b1a22da/summary.json`。
 - 持久副本：本次交付附件 `ResQ-项目现状验收证据-2026-10-24.json`。target/ 报告会被下一次 clean 移除，不纳入源码 Git。
 
 ## 4. 当前功能与部署状态

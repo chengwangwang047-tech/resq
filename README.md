@@ -447,7 +447,7 @@ resq/
 | 时隙查询 / 预约竞争 / Redis 对照 | [查询](benchmarks/resource-slot-query-report.md) · [预约](benchmarks/reservation-concurrency-report.md) · [缓存](benchmarks/redis-cache-report.md) |
 | 原始证据 ZIP 与恢复方法 | [证据归档](benchmarks/archives/README.md) |
 | 本地学习归档分类与恢复索引 | [学习资料索引](docs/learning-archive.md) |
-| 本机常驻练习、配置与回退 | [练习说明](docs/practice.md) |
+| 已初始化练习环境、配置与回退 | [练习说明](docs/practice.md) |
 | v1.0 自动演示与讲解提纲 | [演示说明](docs/demo.md) |
 | 演示实测、失败记录与限制 | [演示验收](docs/demo-acceptance.md) |
 | 全新演示库种子及保护约束 | [种子说明](docs/demo-seed.md) |
@@ -455,3 +455,5 @@ resq/
 | 项目现状、阶段性验收与改进建议 | [项目验收](docs/project-acceptance.md) |
 
 独立学习材料位于本地 `learning-archive/`，不进入 Git 或 Docker 镜像。旧总汇 `benchmarks/benchmarks.md` 及 results/ 下三份 Day24 Markdown 快照也仅保留本地；新克隆以正式报告和 ZIP 证据为准。真实 `.env`、密码、JWT 密钥、Token 与私有运行日志不作为公开交付资料。
+
+公共说明使用仓库相对路径或通用占位符；具体本机卷名、备份镜像标签与整理前文档原文仅保存在已忽略的 `learning-archive/misc/local-environment/`。该本地记录不随 clone 分发，查找与回退约束见 [练习说明](docs/practice.md)。

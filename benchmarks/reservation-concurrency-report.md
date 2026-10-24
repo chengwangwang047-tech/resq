@@ -1,6 +1,8 @@
 # ResQ Day24：POST /api/reservations 并发竞争实验
 
-证据目录：[results/post-reservation-20261022-182544/](results/post-reservation-20261022-182544/)。下文未带路径的证据文件名均相对此目录；目录名已整理，实验编号、数据库/vhost及私有路径保持原值。正文中的旧目录路径属于当时记录，对应关系见 [README](README.md)。历史 Markdown 快照仅在原工作目录保留，不再进入 Git；本文件为交付入口，原始证据恢复方法见归档说明。
+公开版路径说明：`<项目目录>`、`<私有凭据目录>` 是占位符，使用前必须替换为自己的实际目录；`RESQ_BENCH_ENV_FILE` 需指向本机为实验准备的认证配置文件，不能依赖另一台电脑的隐藏文件。实验编号、数据与结论保持原值，整理前文档保留在本地已忽略目录。下方历史手工实验涉及写数据，仅供核对方法；当前隔离演示入口见 [演示说明](../docs/demo.md)，不要直接重放旧记录。
+
+证据目录：[results/post-reservation-20261022-182544/](results/post-reservation-20261022-182544/)。下文未带路径的证据文件名均相对此目录；目录名已整理，实验编号及数据库/vhost保持原值；原始证据中的私有路径保留，公开正文使用占位符。正文中的旧目录路径属于当时记录，对应关系见 [README](README.md)。历史 Markdown 快照仅在原工作目录保留，不再进入 Git；本文件为交付入口，原始证据恢复方法见归档说明。
 
 本报告引用的完整日志、原始指标、历史命令和脚本快照已压缩保存，解压路径见[原始证据归档说明](archives/README.md)；汇总、配置与校验资料仍在证据目录。
 
@@ -38,12 +40,12 @@
 
 ## 环境、身份与实验数据
 
-- 正式代码位置：WSL `Ubuntu-24.04` 的 `/home/colaminos/resq`；地址 `http://127.0.0.1:8080`；k6 2.3.0，Java 21。以正常环境运行当前源代码对应的 `mvn -q spring-boot:run`，未使用旧 jar。
+- 正式代码位置：WSL `Ubuntu-24.04` 的 `<项目目录>`；地址 `http://127.0.0.1:8080`；k6 2.3.0，Java 21。以正常环境运行当前源代码对应的 `mvn -q spring-boot:run`，未使用旧 jar。
 - 启动前 HTTP 未监听；只读核实已有到期 PENDING 为 0，通知/超时 dead 队列无积压。原有 failed 队列 2 条未处理。
 - 没有使用已有业务时隙。通过正常资源 API 新建虚拟资源 `DAY24_BENCH_ONLY_d24_20261022_182544_3163fc`，id=112；仅 INSERT 其 3 个全新 AVAILABLE 时隙，slotId=117/118/119，时间分别为合成未来日期 2099-01-24 的 09–10、10–11、11–12 点。`fixture-inserts.sql` 是实际插入记录，不是清理脚本。
 - 通过正常 `/api/auth/register`、`/api/auth/login` 新建并认证 200 个 `d24_` 测试用户（id 28–227，邮箱为 example.invalid）。每个 VU 使用独立的服务端签发 JWT；三档复用前 N 个账户，每人本实验最多 3 次新预约，未改变或绕过每自然分钟 10 次限流。
 - 每个请求 `X-Request-Id` 为“唯一实验档次标识 + VU + iteration”，全实验 350 个均不重复，不把换 requestId 的重试当作库存竞争。所有 347 个 409 的实际 message 均为“时隙不可用，预约失败”，未混入幂等键冲突。
-- 凭据仅保存在 WSL 私有目录 `/tmp/d24_20261022_182544_3163fc_credentials_bt07wvbp`（0700），`accounts.json` 与 `tokens.json` 为 0600；未纳入报告或结果包，未输出 JWT、密码或签名密钥。JWT 有效期 1 小时，私有 /tmp 文件也可能被系统回收。
+- 凭据仅保存在 WSL 私有目录 `<私有凭据目录>`（0700），`accounts.json` 与 `tokens.json` 为 0600；未纳入报告或结果包，未输出 JWT、密码或签名密钥。JWT 有效期 1 小时，私有 /tmp 文件也可能被系统回收。
 
 ## 数据库核验
 
@@ -115,8 +117,9 @@ wsl.exe -d Ubuntu-24.04 -- bash -il
 ```bash
 set +x
 set -e -o pipefail
-cd ~/resq
-source ~/.resq-env
+cd "<项目目录>"
+: "${RESQ_BENCH_ENV_FILE:?请先指定本机实验认证配置文件}"
+source "$RESQ_BENCH_ENV_FILE"
 : "${RESQ_DB_USERNAME:?请先加载原有数据库用户名}"
 : "${RESQ_DB_PASSWORD:?请先加载原有数据库密码}"
 : "${RESQ_JWT_SECRET_BASE64:?请先加载原有应用 JWT 签名环境}"
@@ -162,17 +165,17 @@ cat "$DAY24_OUT/preflight-db.tsv"
 redis-cli PING
 ```
 
-如果 HTTP 尚未启动，先确认历史到期预约及通知/dead 队列不存在需要另行判断的业务积压，再在**另一个同样加载原有环境的 WSL 终端**执行 `cd ~/resq && mvn -q spring-boot:run`。已有服务正常运行时直接使用，不重复启动，不改变日志、认证、限流或后台任务参数。回到本终端用 `curl -fsS http://127.0.0.1:8080/api/resources >"$DAY24_OUT/readiness.json"` 检查就绪。
+如果 HTTP 尚未启动，先确认历史到期预约及通知/dead 队列不存在需要另行判断的业务积压，再在**另一个同样加载原有环境的 WSL 终端**执行 `cd "<项目目录>" && mvn -q spring-boot:run`。已有服务正常运行时直接使用，不重复启动，不改变日志、认证、限流或后台任务参数。回到本终端用 `curl -fsS http://127.0.0.1:8080/api/resources >"$DAY24_OUT/readiness.json"` 检查就绪。
 
 ### 2．准备 200 个测试身份，JWT 不进入结果目录
 
 若本次私有账户文件仍在，可以复用它，并通过正常登录取得新 JWT：
 
 ```bash
-export DAY24_ACCOUNTS='/tmp/d24_20261022_182544_3163fc_credentials_bt07wvbp/accounts.json'
+export DAY24_ACCOUNTS='<私有凭据目录>/accounts.json'
 ```
 
-若该 /tmp 文件已经消失，使用下面的分支注册一批全新的 `d24_` 用户；已有账户文件时分支不会注册。随机密码仅写入 0600 私有文件，不打印。分支中断后保留已创建账户，不删除或自动重复整批注册。
+若对应私有文件已经不存在，使用下面的分支注册一批全新的 `d24_` 用户；已有账户文件时分支不会注册。随机密码仅写入 0600 私有文件，不打印。分支中断后保留已创建账户，不删除或自动重复整批注册。
 
 ```bash
 if [ ! -f "$DAY24_ACCOUNTS" ]; then

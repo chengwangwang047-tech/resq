@@ -2,6 +2,8 @@
 
 三份正式报告统一放在 `benchmarks/`，按读取性能、预约竞争、缓存对照阅读。
 
+公开版文档采用仓库相对路径或 `<项目目录>`、`<私有凭据目录>` 占位符，实验编号、指标与结论保持不变。整理前公开文档已完整保存在本地忽略目录 `learning-archive/misc/local-environment/`，新 clone 不包含该目录。本次没有改写原始证据 ZIP、JSON/SQL、历史脚本、源码快照、manifest 或哈希；其中仍可能保留当时的本机路径，不代表可直接用于新环境。若要公开不含这些路径的证据包，需另做脱敏副本并生成新的校验清单，不能沿用原始哈希。
+
 | 实验 | 正式报告 | 证据目录 |
 |---|---|---|
 | GET slots，50/100/200 VU读取压测 | [resource-slot-query-report.md](resource-slot-query-report.md) | [results/get-slots-user-records/](results/get-slots-user-records/) |

@@ -1,6 +1,8 @@
 # ResQ Day24 Redis 缓存性能对照实验
 
-证据目录：[results/redis-cache-20261022-185550/](results/redis-cache-20261022-185550/)。下文未带路径的证据文件名均相对此目录；目录名已整理，实验编号、数据库/vhost及私有路径保持原值。正文中的旧目录路径属于当时记录，对应关系见 [README](README.md)。历史 Markdown 快照仅在原工作目录保留，不再进入 Git；本文件为交付入口，原始证据恢复方法见归档说明。
+公开版路径说明：本机私有目录使用 `<私有凭据目录>` 占位；实验编号、指标、结论与证据文件名保持原值。整理前文档仅保留本地快照；原始证据 ZIP、脚本及校验清单未改写，不应将其旧路径当作新机器的使用入口。
+
+证据目录：[results/redis-cache-20261022-185550/](results/redis-cache-20261022-185550/)。下文未带路径的证据文件名均相对此目录；目录名已整理，实验编号及数据库/vhost保持原值；原始证据中的私有路径保留，公开正文使用占位符。正文中的旧目录路径属于当时记录，对应关系见 [README](README.md)。历史 Markdown 快照仅在原工作目录保留，不再进入 Git；本文件为交付入口，原始证据恢复方法见归档说明。
 
 本报告引用的完整日志、原始指标、Redis 命令轨迹及历史脚本快照已压缩保存，解压路径见[原始证据归档说明](archives/README.md)；诊断异常轮及其配对轮完整保留。
 
@@ -102,7 +104,7 @@ MONITOR是Redis实例级观测，即使只保存实验键，Redis仍会发送观
 
 只向本次创建的Java进程组发送SIGTERM。结束时8080未监听，应用PID已退出或被回收，专用Rabbit连接已断开。原业务6张表逐行排序哈希前后相同，原队列的ready/unacked/consumer数相同，POST资源112及其117/118/119时隙、用户和预约未改动。
 
-共核对 502 个非benchmarks文件，变化路径为 `[]`；Git tracked diff为空，工作区仍仅有原本的未跟踪 `benchmarks/`。未执行FLUSHALL/FLUSHDB、批量业务键删除、消息purge、业务数据删除或破坏性清理。专用实验数据库、账户、vhost及fixtures保留，Redis键按正常TTL自然过期；私有凭据保存在 `/tmp/d24cache_20261022_185550_9afb96_private` 的0700目录及0600文件，不进入结果包。
+共核对 502 个非benchmarks文件，变化路径为 `[]`；Git tracked diff为空，工作区仍仅有原本的未跟踪 `benchmarks/`。未执行FLUSHALL/FLUSHDB、批量业务键删除、消息purge、业务数据删除或破坏性清理。专用实验数据库、账户、vhost及fixtures保留，Redis键按正常TTL自然过期；私有凭据保存在 `<私有凭据目录>` 的0700目录及0600文件，不进入结果包。
 
 - `summary-per-block.csv`、`analysis.json`：各轮与合并统计；`duration-histogram.csv`：统一分箱耗时分布；`*.requests.csv`：逐请求明细。
 - `*.k6.log`、`*.metrics.ndjson`、`*.summary.json`：原始日志、原生采样及k6汇总；`*.command.json`：实际命令和无敏感信息参数。
