@@ -7,7 +7,6 @@ import com.resq.exception.ReservationBusyException;
 import com.resq.exception.ReservationConflictException;
 import com.resq.service.ReservationLockService;
 import com.resq.service.ReservationService;
-import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.MissingRequestHeaderException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;

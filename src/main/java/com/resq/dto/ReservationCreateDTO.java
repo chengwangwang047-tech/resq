@@ -1,9 +1,7 @@
 package com.resq.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 
 /** 请求体不包含 userId/status；身份和初始状态由服务端确定。 */
 public class ReservationCreateDTO {

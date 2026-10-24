@@ -6,7 +6,6 @@ import com.resq.dto.ReservationCreateDTO;
 import com.resq.exception.ReservationConflictException;
 import com.resq.mapper.ReservationMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
